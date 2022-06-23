@@ -1,29 +1,31 @@
 # pdf-rest-api-samples
 
-## About our PDF REST API sample programs
-This GitHub repository provides public access to sample programs that demonstrate how you can programmatically submit requests to our PDF Rest API.
+## About our PDF REST API code samples
+This GitHub repository provides public access to sample scripts that demonstrate how to programmatically submit requests to the PDF REST APIs service.
 
-An API key is required to run these samples. For more information, including how to obtain a free API key, please visit [our website](https://www.datalogics.com/products/cloud/pdf-rest-apis/).
+Start by [requesting an API Key](https://www.datalogics.com/rest-apis-form/), which provides free access to up to 250 API calls per month. This is required to run these samples.  After filling out the form, you will immediately receive an email with your API Key.
 
 ## Instructions
 
 ### Uploading an input file
 
-POST requests require an API key. To apply your API key, you must include it in your requests as a header called `Api-Key`.
+POST requests require an API Key. To apply your API Key, you must include it in your requests as a header called `Api-Key`.
 
 Before running each sample program, look for a comment that reads:
 > `Place your api key here`
 
-and replace `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` with your API key.
+and replace `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` with your API Key.
 
 ### Downloading your output file(s)
 
-Each subdirectory includes a `get-resource-id-endpoint` sample program that you can run to retrieve your output files.
+Each subdirectory includes a `get-resource-id-endpoint` sample that demonstrates how to download output files.
 
-Before running the sample program, look for a comment that reads:
+When you make a POST call to one of the API endpoints, you will receive back a response that includes an ID reference to each resource, including newly uploaded input files and newly generated output files.  These IDs are in the form of a universally unique identifier (UUID).
+
+Before running this sample program, look for a comment that reads:
 > `place resource uuid here`
 
-and replace `xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` with the resource UUID. You may also wish to update the variable containing the output file name before sending your GET request.
+and replace `xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` with the resource UUID you received back from a previous POST request. You may also wish to update the variable containing the output file name before sending your GET request.
 
 ### Running a sample program
 
