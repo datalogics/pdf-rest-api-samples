@@ -1,7 +1,7 @@
 # pdf-rest-api-samples by pdfRest
 
 ## About pdfRest API Toolkit code samples
-This GitHub repository provides public access to sample scripts that demonstrate how to programmatically submit requests to the pdfRest API Toolkit service.
+This GitHub repository provides public access to sample scripts that demonstrate how to programmatically submit requests to the [pdfRest API Toolkit](https:pdfrest.com) service.
 
 Start by [generating a free API Key](https://pdfrest.com/getstarted/), required to run these samples.  Choose between a Guest API Key for 50 free API Calls before signing up, or create an account with a Starter plan for 300 free API Calls per month. Plans scale up from there to support all projects and applications, big and small.
 
