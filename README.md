@@ -32,7 +32,7 @@ and replace `xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` with the resource UUID you r
 Below are instructions for running a sample in each language included in this repository.
 
 #### How to run Node samples
-Using Node 14 or greater:
+Using Node 16 or greater:
 1. `cd Node/`
 2. `npm install node-fetch` (need only run once)
 3. `node name-of-sample-program.js`
