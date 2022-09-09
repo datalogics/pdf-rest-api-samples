@@ -2,7 +2,7 @@ from requests_toolbelt import MultipartEncoder
 import requests
 import json
 
-compressed_pdf_endpoint_url = 'https://cloud-api.datalogics.com/compressed-pdf'
+compressed_pdf_endpoint_url = 'https://api.pdfrest.com/compressed-pdf'
 
 # The /compressed-pdf endpoint can take a single PDF file or id as input.
 # This sample demonstrates setting compression_level to 'medium'.

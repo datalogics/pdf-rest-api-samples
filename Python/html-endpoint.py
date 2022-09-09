@@ -2,7 +2,7 @@ from requests_toolbelt import MultipartEncoder
 import requests
 import json
 
-html_endpoint_url = 'https://cloud-api.datalogics.com/html'
+html_endpoint_url = 'https://api.pdfrest.com/html'
 
 # The /html endpoint can take a string of HTML content and convert it to a HTML (.html) file.
 # This sample takes in a string of HTML content that displays "Hello World!" and turns it into a HTML file.

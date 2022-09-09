@@ -9,7 +9,7 @@ id = 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place resource uuid here
 # If 'file', then the file itself is returned.
 format = 'file'
 
-resource_url = f"https://cloud-api.datalogics.com/resource/{id}?format={format}"
+resource_url = f"https://api.pdfrest.com/resource/{id}?format={format}"
 
 print("Sending GET request to /resource/{id} endpoint...")
 response = requests.get(resource_url)

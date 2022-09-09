@@ -23,7 +23,7 @@ let requestOptions = {
   redirect: "follow",
 };
 
-fetch("https://cloud-api.datalogics.com/html", requestOptions)
+fetch("https://api.pdfrest.com/html", requestOptions)
   .then((response) => response.text())
   .then((result) => console.log(result))
   .catch((error) => console.log("error", error));

@@ -2,7 +2,7 @@ from requests_toolbelt import MultipartEncoder
 import requests
 import json
 
-merged_pdf_endpoint_url = 'https://cloud-api.datalogics.com/merged-pdf'
+merged_pdf_endpoint_url = 'https://api.pdfrest.com/merged-pdf'
 
 # The /merged-pdf endpoint can take one or more PDF files or ids as input.
 # This sample takes 2 PDF files and merges all the pages in the document into a single document.

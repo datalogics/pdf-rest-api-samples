@@ -4,7 +4,7 @@ require("../Sample_Input/sample_input.php");
 // The /compressed-pdf endpoint can take a single PDF file or id as input.
 // This sample demonstrates setting compression_level to 'medium'.
 // We have preset 'high', 'medium', and 'low' compression levels available for use. These preset levels do not require the 'profile' parameter.
-$compressed_pdf_endpoint_url = 'https://cloud-api.datalogics.com/compressed-pdf';
+$compressed_pdf_endpoint_url = 'https://api.pdfrest.com/compressed-pdf';
 
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(

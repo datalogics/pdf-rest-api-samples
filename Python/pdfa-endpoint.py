@@ -2,7 +2,7 @@ from requests_toolbelt import MultipartEncoder
 import requests
 import json
 
-pdfa_endpoint_url = 'https://cloud-api.datalogics.com/pdfa'
+pdfa_endpoint_url = 'https://api.pdfrest.com/pdfa'
 
 # The /pdfa endpoint can take a single PDF file or id as input.
 mp_encoder_pdfa = MultipartEncoder(

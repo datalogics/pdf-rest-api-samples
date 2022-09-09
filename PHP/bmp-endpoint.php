@@ -4,7 +4,7 @@ require("../Sample_Input/sample_input.php");
 // The /bmp endpoint can take a single PDF file or id as input and turn them into BMP image files.
 // This sample takes in a PDF and converts all pages into grayscale BMP files.
 
-$bmp_endpoint_url = 'https://cloud-api.datalogics.com/bmp';
+$bmp_endpoint_url = 'https://api.pdfrest.com/bmp';
 
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(

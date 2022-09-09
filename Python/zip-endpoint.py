@@ -2,7 +2,7 @@ from requests_toolbelt import MultipartEncoder
 import requests
 import json
 
-zip_endpoint_url = 'https://cloud-api.datalogics.com/zip'
+zip_endpoint_url = 'https://api.pdfrest.com/zip'
 
 # The /zip endpoint can take one or more file or ids as input and compresses them into a .zip.
 # This sample takes 2 files and compresses them into a zip file.

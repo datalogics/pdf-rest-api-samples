@@ -2,7 +2,7 @@
 require("../Sample_Input/sample_input.php");
 
 // The /pdfa endpoint can take a single PDF file or id as input.
-$pdfa_endpoint_url = 'https://cloud-api.datalogics.com/pdfa';
+$pdfa_endpoint_url = 'https://api.pdfrest.com/pdfa';
 
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(

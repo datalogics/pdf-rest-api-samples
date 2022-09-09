@@ -4,7 +4,7 @@ require("../Sample_Input/sample_input.php");
 // The /pdf endpoint can take a single file, id, or url as input. 
 // This sample passes a jpeg file to the endpoint, but there's a variety of input file types that are accepted by this endpoint.
 
-$pdf_endpoint_url = 'https://cloud-api.datalogics.com/pdf';
+$pdf_endpoint_url = 'https://api.pdfrest.com/pdf';
 
 // Create an array that contains that data that will be passed to the POST request.
 // The 'image/jpeg' string below is known as a MIME type, which is a label used to identify the type of a file so that it is handled properly by software.

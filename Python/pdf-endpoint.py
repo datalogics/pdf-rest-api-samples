@@ -2,7 +2,7 @@ from requests_toolbelt import MultipartEncoder
 import requests
 import json
 
-pdf_endpoint_url = 'https://cloud-api.datalogics.com/pdf'
+pdf_endpoint_url = 'https://api.pdfrest.com/pdf'
 
 # The /pdf endpoint can take a single file, id, or url as input. 
 # This sample passes a tif file to the endpoint, but there's a variety of input file types that are accepted by this endpoint.
