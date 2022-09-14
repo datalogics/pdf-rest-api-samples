@@ -4,7 +4,7 @@ require("../Sample_Input/sample_input.php");
 // The /tif endpoint can take a single PDF file or id as input and turn them into TIFF image files.
 // This sample takes in a PDF and converts all pages into grayscale TIFF files.
 
-$tif_endpoint_url = 'https://cloud-api.datalogics.com/tif';
+$tif_endpoint_url = 'https://api.pdfrest.com/tif';
 
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(

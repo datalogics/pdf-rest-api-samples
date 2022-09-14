@@ -25,7 +25,7 @@ let requestOptions = {
 };
 
 // Define URL and submit request
-fetch("https://cloud-api.datalogics.com/png", requestOptions)
+fetch("https://api.pdfrest.com/png", requestOptions)
   .then((response) => response.text())
   .then((result) => console.log(result))
   .catch((error) => console.log("error", error));

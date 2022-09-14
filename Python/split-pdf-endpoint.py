@@ -2,7 +2,7 @@ from requests_toolbelt import MultipartEncoder
 import requests
 import json
 
-split_pdf_endpoint_url = 'https://cloud-api.datalogics.com/split-pdf'
+split_pdf_endpoint_url = 'https://api.pdfrest.com/split-pdf'
 
 # The /split-pdf endpoint can take one PDF file or id as input.
 # This sample takes one PDF file that has at least 5 pages and splits it into two documents when given two page ranges.

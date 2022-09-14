@@ -3,7 +3,7 @@ require("../Sample_Input/sample_input.php");
 
 // The /split-pdf endpoint can take one PDF file or id as input.
 // This sample takes one PDF file that has at least 5 pages and splits it into two documents when given two page ranges.
-$split_pdf_endpoint_url = 'https://cloud-api.datalogics.com/split-pdf';
+$split_pdf_endpoint_url = 'https://api.pdfrest.com/split-pdf';
 
 // Create an array that contains that data that will be passed to the POST request.
 // NOTE: PHP array keys cannot be an array, but the endpoint expects the 'pages[]' field so the page range key must be passed as 'pages[0]', 'pages[1]', etc.

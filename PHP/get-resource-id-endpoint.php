@@ -7,7 +7,7 @@ $id = 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'; // place resource uuid here
 // If 'file', then the file itself is returned.
 $format = 'file';
 
-$resource_url = "https://cloud-api.datalogics.com/resource/$id?format=$format";
+$resource_url = "https://api.pdfrest.com/resource/$id?format=$format";
 
 // Initialize a cURL session.
 $ch = curl_init();

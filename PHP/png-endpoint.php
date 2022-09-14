@@ -4,7 +4,7 @@ require("../Sample_Input/sample_input.php");
 // The /png endpoint can take a single PDF file or id as input and turn them into PNG image files.
 // This sample takes in a PDF and converts all pages into grayscale PNG files.
 
-$png_endpoint_url = 'https://cloud-api.datalogics.com/png';
+$png_endpoint_url = 'https://api.pdfrest.com/png';
 
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(
