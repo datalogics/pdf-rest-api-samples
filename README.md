@@ -1,11 +1,34 @@
-# pdf-rest-api-samples by pdfRest
+![pdfRest](https://pdfrest-cms.fly.dev/content/images/2022/09/pdfRest_logo_tag_750_275_light_bg.png)
 
-## About pdfRest API Toolkit code samples
-This GitHub repository provides public access to sample scripts that demonstrate how to programmatically submit requests to the [pdfRest API Toolkit](https://pdfrest.com) service.
+[pdfRest.com](https://pdfrest.com )&nbsp;|&nbsp; [Get Started](https://pdfrest.com/getstarted) &nbsp;|&nbsp; [Explore the Toolkit](https://pdfrest.com/apitoolkit) &nbsp;|&nbsp; [Pricing](https://pdfrest.com/pricing) &nbsp;|&nbsp; [Documentation](https://pdfrest.com/documentation.html) &nbsp;|&nbsp; [Support](https://pdfrest.com/support)
 
-Start by [generating a free API Key](https://pdfrest.com/getstarted/), required to run these samples.  Choose between a Guest API Key for 50 free API Calls before signing up, or create an account with a Starter plan for 300 free API Calls per month. Plans scale up from there to support all projects and applications, big and small.
+<br>
 
-## Instructions
+## pdfRest API Toolkit
+pdfRest is a REST API Toolkit for developers with all of the API Tools you'll need to power your PDF processing requirements, designed and documented by PDF experts to make your development work easier than ever. Rapidly integrate PDF capabilities into web applications in minutes, not days. 
+
+- Convert to PDF
+- PDF to Images
+- Convert to PDF/A
+- Compress PDF
+- Linearize PDF
+- Flatten Transparencies
+- Merge PDFs
+- Split PDF
+- Zip Files
+
+Get started quickly with our "1 Minute to REST, Easy" guarantee, trust in high quality Adobe® technology, and keep costs to a minimum with the best fit plan for every business application (including a generous free plan).
+
+<br>
+
+## Getting Started with Code Samples
+This GitHub repository provides public access to code examples that demonstrate how to programmatically submit requests to the [pdfRest API Toolkit](https://pdfrest.com) service.
+
+Start by [generating a free API Key](https://pdfrest.com/getstarted), required to run these samples.  Choose between a Guest API Key for 50 free API Calls before signing up, or create an account with a Starter plan for 300 free API Calls per month. [Plans](https://pdfrest.com/pricing) scale up from there to support all projects and applications, big and small.
+
+<br>
+
+## Instructions for Running Code Samples
 
 ### Uploading an input file
 
@@ -45,3 +68,13 @@ Using Node 16 or greater:
 Using Python3:
 1. `cd Python/`
 2. `python name-of-sample-program.py`
+
+<br>
+
+## API Documentation
+After you've successfully sent an API Call using these examples, take a look at the [Documentation](https://pdfrest.com/documentation.html) for each API endpoint for a full description of parameters you can adjust to customize your solution.
+
+<br>
+
+## Support
+If you have any trouble getting started, please reach out to us through our [Support](https://pdfrest.com/support) form, and a member of the pdfRest team will be in touch as soon as possible.
