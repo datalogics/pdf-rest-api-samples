@@ -9,7 +9,7 @@ let format = 'file';
 // Resource UUIDs can be found in the JSON response of POST requests as "outputId". Resource UUIDs usually look like this: '0950b9bdf-0465-4d3f-8ea3-d2894f1ae839'.
 let id = 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'; // place resource uuid here
 
-let url = `https://cloud-api.datalogics.com/resource/${id}?format=${format}`;
+let url = `https://api.pdfrest.com/resource/${id}?format=${format}`;
 let outputFileName = 'place_output_name_with_extension_here';
 
 fetch(url)
