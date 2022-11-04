@@ -1,4 +1,4 @@
-![pdfRest](https://pdfrest-cms.fly.dev/content/images/2022/09/pdfRest_logo_tag_750_275_light_bg.png)
+![pdfRest](https://content.pdfrest.com/content/images/2022/11/pdfRest_logo_tag_750_275_light_bg.png)
 
 [pdfRest.com](https://pdfrest.com )&nbsp;|&nbsp; [Get Started](https://pdfrest.com/getstarted) &nbsp;|&nbsp; [Explore the Toolkit](https://pdfrest.com/apitoolkit) &nbsp;|&nbsp; [Pricing](https://pdfrest.com/pricing) &nbsp;|&nbsp; [Documentation](https://pdfrest.com/documentation.html) &nbsp;|&nbsp; [Support](https://pdfrest.com/support)
 
