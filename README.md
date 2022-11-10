@@ -7,19 +7,11 @@
 ## pdfRest API Toolkit
 pdfRest is a REST API Toolkit for developers with all of the API Tools you'll need to power your PDF processing requirements, designed and documented by PDF experts to make your development work easier than ever. Rapidly integrate PDF capabilities into web applications in minutes, not days. 
 
-- Compress PDF
-- Convert to PDF
-- PDF to Images
-- Convert to PDF/A
-- Encrypt PDF
-- Decrypt PDF
-- Restrict PDF
-- Unrestrict PDF
-- Merge PDFs
-- Split PDF
-- Linearize PDF
-- Flatten Transparencies
-- Zip Files
+[Compress PDF](https://pdfrest.com/apitoolkit/compress-pdf/) | [Convert to PDF](https://pdfrest.com/apitoolkit/convert-to-pdf/) | [Merge PDFs](https://pdfrest.com/apitoolkit/merge-pdfs/) | [Encrypt PDF](https://pdfrest.com/apitoolkit/encrypt-pdf/) | [Restrict PDF](https://pdfrest.com/apitoolkit/restrict-pdf/) | [Flatten Transparencies](https://pdfrest.com/apitoolkit/flatten-transparencies/) | [Zip Files](https://pdfrest.com/apitoolkit/zip-files/)
+--- | --- | --- | --- | --- | --- | ---:
+[PDF to Images](https://pdfrest.com/apitoolkit/pdf-to-images/) | [Convert to PDF/A](https://pdfrest.com/apitoolkit/convert-to-pdfa/) | [Split PDF](https://pdfrest.com/apitoolkit/split-pdf/) | [Decrypt PDF](https://pdfrest.com/apitoolkit/encrypt-pdf/) | [Unrestrict PDF](https://pdfrest.com/apitoolkit/restrict-pdf/) | [Linearize PDF](https://pdfrest.com/apitoolkit/linearize-pdf/) | 
+
+<br>
 
 Get started quickly with our "1 Minute to REST, Easy" guarantee, trust in high quality Adobe® technology, and keep costs to a minimum with the best fit plan for every business application (including a generous free plan).
 
