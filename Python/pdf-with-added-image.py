@@ -1,0 +1,33 @@
+from requests_toolbelt import MultipartEncoder
+import requests
+import json
+
+pdf_with_added_image_endpoint_url = 'https://api.pdfrest.com/pdf-with-added-image'
+
+mp_encoder_pdfInfo = MultipartEncoder(
+    fields={
+        'file': ('ducky.pdf', open('../Sample_Input/ducky.pdf', 'rb'), 'application/pdf'),
+        'image_file': ('ducky.jpg', open('../Sample_Input/strawberries.jpg', 'rb'), 'application/pdf'),
+        'output' : 'example_out',
+        'x' : '10',
+        'y' : '10',
+        'page' : '1',
+    }
+)
+
+headers = {
+    'Accept': 'application/json',
+    'Content-Type': mp_encoder_pdfWithAddedImage.content_type,
+    'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+}
+
+print("Sending POST request to pdf-with-added-image endpoint...")
+response = requests.post(pdf_with_added_image_endpoint_url, data=mp_encoder_pdfWithAddedImage, headers=headers)
+
+print("Response status code: " + str(response.status_code))
+
+if response.ok:
+    response_json = response.json()
+    print(json.dumps(response_json, indent = 2))
+else:
+    print(response.text)
