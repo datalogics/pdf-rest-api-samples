@@ -9,7 +9,7 @@ pdfRest is a REST API Toolkit for developers with all of the API Tools you'll ne
 
 |[Compress PDF](https://pdfrest.com/apitoolkit/compress-pdf/) | [Convert to PDF](https://pdfrest.com/apitoolkit/convert-to-pdf/) | [Merge PDFs](https://pdfrest.com/apitoolkit/merge-pdfs/) | [Encrypt PDF](https://pdfrest.com/apitoolkit/encrypt-pdf/) | [Restrict PDF](https://pdfrest.com/apitoolkit/restrict-pdf/) | [Flatten Transparencies](https://pdfrest.com/apitoolkit/flatten-transparencies/) | [Zip Files](https://pdfrest.com/apitoolkit/zip-files/)
 |:-|:-|:-|:-|:-|:-|:-|
-__[PDF to Images](https://pdfrest.com/apitoolkit/pdf-to-images/)__ | __[Convert to PDF/A](https://pdfrest.com/apitoolkit/convert-to-pdfa/)__ | __[Split PDF](https://pdfrest.com/apitoolkit/split-pdf/)__ | __[Decrypt PDF](https://pdfrest.com/apitoolkit/encrypt-pdf/)__ | __[Unrestrict PDF](https://pdfrest.com/apitoolkit/restrict-pdf/)__ | __[Linearize PDF](https://pdfrest.com/apitoolkit/linearize-pdf/)__ | __[Query PDF](https://pdfrest.com/apitoolkit/query-pdf/)__ |
+__[PDF to Images](https://pdfrest.com/apitoolkit/pdf-to-images/)__ | __[Convert to PDF/A](https://pdfrest.com/apitoolkit/convert-to-pdfa/)__ | __[Split PDF](https://pdfrest.com/apitoolkit/split-pdf/)__ | __[Decrypt PDF](https://pdfrest.com/apitoolkit/encrypt-pdf/)__ | __[Unrestrict PDF](https://pdfrest.com/apitoolkit/restrict-pdf/)__ | __[Linearize PDF](https://pdfrest.com/apitoolkit/linearize-pdf/)__ | __[Query PDF](https://pdfrest.com/apitoolkit/query-pdf/)__ | __[Add to PDF](https://pdfrest.com/apitoolkit/add-to-pdf/)__ |
 
 <br>
 
