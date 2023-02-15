@@ -4,7 +4,7 @@ import json
 
 pdf_with_added_image_endpoint_url = 'https://api.pdfrest.com/pdf-with-added-image'
 
-mp_encoder_pdfInfo = MultipartEncoder(
+mp_encoder_pdfWithAddedImage = MultipartEncoder(
     fields={
         'file': ('ducky.pdf', open('../Sample_Input/ducky.pdf', 'rb'), 'application/pdf'),
         'image_file': ('ducky.jpg', open('../Sample_Input/strawberries.jpg', 'rb'), 'image/jpeg'),
