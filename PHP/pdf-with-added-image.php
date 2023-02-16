@@ -5,7 +5,7 @@ $pdf_with_added_image_endpoint_url = 'https://api.pdfrest.com/pdf-with-added-ima
 
 $data = array(
     'file' => new CURLFile(SAMPLE_INPUT_DIR . 'ducky.pdf','application/pdf', 'ducky.pdf'),
-    'image_file' => new CURLFile(SAMPLE_INPUT_DIR . 'ducky.jpg','image/jpeg', 'strawberries.jpg'),
+    'image_file' => new CURLFile(SAMPLE_INPUT_DIR . 'strawberries.jpg','image/jpeg', 'strawberries.jpg'),
     'output' => 'example_out',
     'x' => '10',
     'y' => '10',
