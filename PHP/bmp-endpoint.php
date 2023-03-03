@@ -8,7 +8,7 @@ $bmp_endpoint_url = 'https://api.pdfrest.com/bmp';
 
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'ducky.pdf', 'application/pdf', 'ducky.pdf'),
+    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'pdfRest.pdf', 'application/pdf', 'pdfRest.pdf'),
     'pages' => '1-last',
     'resolution' => '600',
     'color_model' => 'gray',

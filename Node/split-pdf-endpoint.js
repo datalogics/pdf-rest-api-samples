@@ -10,7 +10,7 @@ import fetch, { FormData, fileFromSync } from 'node-fetch';
 
 // Append formdata here
 let formdata = new FormData();
-formdata.append("file", fileFromSync("../Sample_Input/PDFToBeSplit.pdf"));
+formdata.append("file", fileFromSync("../Sample_Input/toSplit.pdf"));
 formdata.append("pages[]", "1,2,5");
 formdata.append("pages[]", "3,4");
 formdata.append("output", "example_splitPdf_out");

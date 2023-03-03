@@ -6,11 +6,11 @@ pdf_with_added_image_endpoint_url = 'https://api.pdfrest.com/pdf-with-added-imag
 
 mp_encoder_pdfWithAddedImage = MultipartEncoder(
     fields={
-        'file': ('ducky.pdf', open('../Sample_Input/ducky.pdf', 'rb'), 'application/pdf'),
-        'image_file': ('strawberries.jpg', open('../Sample_Input/strawberries.jpg', 'rb'), 'image/jpeg'),
+        'file': ('toAddImage.pdf', open('../Sample_Input/toAddImage.pdf', 'rb'), 'application/pdf'),
+        'image_file': ('pdfRestApiLab.png', open('../Sample_Input/pdfRestApiLab.png', 'rb'), 'image/png'),
         'output' : 'example_out',
-        'x' : '10',
-        'y' : '10',
+        'x' : '200',
+        'y' : '650',
         'page' : '1',
     }
 )

@@ -9,9 +9,9 @@ import fetch, { FormData, fileFromSync } from "node-fetch";
 
 // Append formdata here
 let formdata = new FormData();
-formdata.append("file", fileFromSync("../Sample_Input/ducky.pdf"));
-formdata.append("file", fileFromSync("../Sample_Input/rainbow.tif"));
-formdata.append("file", fileFromSync("../Sample_Input/Datalogics.bmp"));
+formdata.append("file", fileFromSync("../Sample_Input/Datalogics.png"));
+formdata.append("file", fileFromSync("../Sample_Input/pdfRest.pdf"));
+formdata.append("file", fileFromSync("../Sample_Input/pdfRestApiLab.png"));
 formdata.append("output", "example_zip_out");
 
 let requestOptions = {

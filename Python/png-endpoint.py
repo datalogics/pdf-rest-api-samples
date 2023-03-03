@@ -8,7 +8,7 @@ png_endpoint_url = 'https://api.pdfrest.com/png'
 # This sample takes in a PDF and converts all pages into grayscale PNG files.
 mp_encoder_png = MultipartEncoder(
     fields={
-        'file': ('ducky.pdf', open('../Sample_Input/ducky.pdf', 'rb'), 'application/pdf'),
+        'file': ('pdfRest.pdf', open('../Sample_Input/pdfRest.pdf', 'rb'), 'application/pdf'),
         'pages': '1-last',
         'resolution': '600',
         'color_model': 'gray',

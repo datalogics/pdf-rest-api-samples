@@ -4,5 +4,5 @@ curl -X POST "https://api.pdfrest.com/unrestricted-pdf" \
   -H "Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" \
   -F "file=@../Sample_Input/twoPasswords.pdf" \
   -F "output=example_out" \
-  -F "current_permissions_password=restrictedducky" \
-  -F "current_open_password=encryptedducky"
+  -F "current_permissions_password=permissionspassword" \
+  -F "current_open_password=openpassword"

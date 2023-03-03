@@ -8,7 +8,7 @@ bmp_endpoint_url = 'https://api.pdfrest.com/bmp'
 # This sample takes in a PDF and converts all pages into grayscale BMP files.
 mp_encoder_bmp = MultipartEncoder(
     fields={
-        'file': ('ducky.pdf', open('../Sample_Input/ducky.pdf', 'rb'), 'application/pdf'),
+        'file': ('pdfRest.pdf', open('../Sample_Input/pdfRest.pdf', 'rb'), 'application/pdf'),
         'pages': '1-last',
         'resolution': '600',
         'color_model': 'gray',

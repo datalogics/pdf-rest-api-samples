@@ -11,7 +11,7 @@ import fetch, { FormData, fileFromSync } from "node-fetch";
 
 // Append formdata here
 let formdata = new FormData();
-formdata.append("file", fileFromSync("../Sample_Input/toFlatten.pdf"));
+formdata.append("file", fileFromSync("../Sample_Input/toFlattenTransparencies.pdf"));
 formdata.append("quality", "medium");
 formdata.append("output", "example_flattenedPdf_out");
 

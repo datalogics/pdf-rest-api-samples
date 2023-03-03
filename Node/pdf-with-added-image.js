@@ -1,11 +1,11 @@
 import fetch, { FormData, fileFromSync } from "node-fetch";
 
 let formdata = new FormData();
-formdata.append("file", fileFromSync("../Sample_Input/ducky.pdf"));
-formdata.append("image_file", fileFromSync("../Sample_Input/strawberries.jpg"));
+formdata.append("file", fileFromSync("../Sample_Input/toAddImage.pdf"));
+formdata.append("image_file", fileFromSync("../Sample_Input/pdfRestApiLab.png"));
 formdata.append("output", "example_out");
-formdata.append("x", "10");
-formdata.append("y", "10");
+formdata.append("x", "200");
+formdata.append("y", "650");
 formdata.append("page", "1");
 
 let requestOptions = {

@@ -9,9 +9,9 @@ $zip_endpoint_url = 'https://api.pdfrest.com/zip';
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(
     'file' => array(
-        SAMPLE_INPUT_DIR . 'ducky.pdf',
-        SAMPLE_INPUT_DIR . 'rainbow.tif',
-        SAMPLE_INPUT_DIR . 'Datalogics.bmp'
+        SAMPLE_INPUT_DIR . 'pdfRest.pdf',
+        SAMPLE_INPUT_DIR . 'Datalogics.png',
+        SAMPLE_INPUT_DIR . 'pdfRestApiLab.png'
     ),
     'output' => 'example_zip_out'
 );

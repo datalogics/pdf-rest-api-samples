@@ -7,7 +7,7 @@ $linearized_pdf_endpoint_url = 'https://api.pdfrest.com/linearized-pdf';
 
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'toOptimize.pdf','application/pdf', 'toOptimize.pdf'),
+    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'toLinearize.pdf','application/pdf', 'toLinearize.pdf'),
     'output' => 'example_linearizedPdf_out'
 );
 

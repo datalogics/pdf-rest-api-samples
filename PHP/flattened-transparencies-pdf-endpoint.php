@@ -8,7 +8,7 @@ $flattened_transparencies_pdf_endpoint_url = 'https://api.pdfrest.com/flattened-
 
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'toFlatten.pdf','application/pdf', 'toFlatten.pdf'),
+    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'toFlattenTransparencies.pdf','application/pdf', 'toFlattenTransparencies.pdf'),
     'output' => 'example_flattenedTransparenciesPdf_out',
     'quality' => 'medium'
 );

@@ -3,7 +3,9 @@ curl -X POST "https://api.pdfrest.com/merged-pdf" \
   -H "Content-Type: multipart/form-data" \
   -H "Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" \
   -F "file=@../Sample_Input/toMergeA.pdf" \
-  -F "pages[]=all" -F "type[]=file" \
+  -F "pages[]=1,4,3" -F "type[]=file" \
   -F "file=@../Sample_Input/toMergeB.pdf" \
-  -F "pages[]=all" -F "type[]=file" \
+  -F "pages[]=2-4,1" -F "type[]=file" \
+  -F "file=@../Sample_Input/toMergeA.pdf" \
+  -F "pages[]=3-1" -F "type[]=file" \
   -F "output=example_out"

@@ -8,7 +8,8 @@ import fetch, { FormData, fileFromSync } from "node-fetch";
 
 // Append formdata here
 let formdata = new FormData();
-formdata.append("file", fileFromSync("../Sample_Input/rainbow.tif"));
+formdata.append("file", fileFromSync("../Sample_Input/pdfRest.docx"));
+formdata.append("tagged_pdf", "on");
 formdata.append("output", "example_pdf_out");
 
 let requestOptions = {

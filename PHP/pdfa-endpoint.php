@@ -6,7 +6,7 @@ $pdfa_endpoint_url = 'https://api.pdfrest.com/pdfa';
 
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'ducky.pdf','application/pdf', 'ducky.pdf'),
+    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'pdfRest.pdf','application/pdf', 'pdfRest.pdf'),
     'output_type' => 'PDF/A-1b',
     'rasterize_if_errors_encountered' => 'on',
     'output' => 'example_pdfa_out'

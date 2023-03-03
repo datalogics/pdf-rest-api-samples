@@ -10,7 +10,8 @@ $pdf_endpoint_url = 'https://api.pdfrest.com/pdf';
 // The 'image/jpeg' string below is known as a MIME type, which is a label used to identify the type of a file so that it is handled properly by software.
 // Please see https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types for more information about MIME types.
 $data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'rainbow.tif', 'image/tiff', 'rainbow.tif'),
+    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'pdfRest.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'pdfRest.docx'),
+    'tagged_pdf' => 'on',
     'output' => 'example_pdf_out'
 );
 

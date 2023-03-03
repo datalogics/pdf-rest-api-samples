@@ -8,7 +8,7 @@ $split_pdf_endpoint_url = 'https://api.pdfrest.com/split-pdf';
 // Create an array that contains that data that will be passed to the POST request.
 // NOTE: PHP array keys cannot be an array, but the endpoint expects the 'pages[]' field so the page range key must be passed as 'pages[0]', 'pages[1]', etc.
 $data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'PDFToBeSplit.pdf','application/pdf', 'PDFToBeSplit.pdf'),
+    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'toSplit.pdf','application/pdf', 'toSplit.pdf'),
     'pages[0]' => '1,2,5',
     'pages[1]' => '3,4',
     'output' => 'example_splitPdf_out'

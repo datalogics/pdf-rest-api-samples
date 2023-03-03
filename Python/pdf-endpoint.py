@@ -10,7 +10,8 @@ pdf_endpoint_url = 'https://api.pdfrest.com/pdf'
 # Please see https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types for more information about MIME types.
 mp_encoder_pdf = MultipartEncoder(
     fields={
-        'file': ('rainbow.tif', open('../Sample_Input/rainbow.tif', 'rb'), 'image/tiff'),
+        'file': ('pdfRest.docx', open('../Sample_Input/pdfRest.docx', 'rb'), 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'),
+        'tagged_pdf': 'on',
         'output' : 'example_pdf_out',
     }
 )

@@ -4,11 +4,11 @@ require("../Sample_Input/sample_input.php");
 $pdf_with_added_image_endpoint_url = 'https://api.pdfrest.com/pdf-with-added-image';
 
 $data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'ducky.pdf','application/pdf', 'ducky.pdf'),
-    'image_file' => new CURLFile(SAMPLE_INPUT_DIR . 'strawberries.jpg','image/jpeg', 'strawberries.jpg'),
+    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'toAddImage.pdf','application/pdf', 'toAddImage.pdf'),
+    'image_file' => new CURLFile(SAMPLE_INPUT_DIR . 'pdfRestApiLab.png','image/png', 'pdfRestApiLab.png'),
     'output' => 'example_out',
-    'x' => '10',
-    'y' => '10',
+    'x' => '200',
+    'y' => '650',
     'page' => '1'
 );
 

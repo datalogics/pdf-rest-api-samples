@@ -9,7 +9,7 @@ import fetch, { FormData, fileFromSync } from "node-fetch";
 
 // // Append formdata here
 let formdata = new FormData();
-formdata.append("file", fileFromSync("../Sample_Input/ducky.pdf"));
+formdata.append("file", fileFromSync("../Sample_Input/pdfRest.pdf"));
 formdata.append("pages", "1-last");
 formdata.append("resolution", "600");
 formdata.append("color_model", "gray");

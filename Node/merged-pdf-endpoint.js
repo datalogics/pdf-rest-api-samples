@@ -9,10 +9,10 @@ import fetch, { FormData, fileFromSync } from "node-fetch";
 
 // Append formdata here
 let formdata = new FormData();
-formdata.append("file", fileFromSync("../Sample_Input/merge1.pdf"));
+formdata.append("file", fileFromSync("../Sample_Input/toMergeA.pdf"));
 formdata.append("pages[]", "1-last");
 formdata.append("type[]", "file");
-formdata.append("file", fileFromSync("../Sample_Input/merge2.pdf"));
+formdata.append("file", fileFromSync("../Sample_Input/toMergeB.pdf"));
 formdata.append("pages[]", "1-last");
 formdata.append("type[]", "file");
 formdata.append("output", "example_mergedPdf_out");

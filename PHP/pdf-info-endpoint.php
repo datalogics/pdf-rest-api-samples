@@ -7,7 +7,7 @@ $pdf_info_endpoint_url = 'https://api.pdfrest.com/pdf-info';
 
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'ducky.pdf','application/pdf', 'ducky.pdf'),
+    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'pdfRest.pdf','application/pdf', 'pdfRest.pdf'),
     'queries' => 'title,page_count,doc_language,author'
 );
 
