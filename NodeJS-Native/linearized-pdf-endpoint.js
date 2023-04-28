@@ -14,8 +14,6 @@ var options = {
   path: "/linearized-pdf",
   headers: {
     "Api-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Place your api key here
-    "content-type":
-      "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
   },
   maxRedirects: 20,
 };
@@ -46,6 +44,12 @@ var postData =
   '------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name="file"; filename="file"\r\nContent-Type: "{Insert_File_Content_Type}"\r\n\r\n' +
   fs.readFileSync("/path/to/file") +
   '\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name="output"\r\n\r\nlinearized_out\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--';
+
+// Setting the content type in the request header
+req.setHeader(
+  "content-type",
+  "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW"
+);
 
 // write the data to the request body
 req.write(postData);

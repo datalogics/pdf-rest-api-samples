@@ -11,7 +11,9 @@ var options = {
   method: "POST",
   hostname: "api.pdfrest.com",
   path: "/pdfa",
-  headers: {},
+  headers: {
+    "Api-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Place your API key here
+  },
   maxRedirects: 20,
 };
 
