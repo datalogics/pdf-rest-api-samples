@@ -4,8 +4,8 @@ The /merged-pdf endpoint can take one or more PDF files or ids as input.
 This sample takes 2 PDF files and merges all the pages in the document into a single document.
  */
 // Importing the required modules
-var https = require("follow-redirects").https;
-var fs = require("fs");
+import https from "follow-redirects/https.js";
+import fs from "fs";
 
 // Defining the request options
 var options = {

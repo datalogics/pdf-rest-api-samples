@@ -3,8 +3,8 @@ The /pdfa endpoint can take a single PDF file or id as input.
 
 */
 // Importing the required modules
-var https = require("follow-redirects").https;
-var fs = require("fs");
+import https from "follow-redirects/https.js";
+import fs from "fs";
 
 // Setting the options for the HTTPS POST request
 var options = {

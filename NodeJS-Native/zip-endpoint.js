@@ -6,8 +6,8 @@ This sample takes 2 files and compresses them into a zip file.
 Import fetch
  */
 // Importing the required modules
-var https = require("follow-redirects").https;
-var fs = require("fs");
+import https from "follow-redirects/https.js";
+import fs from "fs";
 
 // Setting the options for the HTTPS POST request
 var options = {

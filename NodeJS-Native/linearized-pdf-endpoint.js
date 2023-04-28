@@ -4,8 +4,8 @@ The /linearized-pdf endpoint can take a single PDF file or id as input.
 This sample demonstrates linearizing a PDF file.
  */
 // Importing the required modules
-var https = require("follow-redirects").https;
-var fs = require("fs");
+import https from "follow-redirects/https.js";
+import fs from "fs";
 
 // set the options for the HTTP request
 var options = {

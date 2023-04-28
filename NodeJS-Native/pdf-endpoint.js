@@ -4,8 +4,8 @@
  */
 
 // Import the necessary modules
-const https = require("follow-redirects").https;
-const fs = require("fs");
+import https from "follow-redirects/https.js";
+import fs from "fs";
 
 // Set the options for the HTTPS request
 const options = {

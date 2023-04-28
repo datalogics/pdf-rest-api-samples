@@ -6,8 +6,8 @@ This sample demonstrates setting quality to 'medium'.
 We have preset 'high', 'medium', and 'low' quality levels available for use. These preset levels do not require the 'profile' parameter.
  */
 // Importing the required modules
-var https = require("follow-redirects").https;
-var fs = require("fs");
+import https from "follow-redirects/https.js";
+import fs from "fs";
 
 // Set the API endpoint options
 var options = {
