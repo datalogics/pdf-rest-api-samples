@@ -60,8 +60,9 @@ Below are instructions for running a sample in each language included in this re
 
 Using Node 16 or greater:
 
-1. `cd Node.JS/`
-2. `node name-of-sample-program.js`
+1. `cd Node/`
+2. `npm install node-fetch`
+3. `node name-of-sample-program.js`
 
 #### How to run PHP samples
 
