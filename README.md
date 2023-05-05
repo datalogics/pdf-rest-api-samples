@@ -56,7 +56,7 @@ and replace `xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` with the resource UUID you r
 
 Below are instructions for running a sample in each language included in this repository.
 
-#### How to run Node samples
+#### How to run JavaScript samples
 
 Using Node 16 or greater:
 
@@ -86,7 +86,7 @@ After you've successfully sent an API Call using these examples, take a look at 
 
 ## Postman Collection
 
-Use Postman to fast-track your API testing! Download the pdfRest [Postman Collection](https://www.postman.com/pdfrest/) to load all of the pdfRest API Tools directly into Postman to start sending POST requests with just a few clicks.
+Use Postman to fast-track your API testing! Check out the pdfRest [Postman Collection](https://www.postman.com/pdfrest/) to start sending POST requests with just a few clicks from pre-configured POST requests.
 
 <br>
 
