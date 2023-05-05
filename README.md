@@ -86,7 +86,7 @@ After you've successfully sent an API Call using these examples, take a look at 
 
 ## Postman Collection
 
-Use Postman to fast-track your API testing! Download the pdfRest [Postman Collection](https://github.com/datalogics/pdf-rest-postman-collection) to load all of the pdfRest API Tools directly into Postman to start sending POST requests with just a few clicks.
+Use Postman to fast-track your API testing! Download the pdfRest [Postman Collection](https://www.postman.com/pdfrest/) to load all of the pdfRest API Tools directly into Postman to start sending POST requests with just a few clicks.
 
 <br>
 
