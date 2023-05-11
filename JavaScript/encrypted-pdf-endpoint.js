@@ -1,31 +1,32 @@
-/**
-The /encrypted-pdf endpoint can take a single PDF file or id as input.
+var axios = require('axios');
+var FormData = require('form-data');
+var fs = require('fs');
 
-This sample demonstrates setting the open password to 'password'.
+// Create a new form data instance and append the PDF file and parameters to it
+var data = new FormData();
+data.append('file', fs.createReadStream('/path/to/file'));
+data.append('new_open_password', 'new_example_pw');
+data.append('output', 'pdfrest_encrypted_pdf');
 
-Import fetch
- */
-import fetch, { FormData, fileFromSync } from "node-fetch";
-
-// Append formdata here
-let formdata = new FormData();
-formdata.append("file", fileFromSync("../Sample_Input/toEncrypt.pdf"));
-formdata.append("new_open_password", "password");
-formdata.append("output", "example_encryptedPdf_out");
-
-let requestOptions = {
-  method: "POST",
-  headers: {
-    "Api-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Place your api key here
+// set request configuration
+var config = {
+  method: 'post',
+maxBodyLength: Infinity,
+  url: 'https://api.pdfrest.com/encrypted-pdf',
+  headers: { 
+    'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', // Replace with your API key
+    ...data.getHeaders()
   },
-  body: formdata,
-  redirect: "follow",
+  data : data
 };
 
-// Define URL and submit request
-fetch("https://api.pdfrest.com/encrypted-pdf", requestOptions)
-  .then((response) => response.text())
-  .then((result) => console.log(result))
-  .catch((error) => console.log("error", error));
+// send request and handle response or error
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
 
 // If you would like to download the file instead of getting the JSON response, please see the 'get-resource-id-endpoint.js' sample.

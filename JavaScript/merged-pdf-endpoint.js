@@ -1,35 +1,36 @@
-/**
-The /merged-pdf endpoint can take one or more PDF files or ids as input.
+var axios = require('axios');
+var FormData = require('form-data');
+var fs = require('fs');
 
-This sample takes 2 PDF files and merges all the pages in the document into a single document.
+// Create a new form data instance and append the PDF file and parameters to it
+var data = new FormData();
+data.append('file', fs.createReadStream('/path/to/file'));
+data.append('pages[]', '1-last');
+data.append('type[]', 'file');
+data.append('file', fs.createReadStream('/path/to/file'));
+data.append('pages[]', '1-last');
+data.append('type[]', 'file');
+data.append('output', 'pdfrest_merged_pdf');
 
-Import fetch
- */
-import fetch, { FormData, fileFromSync } from "node-fetch";
-
-// Append formdata here
-let formdata = new FormData();
-formdata.append("file", fileFromSync("../Sample_Input/merge1.pdf"));
-formdata.append("pages[]", "1-last");
-formdata.append("type[]", "file");
-formdata.append("file", fileFromSync("../Sample_Input/merge2.pdf"));
-formdata.append("pages[]", "1-last");
-formdata.append("type[]", "file");
-formdata.append("output", "example_mergedPdf_out");
-
-let requestOptions = {
-  method: "POST",
-  headers: {
-    "Api-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Place your api key here
+// set request configuration
+var config = {
+  method: 'post',
+maxBodyLength: Infinity,
+  url: 'https://api.pdfrest.com/merged-pdf',
+  headers: { 
+    'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', // Replace with your API key
+    ...data.getHeaders()
   },
-  body: formdata,
-  redirect: "follow",
+  data : data
 };
 
-// Define URL and submit request
-fetch("https://api.pdfrest.com/merged-pdf", requestOptions)
-  .then((response) => response.text())
-  .then((result) => console.log(result))
-  .catch((error) => console.log("error", error));
+// send request and handle response or error
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
 
 // If you would like to download the file instead of getting the JSON response, please see the 'get-resource-id-endpoint.js' sample.
