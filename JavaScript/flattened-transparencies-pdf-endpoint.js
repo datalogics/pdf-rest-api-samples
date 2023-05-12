@@ -1,33 +1,33 @@
-/**
-The /flattened-transparencies-pdf endpoint can take a single PDF file or id as input.
+// This request demonstrates how to flatten transparencies in a PDF.
+var axios = require('axios');
+var FormData = require('form-data');
+var fs = require('fs');
 
-This sample demonstrates setting quality to 'medium'.
+// Create a new form data instance and append the PDF file and parameters to it
+var data = new FormData();
+data.append('file', fs.createReadStream('/path/to/file'));
+data.append('quality', 'medium');
+data.append('output', 'pdfrest_flattened_transparencies_pdf');
 
-We have preset 'high', 'medium', and 'low' quality levels available for use. These preset levels do not require the 'profile' parameter.
-
-Import fetch
- */
-import fetch, { FormData, fileFromSync } from "node-fetch";
-
-// Append formdata here
-let formdata = new FormData();
-formdata.append("file", fileFromSync("../Sample_Input/toFlatten.pdf"));
-formdata.append("quality", "medium");
-formdata.append("output", "example_flattenedPdf_out");
-
-let requestOptions = {
-  method: "POST",
-  headers: {
-    "Api-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Place your api key here
+// Define configuration options for axios request
+var config = {
+  method: 'post',
+  maxBodyLength: Infinity, // set maximum length of the request body
+  url: 'https://api.pdfrest.com/flattened-transparencies-pdf', 
+  headers: { 
+    'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', // Replace with your API key
+    ...data.getHeaders() // set headers for the request
   },
-  body: formdata,
-  redirect: "follow",
+  data : data // set the data to be sent with the request
 };
 
-// Define URL and submit request
-fetch("https://api.pdfrest.com/flattened-transparencies-pdf", requestOptions)
-  .then((response) => response.text())
-  .then((result) => console.log(result))
-  .catch((error) => console.log("error", error));
+// send request and handle response or error
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error); 
+});
 
 // If you would like to download the file instead of getting the JSON response, please see the 'get-resource-id-endpoint.js' sample.

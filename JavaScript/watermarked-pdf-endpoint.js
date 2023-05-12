@@ -23,7 +23,7 @@ data.append('output', 'pdfrest_watermarked_pdf');
 var config = {
   method: 'post',
   maxBodyLength: Infinity, // set maximum length of the request body
-  url: 'https://api.pdfrest.com/unrestricted-pdf', 
+  url: 'https://api.pdfrest.com/watermarked-pdf', 
   headers: { 
     'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', // Replace with your API key
     ...data.getHeaders() // set headers for the request

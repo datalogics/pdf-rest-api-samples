@@ -1,23 +1,24 @@
+// This request demonstrates how to apply 256-bit AES encryption with a 32-bit key. Encrypted PDFs cannot be viewed without first providing the open password.
 var axios = require('axios');
 var FormData = require('form-data');
 var fs = require('fs');
 
-// Create a new form data instance and append the PDF file and parameters to it
+// Create a new form data instance and append the file and parameters to it
 var data = new FormData();
 data.append('file', fs.createReadStream('/path/to/file'));
 data.append('new_open_password', 'new_example_pw');
 data.append('output', 'pdfrest_encrypted_pdf');
 
-// set request configuration
+// define configuration options for axios request
 var config = {
   method: 'post',
-maxBodyLength: Infinity,
+maxBodyLength: Infinity, // set maximum length of the request body
   url: 'https://api.pdfrest.com/encrypted-pdf',
   headers: { 
     'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', // Replace with your API key
-    ...data.getHeaders()
+    ...data.getHeaders() // set headers for the request
   },
-  data : data
+  data : data // set the data to be sent with the request
 };
 
 // send request and handle response or error
