@@ -15,7 +15,7 @@ data.append('output', 'pdfrest_png');
 var config = {
   method: 'post',
   maxBodyLength: Infinity, // set maximum length of the request body
-  url: 'https://api.pdfrest.com/tif', 
+  url: 'https://api.pdfrest.com/png', 
   headers: { 
     'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', // Replace with your API key
     ...data.getHeaders() // set headers for the request
