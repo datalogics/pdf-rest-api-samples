@@ -4,7 +4,7 @@ const axios = require('axios');
 let config = {
   method: 'get',
   maxBodyLength: Infinity, // set maximum length of the request body
-  url: 'https://api.pdfrest.com/resource/xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx?format=url', // Replace with your API key
+  url: 'https://api.pdfrest.com/resource/xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx?format=url',
   headers: { }
 };
 
