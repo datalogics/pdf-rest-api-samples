@@ -9,13 +9,11 @@ var fs = require('fs');
 // Create a new form data instance and append the PDF file and parameters to it
 var data = new FormData();
 data.append('file', fs.createReadStream('/path/to/file'));
-data.append('watermark_file', fs.createReadStream('/path/to/file'));
-data.append('watermark_file_scale', '0.5');
-data.append('opacity', '0.5');
+data.append('image_file', fs.createReadStream('/path/to/file'));
 data.append('x', '0');
 data.append('y', '0');
-data.append('rotation', '0');
-data.append('output', 'pdfrest_watermarked_pdf');
+data.append('page', '1');
+data.append('output', 'pdfrest_pdf_with_added_image');
 
 // define configuration options for axios request
 var config = {
