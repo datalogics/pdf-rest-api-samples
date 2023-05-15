@@ -17,7 +17,7 @@ data.append('output', 'pdfrest_merged_pdf');
 var config = {
   method: 'post',
   maxBodyLength: Infinity, // set maximum length of the request body
-  url: 'https://api.pdfrest.com/flattened-transparencies-pdf', 
+  url: 'https://api.pdfrest.com/merged-pdf', 
   headers: { 
     'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', // Replace with your API key
     ...data.getHeaders() // set headers for the request
