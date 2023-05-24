@@ -14,7 +14,7 @@ upload_request_data = []
 files = [
     ('ducky.pdf', open('../Sample_Input/ducky.pdf', 'rb'), 'application/pdf'),
     ('merge1.pdf', open('../Sample_Input/merge1.pdf', 'rb'), 'application/pdf'),
-    ('merge2.pdf', open('../Sample_Input/strawberries.jpg', 'rb'), 'application/pdf')
+    ('strawberries.jpg', open('../Sample_Input/strawberries.jpg', 'rb'), 'image/jpeg')
 ]
 
 # Structure the data that will be sent to POST upload request as an array of tuples
