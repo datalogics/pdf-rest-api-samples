@@ -7,7 +7,7 @@ var fs = require('fs');
 var data = new FormData();
 data.append('file', fs.createReadStream('../Sample_Input/ducky.pdf'));
 data.append('file', fs.createReadStream('../Sample_Input/merge1.pdf'));
-data.append('file', fs.createReadStream('../Sample_Input/merge2.pdf'));
+data.append('file', fs.createReadStream('../Sample_Input/strawberries.jpg'));
 
 
 // define configuration options for axios request

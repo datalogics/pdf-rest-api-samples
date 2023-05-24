@@ -5,7 +5,7 @@ import json
 upload_endpoint_url = 'https://api.pdfrest.com/upload'
 
 # The /upload endpoint can take one or more files or urls as input and transfers them to the pdfRest server for processing.
-# This sample takes 1 file and uploads it to the pdfRest server.
+# This sample takes 3 files and uploads it to the pdfRest service.
 upload_request_data = []
 
 # Array of tuples that contains information about the file that will be uploaded to the pdfRest server.
@@ -17,11 +17,11 @@ files = [
     ('merge2.pdf', open('../Sample_Input/merge2.pdf', 'rb'), 'application/pdf')
 ]
 
-# Structure the data that will be sent to POST zip request as an array of tuples
+# Structure the data that will be sent to POST upload request as an array of tuples
 for i in range(len(files)):
     upload_request_data.append(("file", files[i]))
 
-mp_encoder_zip = MultipartEncoder(
+mp_encoder_upload = MultipartEncoder(
     fields=upload_request_data
 )
 
@@ -29,12 +29,12 @@ mp_encoder_zip = MultipartEncoder(
 # Since MultipartEncoder is used, the 'Content-Type' header gets set to 'multipart/form-data' via the content_type attribute below.
 headers = {
     'Accept': 'application/json',
-    'Content-Type': mp_encoder_zip.content_type,
+    'Content-Type': mp_encoder_upload.content_type,
     'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
 }
 
-print("Sending POST request to zip endpoint...")
-response = requests.post(upload_endpoint_url, data=mp_encoder_zip, headers=headers)
+print("Sending POST request to upload endpoint...")
+response = requests.post(upload_endpoint_url, data=mp_encoder_upload, headers=headers)
 
 print("Response status code: " + str(response.status_code))
 
