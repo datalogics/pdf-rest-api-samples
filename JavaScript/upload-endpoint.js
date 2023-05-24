@@ -5,7 +5,10 @@ var fs = require('fs');
 
 // Create a new form data object and append the PDF file and parameters to it
 var data = new FormData();
-data.append('file', fs.createReadStream('/path/to/file'));
+data.append('file', fs.createReadStream('../Sample_Input/ducky.pdf'));
+data.append('file', fs.createReadStream('../Sample_Input/merge1.pdf'));
+data.append('file', fs.createReadStream('../Sample_Input/merge2.pdf'));
+
 
 // define configuration options for axios request
 var config = {
