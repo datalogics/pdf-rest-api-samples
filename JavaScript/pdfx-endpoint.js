@@ -1,4 +1,4 @@
-// This request demonstrates how to convert any of several formats to PDF/A. 
+// This request demonstrates how to convert any of several formats to PDF/X. 
 var axios = require('axios');
 var FormData = require('form-data');
 var fs = require('fs');
@@ -6,15 +6,14 @@ var fs = require('fs');
 // Create a new form data object and append the PDF file and parameters to it
 var data = new FormData();
 data.append('file', fs.createReadStream('/path/to/file'));
-data.append('output_type', 'PDF/A-2b'); 
-data.append('rasterize_if_errors_encountered', 'off');
-data.append('output', 'pdfrest_pdfa');
+data.append('output_type', 'PDF/X-4'); 
+data.append('output', 'pdfrest_pdfx');
 
 // define configuration options for axios request
 var config = {
   method: 'post',
   maxBodyLength: Infinity, // set maximum length of the request body
-  url: 'https://api.pdfrest.com/pdfa', 
+  url: 'https://api.pdfrest.com/pdfx', 
   headers: { 
     'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', // Replace with your API key
     ...data.getHeaders() // set headers for the request
