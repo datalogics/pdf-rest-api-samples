@@ -1,40 +1,29 @@
-from requests_toolbelt import MultipartEncoder
 import requests
-import json
 
-split_pdf_endpoint_url = 'https://api.pdfrest.com/split-pdf'
+# Set the API endpoint URL
+url = "https://api.pdfrest.com/split-pdf"
 
-# The /split-pdf endpoint can take one PDF file or id as input.
-# This sample takes one PDF file that has at least 5 pages and splits it into two documents when given two page ranges.
-
-# Create a list of tuples for data that will be sent to the request
-split_request_data = []
-split_request_data.append(('file',('PDFToBeSplit.pdf', open('../Sample_Input/PDFToBeSplit.pdf', 'rb'), 'application/pdf')))
-split_request_data.append(('pages', '1,2,5'))
-split_request_data.append(('pages', '3,4'))
-split_request_data.append(('output', 'example_splitPdf_out'))
-
-mp_encoder_splitPdf = MultipartEncoder(
-    fields=split_request_data
-)
-
-# Let's set the headers that the split-pdf endpoint expects.
-# Since MultipartEncoder is used, the 'Content-Type' header gets set to 'multipart/form-data' via the content_type attribute below.
-headers = {
-    'Accept': 'application/json',
-    'Content-Type': mp_encoder_splitPdf.content_type,
-    'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+# Define the payload data for the request
+payload = {
+    'pages[]': 'even',
+    'pages[]': 'odd',
+    'pages[]': '1,3,4-6',
+    'output': 'pdfrest_split_pdf'
 }
 
-print("Sending POST request to split-pdf endpoint...")
-response = requests.post(split_pdf_endpoint_url, data=mp_encoder_splitPdf, headers=headers)
+# Specify the file to be split
+files = [
+    ('file', ('file', open('/path/to/file', 'rb'), 'application/octet-stream'))
+]
 
-print("Response status code: " + str(response.status_code))
+# Set the headers, including the API key
+headers = {
+    'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'  # Replace with your API key
+}
 
-if response.ok:
-    response_json = response.json()
-    print(json.dumps(response_json, indent = 2))
-else:
-    print(response.text)
+# Make a POST request to the API endpoint
+response = requests.request(
+    "POST", url, headers=headers, data=payload, files=files)
 
-# If you would like to download the file instead of getting the JSON response, please see the 'get-resource-id-endpoint.py' sample.
+# Print the response content
+print(response.text)

@@ -1,38 +1,29 @@
-from requests_toolbelt import MultipartEncoder
 import requests
-import json
 
-png_endpoint_url = 'https://api.pdfrest.com/png'
+# Set the API endpoint URL
+url = "https://api.pdfrest.com/png"
 
-# The /png endpoint can take a single PDF file or id as input and turn them into PNG image files.
-# This sample takes in a PDF and converts all pages into grayscale PNG files.
-mp_encoder_png = MultipartEncoder(
-    fields={
-        'file': ('ducky.pdf', open('../Sample_Input/ducky.pdf', 'rb'), 'application/pdf'),
-        'pages': '1-last',
-        'resolution': '600',
-        'color_model': 'gray',
-        'output' : 'example_png_out',
-    }
-)
-
-# Let's set the headers that the png endpoint expects.
-# Since MultipartEncoder is used, the 'Content-Type' header gets set to 'multipart/form-data' via the content_type attribute below.
-headers = {
-    'Accept': 'application/json',
-    'Content-Type': mp_encoder_png.content_type,
-    'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+# Define the payload data for the request
+payload = {
+    'pages': '1-last',
+    'resolution': '300',
+    'color_model': 'rgb',
+    'output': 'pdfrest_png'
 }
 
-print("Sending POST request to png endpoint...")
-response = requests.post(png_endpoint_url, data=mp_encoder_png, headers=headers)
+# Specify the file to be converted
+files = [
+    ('file', ('file', open('/path/to/file', 'rb'), 'application/octet-stream'))
+]
 
-print("Response status code: " + str(response.status_code))
+# Set the headers, including the API key
+headers = {
+    'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'  # Replace with your API key
+}
 
-if response.ok:
-    response_json = response.json()
-    print(json.dumps(response_json, indent = 2))
-else:
-    print(response.text)
+# Make a POST request to the API endpoint
+response = requests.request(
+    "POST", url, headers=headers, data=payload, files=files)
 
-# If you would like to download the file instead of getting the JSON response, please see the 'get-resource-id-endpoint.py' sample.
+# Print the response content
+print(response.text)

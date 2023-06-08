@@ -1,30 +1,34 @@
-from requests_toolbelt import MultipartEncoder
 import requests
-import json
 
-watermarked_pdf_endpoint_url = 'https://api.pdfrest.com/watermarked-pdf'
+# Set the API endpoint URL
+url = "https://api.pdfrest.com/watermarked-pdf"
 
-mp_encoder_watermarkedPDF = MultipartEncoder(
-    fields={
-        'file': ('ducky.pdf', open('../Sample_Input/ducky.pdf', 'rb'), 'application/pdf'),
-        'watermark_text': 'watermark',
-        'output' : 'example_out'
-    }
-)
-
-headers = {
-    'Accept': 'application/json',
-    'Content-Type': mp_encoder_watermarkedPDF.content_type,
-    'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+# Define the payload data for the request
+payload = {
+    'watermark_text': 'Hello, watermarked world!',
+    'font': 'Arial',
+    'text_size': '72',
+    'text_color_rgb': '255,0,0',
+    'opacity': '0.5',
+    'x': '0',
+    'y': '0',
+    'rotation': '0',
+    'output': 'pdfrest_watermarked_pdf'
 }
 
-print("Sending POST request to watermarked-pdf endpoint...")
-response = requests.post(watermarked_pdf_endpoint_url, data=mp_encoder_watermarkedPDF, headers=headers)
+# Specify the file to be watermarked
+files = [
+    ('file', ('file', open('/path/to/file', 'rb'), 'application/octet-stream'))
+]
 
-print("Response status code: " + str(response.status_code))
+# Set the headers, including the API key
+headers = {
+    'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'  # Replace with your API key
+}
 
-if response.ok:
-    response_json = response.json()
-    print(json.dumps(response_json, indent = 2))
-else:
-    print(response.text)
+# Make a POST request to the API endpoint
+response = requests.request(
+    "POST", url, headers=headers, data=payload, files=files)
+
+# Print the response content
+print(response.text)

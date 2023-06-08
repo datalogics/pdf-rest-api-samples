@@ -1,37 +1,27 @@
-from requests_toolbelt import MultipartEncoder
 import requests
-import json
 
-flatten_transparencies_pdf_endpoint_url = 'https://api.pdfrest.com/flattened-transparencies-pdf'
+# Set the API endpoint URL
+url = "https://api.pdfrest.com/flattened-transparencies-pdf"
 
-# The /flattened-transparencies-pdf endpoint can take a single PDF file or id as input.
-# This sample demonstrates setting quality to 'medium'.
-# We have preset 'high', 'medium', and 'low' quality levels available for use. These preset levels do not require the 'profile' parameter.
-mp_encoder_flattenTransparenciesPdf = MultipartEncoder(
-    fields={
-        'file': ('toFlatten.pdf', open('../Sample_Input/toFlatten.pdf', 'rb'), 'application/pdf'),
-        'output' : 'example_flattenedPdf_out',
-        'quality': 'medium',
-    }
-)
-
-# Let's set the headers that the flattened-transparencies-pdf endpoint expects.
-# Since MultipartEncoder is used, the 'Content-Type' header gets set to 'multipart/form-data' via the content_type attribute below.
-headers = {
-    'Accept': 'application/json',
-    'Content-Type': mp_encoder_flattenTransparenciesPdf.content_type,
-    'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+# Define the payload data for the request
+payload = {
+    'quality': 'medium',
+    'output': 'pdfrest_flattened_transparencies_pdf'
 }
 
-print("Sending POST request to flattened-transparencies-pdf endpoint...")
-response = requests.post(flatten_transparencies_pdf_endpoint_url, data=mp_encoder_flattenTransparenciesPdf, headers=headers)
+# Specify the PDF file to have transparencies flattened
+files = [
+    ('file', ('file', open('/path/to/file', 'rb'), 'application/octet-stream'))
+]
 
-print("Response status code: " + str(response.status_code))
+# Set the headers, including the API key
+headers = {
+    'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'  # Replace with your API key
+}
 
-if response.ok:
-    response_json = response.json()
-    print(json.dumps(response_json, indent = 2))
-else:
-    print(response.text)
+# Make a POST request to the API endpoint
+response = requests.request(
+    "POST", url, headers=headers, data=payload, files=files)
 
-# If you would like to download the file instead of getting the JSON response, please see the 'get-resource-id-endpoint.py' sample.
+# Print the response content
+print(response.text)

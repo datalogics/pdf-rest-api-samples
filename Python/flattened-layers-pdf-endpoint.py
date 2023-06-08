@@ -1,29 +1,26 @@
-from requests_toolbelt import MultipartEncoder
 import requests
-import json
 
-flattened_layers_pdf_endpoint_url = 'https://api.pdfrest.com/flattened-layers-pdf'
+# Set the API endpoint URL
+url = "https://api.pdfrest.com/flattened-layers-pdf"
 
-mp_encoder_flattenedPDF = MultipartEncoder(
-    fields={
-        'file': ('ducky.pdf', open('../Sample_Input/ducky.pdf', 'rb'), 'application/pdf'),
-        'output' : 'example_out'
-    }
-)
-
-headers = {
-    'Accept': 'application/json',
-    'Content-Type': mp_encoder_flattenedPDF.content_type,
-    'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+# Define the payload data for the request
+payload = {
+    'output': 'pdfrest_flattened_pdf'
 }
 
-print("Sending POST request to flattened-layers-pdf endpoint...")
-response = requests.post(flattened_layers_pdf_endpoint_url, data=mp_encoder_flattenedPDF, headers=headers)
+# Specify the PDF file to have layers flattened
+files = [
+    ('file', ('file', open('/path/to/file', 'rb'), 'application/octet-stream'))
+]
 
-print("Response status code: " + str(response.status_code))
+# Set the headers, including the API key
+headers = {
+    'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'  # Replace with your API key
+}
 
-if response.ok:
-    response_json = response.json()
-    print(json.dumps(response_json, indent = 2))
-else:
-    print(response.text)
+# Make a POST request to the API endpoint
+response = requests.request(
+    "POST", url, headers=headers, data=payload, files=files)
+
+# Print the response content
+print(response.text)

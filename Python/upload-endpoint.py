@@ -1,45 +1,26 @@
-from requests_toolbelt import MultipartEncoder
 import requests
-import json
 
-upload_endpoint_url = 'https://api.pdfrest.com/upload'
+# Set the API endpoint URL
+url = "https://api.pdfrest.com/upload"
 
-# The /upload endpoint can take one or more files or urls as input and transfers them to the pdfRest server for processing.
-# This sample takes 3 files and uploads it to the pdfRest service.
-upload_request_data = []
+# Define an empty payload
+payload = {}
 
-# Array of tuples that contains information about the file that will be uploaded to the pdfRest server.
-# The 'application/pdf' string below is known as a MIME type, which is a label used to identify the type of a file so that it is handled properly by software.
-# Please see https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types for more information about MIME types.
+# Specify the files to be uploaded
 files = [
-    ('ducky.pdf', open('../Sample_Input/ducky.pdf', 'rb'), 'application/pdf'),
-    ('merge1.pdf', open('../Sample_Input/merge1.pdf', 'rb'), 'application/pdf'),
-    ('strawberries.jpg', open('../Sample_Input/strawberries.jpg', 'rb'), 'image/jpeg')
+    ('file', ('file', open('/path/to/file', 'rb'), 'application/octet-stream')),
+    ('file', ('file', open('/path/to/file', 'rb'), 'application/octet-stream')),
+    ('file', ('file', open('/path/to/file', 'rb'), 'application/octet-stream'))
 ]
 
-# Structure the data that will be sent to POST upload request as an array of tuples
-for i in range(len(files)):
-    upload_request_data.append(("file", files[i]))
-
-mp_encoder_upload = MultipartEncoder(
-    fields=upload_request_data
-)
-
-# Let's set the headers that the upload endpoint expects.
-# Since MultipartEncoder is used, the 'Content-Type' header gets set to 'multipart/form-data' via the content_type attribute below.
+# Set the headers, including the API key
 headers = {
-    'Accept': 'application/json',
-    'Content-Type': mp_encoder_upload.content_type,
-    'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+    'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'  # Replace with your API key
 }
 
-print("Sending POST request to upload endpoint...")
-response = requests.post(upload_endpoint_url, data=mp_encoder_upload, headers=headers)
+# Make a POST request to the API endpoint
+response = requests.request(
+    "POST", url, headers=headers, data=payload, files=files)
 
-print("Response status code: " + str(response.status_code))
-
-if response.ok:
-    response_json = response.json()
-    print(json.dumps(response_json, indent = 2))
-else:
-    print(response.text)
+# Print the response content
+print(response.text)
