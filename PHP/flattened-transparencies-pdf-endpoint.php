@@ -1,45 +1,33 @@
 <?php
-require("../Sample_Input/sample_input.php");
-
-// The /flattened-transparencies-pdf endpoint can take a single PDF file or id as input.
-// This sample demonstrates setting quality to 'medium'.
-// We have preset 'high', 'medium', and 'low' quality levels available for use. These preset levels do not require the 'profile' parameter.
-$flattened_transparencies_pdf_endpoint_url = 'https://api.pdfrest.com/flattened-transparencies-pdf';
-
-// Create an array that contains that data that will be passed to the POST request.
-$data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'toFlatten.pdf','application/pdf', 'toFlatten.pdf'),
-    'output' => 'example_flattenedTransparenciesPdf_out',
-    'quality' => 'medium'
-);
-
-$headers = array(
-    'Accept: application/json',
-    'Content-Type: multipart/form-data',
-    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // place your api key here
-);
 
 // Initialize a cURL session.
-$ch = curl_init();
+$curl = curl_init();
 
-// Set the url, headers, and data that will be sent to flattened-transparencies-pdf endpoint.
-curl_setopt($ch, CURLOPT_URL, $flattened_transparencies_pdf_endpoint_url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+// Set cURL options for the request.
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://api.pdfrest.com/flattened-transparencies-pdf',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS => array(
+    'file' => new CURLFILE('/path/to/file'), // Specify the path to the PDF file
+    'quality' => 'medium', // Set the quality level for flattening transparencies
+    'output' => 'pdfrest_flattened_transparencies_pdf' // Set the output file name
+  ),
+  CURLOPT_HTTPHEADER => array(
+    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // Place your API key here
+  ),
+));
 
-print "Sending POST request to flattened-transparencies-pdf endpoint...\n";
-$response = curl_exec($ch);
+// Execute the cURL request and store the response.
+$response = curl_exec($curl);
 
-print "Response status code: " . curl_getinfo($ch, CURLINFO_HTTP_CODE) . "\n";
+// Close the cURL session.
+curl_close($curl);
 
-if($response === false){
-    print 'Error: ' . curl_error($ch) . "\n";
-}else{
-    print json_encode(json_decode($response), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    print "\n";
-}
-
-curl_close($ch);
-?>
+// Output the response.
+echo $response;

@@ -1,38 +1,32 @@
 <?php
-require("../Sample_Input/sample_input.php");
 
-$flatten_annotations_endpoint_url = 'https://api.pdfrest.com/flattened-annotations-pdf';
+// Initialize a cURL session.
+$curl = curl_init();
 
-$data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'ducky.pdf','application/pdf', 'ducky.pdf'),
-    'output' => 'example_out'
-);
+// Set cURL options for the request.
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://api.pdfrest.com/flattened-annotations-pdf',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS => array(
+    'file' => new CURLFILE('/path/to/file'), // Specify the path to the PDF file
+    'output' => 'pdfrest_flattened_pdf' // Set the output file name
+  ),
+  CURLOPT_HTTPHEADER => array(
+    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // Place your API key here
+  ),
+));
 
-$headers = array(
-    'Accept: application/json',
-    'Content-Type: multipart/form-data',
-    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // place your api key here
-);
+// Execute the cURL request and store the response.
+$response = curl_exec($curl);
 
-$ch = curl_init();
+// Close the cURL session.
+curl_close($curl);
 
-curl_setopt($ch, CURLOPT_URL, $flatten_annotations_endpoint_url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-print "Sending POST request to flattened-annotations-pdf endpoint...\n";
-$response = curl_exec($ch);
-
-print "Response status code: " . curl_getinfo($ch, CURLINFO_HTTP_CODE) . "\n";
-
-if($response === false){
-    print 'Error: ' . curl_error($ch) . "\n";
-}else{
-    print json_encode(json_decode($response), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    print "\n";
-}
-
-curl_close($ch);
-?>
+// Output the response.
+echo $response;

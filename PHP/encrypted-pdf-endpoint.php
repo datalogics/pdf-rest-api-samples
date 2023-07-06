@@ -1,44 +1,33 @@
 <?php
-require("../Sample_Input/sample_input.php");
-
-// The /encrypted-pdf endpoint can take a single PDF file or id as input.
-// This sample demonstrates setting the open password to 'password'.
-$encrypted_pdf_endpoint_url = 'https://api.pdfrest.com/encrypted-pdf';
-
-// Create an array that contains that data that will be passed to the POST request.
-$data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'toEncrypt.pdf','application/pdf', 'toEncrypt.pdf'),
-    'output' => 'example_encryptedPdf_out',
-    'new_open_password' => 'password'
-);
-
-$headers = array(
-    'Accept: application/json',
-    'Content-Type: multipart/form-data',
-    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // place your api key here
-);
 
 // Initialize a cURL session.
-$ch = curl_init();
+$curl = curl_init();
 
-// Set the url, headers, and data that will be sent to encrypted-pdf endpoint.
-curl_setopt($ch, CURLOPT_URL, $encrypted_pdf_endpoint_url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+// Set cURL options for the request.
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://api.pdfrest.com/encrypted-pdf',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS => array(
+    'file' => new CURLFILE('/path/to/file'), // Specify the path to the file
+    'new_open_password' => 'new_example_pw', // Set the new open password
+    'output' => 'pdfrest_encrypted_pdf' // Set the output file name
+  ),
+  CURLOPT_HTTPHEADER => array(
+    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // Place your API key here
+  ),
+));
 
-print "Sending POST request to encrypted-pdf endpoint...\n";
-$response = curl_exec($ch);
+// Execute the cURL request and store the response.
+$response = curl_exec($curl);
 
-print "Response status code: " . curl_getinfo($ch, CURLINFO_HTTP_CODE) . "\n";
+// Close the cURL session.
+curl_close($curl);
 
-if($response === false){
-    print 'Error: ' . curl_error($ch) . "\n";
-}else{
-    print json_encode(json_decode($response), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    print "\n";
-}
-
-curl_close($ch);
-?>
+// Output the response.
+echo $response;

@@ -1,34 +1,33 @@
 <?php
-require("../Sample_Input/sample_input.php");
 
-// The /merged-pdf endpoint can take one or more PDF files or ids as input.
-// This sample takes 2 PDF files and merges all the pages in the document into a single document.
-$merged_pdf_endpoint_url = 'https://api.pdfrest.com/merged-pdf';
+// Initialize a cURL session.
+$curl = curl_init();
 
-// Create an array that contains that data that will be passed to the POST request.
-$data = array(
-    'file' => array(
-        SAMPLE_INPUT_DIR . 'merge1.pdf',
-        SAMPLE_INPUT_DIR . 'merge2.pdf'
-    ),
-    'pages' => array("1-last", "1-last"),
-    'type' => array ('file', 'file'),
-    'output' => 'example_mergedPdf_out'
-);
+// Set cURL options for the request.
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://api.pdfrest.com/zip',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS => array(
+    'file' => new CURLFILE('/path/to/file'), // Specify the path to the first file
+    'file' => new CURLFILE('/path/to/file'), // Specify the path to the second file
+    'output' => 'pdfrest_zip' // Set the output file name
+  ),
+  CURLOPT_HTTPHEADER => array(
+    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // Place your API key here
+  ),
+));
 
-$headers = array(
-    'Accept: application/json',
-    'Content-Type: multipart/form-data',
-    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // place your api key here
-);
+// Execute the cURL request and store the response.
+$response = curl_exec($curl);
 
-// Form cURL POST command that will be executed with the merged-pdf endpoint.
-// NOTE: The '-s' in the cURL command below runs cURL in silent mode, so exec() output is not shown.
-$curl_command = 'curl -s -X POST "'.$merged_pdf_endpoint_url.'" -H "'.$headers[0].'" -H "'.$headers[1].'" -H "'.$headers[2].'" -F "file=@'.$data['file'][0].'" -F "pages[]='.$data['pages'][0].'" -F "type[]='.$data['type'][0].'" -F "file=@'.$data['file'][1].'" -F "pages[]='.$data['pages'][1].'" -F "type[]='.$data['type'][1].'" -F "output='.$data['output'].'"';
+// Close the cURL session.
+curl_close($curl);
 
-print "Sending POST request to merged-pdf endpoint...\n";
-exec($curl_command, $response);
-
-print json_encode(json_decode($response[0]), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-print "\n";
-?>
+// Output the response.
+echo $response;
