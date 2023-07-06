@@ -1,45 +1,35 @@
 <?php
 
-// The /split-pdf endpoint can take one PDF file or id as input.
-// This sample takes one PDF file that has at least 5 pages and splits it into two documents when given two page ranges.
-$split_pdf_endpoint_url = 'https://api.pdfrest.com/split-pdf';
-
-// Create an array that contains that data that will be passed to the POST request.
-// NOTE: PHP array keys cannot be an array, but the endpoint expects the 'pages[]' field so the page range key must be passed as 'pages[0]', 'pages[1]', etc.
-$data = array(
-    'file' => new CURLFile('/path/to/file','application/pdf', 'file_name'),
-    'pages[0]' => '1,2,5',
-    'pages[1]' => '3,4',
-    'output' => 'example_splitPdf_out'
-);
-
-$headers = array(
-    'Accept: application/json',
-    'Content-Type: multipart/form-data',
-    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // place your api key here
-);
-
 // Initialize a cURL session.
-$ch = curl_init();
+$curl = curl_init();
 
-// Set the url, headers, and data that will be sent to split-pdf endpoint.
-curl_setopt($ch, CURLOPT_URL, $split_pdf_endpoint_url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+// Set cURL options for the request.
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://api.pdfrest.com/split-pdf',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS => array(
+    'file' => new CURLFILE('/path/to/file'), // Specify the path to the file
+    'pages[]' => 'even', // Specify the 'even' pages to split
+    'pages[]' => 'odd', // Specify the 'odd' pages to split
+    'pages[]' => '1,3,4-6', // Specify specific page numbers or ranges to split
+    'output' => 'pdfrest_split_pdf' // Set the output file name
+  ),
+  CURLOPT_HTTPHEADER => array(
+    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // Place your API key here
+  ),
+));
 
-print "Sending POST request to split-pdf endpoint...\n";
-$response = curl_exec($ch);
+// Execute the cURL request and store the response.
+$response = curl_exec($curl);
 
-print "Response status code: " . curl_getinfo($ch, CURLINFO_HTTP_CODE) . "\n";
+// Close the cURL session.
+curl_close($curl);
 
-if($response === false){
-    print 'Error: ' . curl_error($ch) . "\n";
-}else{
-    print json_encode(json_decode($response), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    print "\n";
-}
-
-curl_close($ch);
-?>
+// Output the response.
+echo $response;

@@ -1,46 +1,35 @@
 <?php
 
-// The /png endpoint can take a single PDF file or id as input and turn them into PNG image files.
-// This sample takes in a PDF and converts all pages into grayscale PNG files.
-
-$png_endpoint_url = 'https://api.pdfrest.com/png';
-
-// Create an array that contains that data that will be passed to the POST request.
-$data = array(
-    'file' => new CURLFile('/path/to/file', 'application/pdf', 'file_name'),
-    'pages' => '1-last',
-    'resolution' => '600',
-    'color_model' => 'gray',
-    'output' => 'example_png_out'
-);
-
-$headers = array(
-    'Accept: application/json',
-    'Content-Type: multipart/form-data',
-    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // place your api key here
-);
-
 // Initialize a cURL session.
-$ch = curl_init();
+$curl = curl_init();
 
-// Set the url, headers, and data that will be sent to png endpoint.
-curl_setopt($ch, CURLOPT_URL, $png_endpoint_url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+// Set cURL options for the request.
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://api.pdfrest.com/png',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS => array(
+    'file' => new CURLFILE('/path/to/file'), // Specify the path to the file
+    'pages' => '1-last', // Set the range of pages to convert
+    'resolution' => '300', // Set the resolution value
+    'color_model' => 'rgb', // Set the color model
+    'output' => 'pdfrest_png' // Set the output file name
+  ),
+  CURLOPT_HTTPHEADER => array(
+    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // Place your API key here
+  ),
+));
 
-print "Sending POST request to png endpoint...\n";
-$response = curl_exec($ch);
+// Execute the cURL request and store the response.
+$response = curl_exec($curl);
 
-print "Response status code: " . curl_getinfo($ch, CURLINFO_HTTP_CODE) . "\n";
+// Close the cURL session.
+curl_close($curl);
 
-if($response === false){
-    print 'Error: ' . curl_error($ch) . "\n";
-}else{
-    print json_encode(json_decode($response), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    print "\n";
-}
-
-curl_close($ch);
-?>
+// Output the response.
+echo $response;

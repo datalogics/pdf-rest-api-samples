@@ -1,31 +1,33 @@
 <?php
 
-// The /upload endpoint can take one or more files as input.
-// This sample takes 3 files and uploads them to the pdfRest service.
-$upload_endpoint_url = 'https://api.pdfrest.com/upload';
+// Initialize a cURL session.
+$curl = curl_init();
 
-// Create an array that contains that data that will be passed to the POST request.
-$data = array(
-    'file' => array(
-        '/path/to/file',
-        '/path/to/file',
-        '/path/to/file'
-    ),
-);
+// Set cURL options for the request.
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://api.pdfrest.com/upload',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS => array(
+    'file' => new CURLFILE('/path/to/file'), // Specify the path to the first file
+    'file' => new CURLFILE('/path/to/file'), // Specify the path to the second file
+    'file' => new CURLFILE('/path/to/file') // Specify the path to the third file
+  ),
+  CURLOPT_HTTPHEADER => array(
+    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // Place your API key here
+  ),
+));
 
-$headers = array(
-    'Accept: application/json',
-    'Content-Type: multipart/form-data',
-    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // place your api key here
-);
+// Execute the cURL request and store the response.
+$response = curl_exec($curl);
 
-// Form cURL POST command that will be executed with the upload endpoint.
-// NOTE: The '-s' in the cURL command below runs cURL in silent mode, so exec() output is not shown.
-$curl_command = 'curl -s -X POST "'.$upload_endpoint_url.'" -H "'.$headers[0].'" -H "'.$headers[1].'" -H "'.$headers[2].'" -F "file=@'.$data['file'][0].'" -F "file=@'.$data['file'][1].'"  -F "file=@'.$data['file'][2].'"';
+// Close the cURL session.
+curl_close($curl);
 
-print "Sending POST request to upload endpoint...\n";
-exec($curl_command, $response);
-
-print json_encode(json_decode($response[0]), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-print "\n";
-?>
+// Output the response.
+echo $response;
