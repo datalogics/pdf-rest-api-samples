@@ -4,7 +4,7 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
 {
     using (var request = new HttpRequestMessage(HttpMethod.Post, "flattened-layers-pdf"))
     {
-        request.Headers.TryAddWithoutValidation("Api-Key", "XXXXXXXXXXXX");
+        request.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
         request.Headers.Accept.Add(new("application/json"));
         var multipartContent = new MultipartFormDataContent();
 
