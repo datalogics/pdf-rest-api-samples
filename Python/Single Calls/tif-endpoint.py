@@ -8,7 +8,7 @@ tif_endpoint_url = 'https://api.pdfrest.com/tif'
 # This sample takes in a PDF and converts all pages into grayscale TIFF files.
 mp_encoder_tif = MultipartEncoder(
     fields={
-        'file': ('ducky.pdf', open('../Sample_Input/ducky.pdf', 'rb'), 'application/pdf'),
+        'file': ('file_name', open('/path/to/file', 'rb'), 'application/pdf'),
         'pages': '1-last',
         'resolution': '600',
         'color_model': 'gray',

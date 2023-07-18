@@ -6,7 +6,7 @@ flattened_annotations_pdf_endpoint_url = 'https://api.pdfrest.com/flattened-anno
 
 mp_encoder_flattenedPDF = MultipartEncoder(
     fields={
-        'file': ('ducky.pdf', open('../Sample_Input/ducky.pdf', 'rb'), 'application/pdf'),
+        'file': ('file_name', open('/path/to/file', 'rb'), 'application/pdf'),
         'output' : 'example_out'
     }
 )

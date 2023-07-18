@@ -9,7 +9,7 @@ split_pdf_endpoint_url = 'https://api.pdfrest.com/split-pdf'
 
 # Create a list of tuples for data that will be sent to the request
 split_request_data = []
-split_request_data.append(('file',('PDFToBeSplit.pdf', open('../Sample_Input/PDFToBeSplit.pdf', 'rb'), 'application/pdf')))
+split_request_data.append(('file',('file_name', open('/path/to/file', 'rb'), 'application/pdf')))
 split_request_data.append(('pages', '1,2,5'))
 split_request_data.append(('pages', '3,4'))
 split_request_data.append(('output', 'example_splitPdf_out'))

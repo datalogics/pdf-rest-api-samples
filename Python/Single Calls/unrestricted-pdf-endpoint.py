@@ -8,7 +8,7 @@ unrestricted_pdf_endpoint_url = 'https://api.pdfrest.com/unrestricted-pdf'
 # This sample demonstrates removing security restrictions from a PDF.
 mp_encoder_unrestrictedPdf = MultipartEncoder(
     fields={
-        'file': ('toUnrestrict.pdf', open('../Sample_Input/toUnrestrict.pdf', 'rb'), 'application/pdf'),
+        'file': ('file_name', open('/path/to/file', 'rb'), 'application/pdf'),
         'output' : 'example_unrestrictedPdf_out',
         'current_permissions_password': 'password'
     }

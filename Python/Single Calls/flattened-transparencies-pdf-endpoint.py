@@ -9,7 +9,7 @@ flatten_transparencies_pdf_endpoint_url = 'https://api.pdfrest.com/flattened-tra
 # We have preset 'high', 'medium', and 'low' quality levels available for use. These preset levels do not require the 'profile' parameter.
 mp_encoder_flattenTransparenciesPdf = MultipartEncoder(
     fields={
-        'file': ('toFlatten.pdf', open('../Sample_Input/toFlatten.pdf', 'rb'), 'application/pdf'),
+        'file': ('file_name', open('/path/to/file', 'rb'), 'application/pdf'),
         'output' : 'example_flattenedPdf_out',
         'quality': 'medium',
     }

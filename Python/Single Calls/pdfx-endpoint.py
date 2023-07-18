@@ -7,7 +7,7 @@ pdfx_endpoint_url = 'https://api.pdfrest.com/pdfx'
 # The /pdfx endpoint can take a single PDF file or id as input.
 mp_encoder_pdfx = MultipartEncoder(
     fields={
-        'file': ('ducky.pdf', open('../Sample_Input/ducky.pdf', 'rb'), 'application/pdf'),
+        'file': ('file_name', open('/path/to/file', 'rb'), 'application/pdf'),
         'output_type': 'PDF/X-4',
         'output' : 'example_pdfx_out'
     }

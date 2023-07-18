@@ -4,13 +4,13 @@ import json
 
 pdf_endpoint_url = 'https://api.pdfrest.com/pdf'
 
-# The /pdf endpoint can take a single file, id, or url as input. 
+# The /pdf endpoint can take a single file, id, or url as input.
 # This sample passes a tif file to the endpoint, but there's a variety of input file types that are accepted by this endpoint.
 # The 'image/tiff' string below is known as a MIME type, which is a label used to identify the type of a file so that it is handled properly by software.
 # Please see https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types for more information about MIME types.
 mp_encoder_pdf = MultipartEncoder(
     fields={
-        'file': ('rainbow.tif', open('../Sample_Input/rainbow.tif', 'rb'), 'image/tiff'),
+        'file': ('file_name', open('/path/to/file', 'rb'), 'image/tiff'),
         'output' : 'example_pdf_out',
     }
 )

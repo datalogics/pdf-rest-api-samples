@@ -12,9 +12,9 @@ zip_request_data = []
 # The 'application/pdf' string below is known as a MIME type, which is a label used to identify the type of a file so that it is handled properly by software.
 # Please see https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types for more information about MIME types.
 files = [
-    ('ducky.pdf', open('../Sample_Input/ducky.pdf', 'rb'), 'application/pdf'),
-    ('rainbow.tif', open('../Sample_Input/rainbow.tif', 'rb'), 'image/tiff'),
-    ('Datalogics.bmp', open('../Sample_Input/Datalogics.bmp', 'rb'), 'image/bmp')
+    ('file_name', open('/path/to/file', 'rb'), 'application/pdf'),
+    ('file_name', open('/path/to/file', 'rb'), 'image/tiff'),
+    ('file_name', open('/path/to/file', 'rb'), 'image/bmp')
 ]
 
 # Structure the data that will be sent to POST zip request as an array of tuples
