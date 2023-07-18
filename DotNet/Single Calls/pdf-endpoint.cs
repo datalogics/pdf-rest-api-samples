@@ -8,9 +8,9 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
         request.Headers.Accept.Add(new("application/json"));
         var multipartContent = new MultipartFormDataContent();
 
-        var byteArray = File.ReadAllBytes("/path/to/input.html");
+        var byteArray = File.ReadAllBytes("/path/to/file");
         var byteAryContent = new ByteArrayContent(byteArray);
-        multipartContent.Add(byteAryContent, "file", "input.html");
+        multipartContent.Add(byteAryContent, "file", "file_name");
         byteAryContent.Headers.TryAddWithoutValidation("Content-Type", "text/html");
 
         var byteArrayOption = new ByteArrayContent(Encoding.UTF8.GetBytes("A4"));

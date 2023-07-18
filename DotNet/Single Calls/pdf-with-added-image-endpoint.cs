@@ -8,14 +8,14 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
         request.Headers.Accept.Add(new("application/json"));
         var multipartContent = new MultipartFormDataContent();
 
-        var byteArray = File.ReadAllBytes("/path/to/file.pdf");
+        var byteArray = File.ReadAllBytes("/path/to/file");
         var byteAryContent = new ByteArrayContent(byteArray);
-        multipartContent.Add(byteAryContent, "file", "file.pdf");
+        multipartContent.Add(byteAryContent, "file", "file_name");
         byteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/pdf");
 
-        var byteArray2 = File.ReadAllBytes("/path/to/image.png");
+        var byteArray2 = File.ReadAllBytes("/path/to/file");
         var byteAryContent2 = new ByteArrayContent(byteArray2);
-        multipartContent.Add(byteAryContent2, "image_file", "image.png");
+        multipartContent.Add(byteAryContent2, "image_file", "file_name");
         byteAryContent2.Headers.TryAddWithoutValidation("Content-Type", "image/png");
 
         var byteArrayOption = new ByteArrayContent(Encoding.UTF8.GetBytes("1"));
