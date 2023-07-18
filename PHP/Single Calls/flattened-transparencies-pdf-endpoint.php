@@ -1,5 +1,4 @@
 <?php
-require("../Sample_Input/sample_input.php");
 
 // The /flattened-transparencies-pdf endpoint can take a single PDF file or id as input.
 // This sample demonstrates setting quality to 'medium'.
@@ -8,7 +7,7 @@ $flattened_transparencies_pdf_endpoint_url = 'https://api.pdfrest.com/flattened-
 
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'toFlatten.pdf','application/pdf', 'toFlatten.pdf'),
+    'file' => new CURLFile('/path/to/file','application/pdf', 'file_name'),
     'output' => 'example_flattenedTransparenciesPdf_out',
     'quality' => 'medium'
 );

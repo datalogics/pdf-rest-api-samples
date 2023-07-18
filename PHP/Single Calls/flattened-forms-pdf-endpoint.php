@@ -1,10 +1,9 @@
 <?php
-require("../Sample_Input/sample_input.php");
 
 $flatten_forms_endpoint_url = 'https://api.pdfrest.com/flattened-forms-pdf';
 
 $data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'ducky.pdf','application/pdf', 'ducky.pdf'),
+    'file' => new CURLFile('/path/to/file','application/pdf', 'file_name'),
     'output' => 'example_out'
 );
 

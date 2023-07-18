@@ -1,5 +1,4 @@
 <?php
-require("../Sample_Input/sample_input.php");
 
 // The /upload endpoint can take one or more files as input.
 // This sample takes 3 files and uploads them to the pdfRest service.
@@ -8,9 +7,9 @@ $upload_endpoint_url = 'https://api.pdfrest.com/upload';
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(
     'file' => array(
-        SAMPLE_INPUT_DIR . 'ducky.pdf',
-        SAMPLE_INPUT_DIR . 'merge1.pdf',
-        SAMPLE_INPUT_DIR . 'strawberries.jpg'
+        '/path/to/file',
+        '/path/to/file',
+        '/path/to/file'
     ),
 );
 

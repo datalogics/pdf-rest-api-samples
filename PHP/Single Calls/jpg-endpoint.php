@@ -1,5 +1,4 @@
 <?php
-require("../Sample_Input/sample_input.php");
 
 // The /jpg endpoint can take a single PDF file or id as input and turn them into JPEG image files.
 // This sample takes in a PDF and converts all pages into JPEG files.
@@ -8,7 +7,7 @@ $jpg_endpoint_url = 'https://api.pdfrest.com/jpg';
 
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'ducky.pdf', 'application/pdf', 'ducky.pdf'),
+    'file' => new CURLFile('/path/to/file', 'application/pdf', 'file_name'),
     'pages' => '1-last',
     'resolution' => '600',
     'color_model' => 'cmyk',

@@ -1,5 +1,4 @@
 <?php
-require("../Sample_Input/sample_input.php");
 
 // The /encrypted-pdf endpoint can take a single PDF file or id as input.
 // This sample demonstrates setting the open password to 'password'.
@@ -7,7 +6,7 @@ $encrypted_pdf_endpoint_url = 'https://api.pdfrest.com/encrypted-pdf';
 
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'toEncrypt.pdf','application/pdf', 'toEncrypt.pdf'),
+    'file' => new CURLFile('/path/to/file','application/pdf', 'file_name'),
     'output' => 'example_encryptedPdf_out',
     'new_open_password' => 'password'
 );

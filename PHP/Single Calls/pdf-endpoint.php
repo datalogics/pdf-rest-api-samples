@@ -1,7 +1,6 @@
 <?php
-require("../Sample_Input/sample_input.php");
 
-// The /pdf endpoint can take a single file, id, or url as input. 
+// The /pdf endpoint can take a single file, id, or url as input.
 // This sample passes a jpeg file to the endpoint, but there's a variety of input file types that are accepted by this endpoint.
 
 $pdf_endpoint_url = 'https://api.pdfrest.com/pdf';
@@ -10,7 +9,7 @@ $pdf_endpoint_url = 'https://api.pdfrest.com/pdf';
 // The 'image/jpeg' string below is known as a MIME type, which is a label used to identify the type of a file so that it is handled properly by software.
 // Please see https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types for more information about MIME types.
 $data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'rainbow.tif', 'image/tiff', 'rainbow.tif'),
+    'file' => new CURLFile('/path/to/file', 'image/tiff', 'file_name'),
     'output' => 'example_pdf_out'
 );
 

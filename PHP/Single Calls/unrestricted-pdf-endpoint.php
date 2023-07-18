@@ -1,5 +1,4 @@
 <?php
-require("../Sample_Input/sample_input.php");
 
 // The /unrestricted-pdf endpoint can take a single PDF file or id as input.
 // This sample demonstrates the removal of restrictions from a PDF.
@@ -7,7 +6,7 @@ $unrestricted_pdf_endpoint_url = 'https://api.pdfrest.com/unrestricted-pdf';
 
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'toUnrestrict.pdf','application/pdf', 'toUnrestrict.pdf'),
+    'file' => new CURLFile('/path/to/file','application/pdf', 'file_name'),
     'output' => 'example_unrestrictedPdf_out',
     'current_permissions_password' => 'password'
 );

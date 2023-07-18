@@ -1,11 +1,10 @@
 <?php
-require("../Sample_Input/sample_input.php");
 
 $pdf_with_added_image_endpoint_url = 'https://api.pdfrest.com/pdf-with-added-image';
 
 $data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'ducky.pdf','application/pdf', 'ducky.pdf'),
-    'image_file' => new CURLFile(SAMPLE_INPUT_DIR . 'strawberries.jpg','image/jpeg', 'strawberries.jpg'),
+    'file' => new CURLFile('/path/to/file', 'file_name'),
+    'image_file' => new CURLFile('/path/to/file','image/jpeg', 'file_name'),
     'output' => 'example_out',
     'x' => '10',
     'y' => '10',

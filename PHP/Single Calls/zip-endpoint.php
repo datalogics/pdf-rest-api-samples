@@ -1,5 +1,4 @@
 <?php
-require("../Sample_Input/sample_input.php");
 
 // The /zip endpoint can take one or more file or ids as input and compresses them into a .zip.
 // This sample takes 2 files and compresses them into a zip file.
@@ -9,9 +8,9 @@ $zip_endpoint_url = 'https://api.pdfrest.com/zip';
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(
     'file' => array(
-        SAMPLE_INPUT_DIR . 'ducky.pdf',
-        SAMPLE_INPUT_DIR . 'rainbow.tif',
-        SAMPLE_INPUT_DIR . 'Datalogics.bmp'
+        '/path/to/file',
+        '/path/to/file',
+        '/path/to/file'
     ),
     'output' => 'example_zip_out'
 );

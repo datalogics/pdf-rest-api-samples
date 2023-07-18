@@ -1,12 +1,11 @@
 <?php
-require("../Sample_Input/sample_input.php");
 
 // The /pdfx endpoint can take a single PDF file or id as input.
 $pdfx_endpoint_url = 'https://api.pdfrest.com/pdfx';
 
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'ducky.pdf','application/pdf', 'ducky.pdf'),
+    'file' => new CURLFile('/path/to/file','application/pdf', 'file_name'),
     'output_type' => 'PDF/X-4',
     'output' => 'example_pdfx_out'
 );

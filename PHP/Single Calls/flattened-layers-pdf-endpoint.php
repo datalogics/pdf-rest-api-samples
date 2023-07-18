@@ -1,10 +1,9 @@
 <?php
-require("../Sample_Input/sample_input.php");
 
 $watermark_endpoint_url = 'https://api.pdfrest.com/watermarked-pdf';
 
 $data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'ducky.pdf','application/pdf', 'ducky.pdf'),
+    'file' => new CURLFile('/path/to/file','application/pdf', 'file_name'),
     'watermark_text' => 'watermark',
     'output' => 'example_out'
 );

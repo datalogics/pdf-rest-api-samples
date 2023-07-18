@@ -1,5 +1,4 @@
 <?php
-require("../Sample_Input/sample_input.php");
 
 // The /linearized-pdf endpoint can take a single PDF file or id as input.
 // This sample demonstrates linearizing a PDF file.
@@ -7,7 +6,7 @@ $linearized_pdf_endpoint_url = 'https://api.pdfrest.com/linearized-pdf';
 
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'toOptimize.pdf','application/pdf', 'toOptimize.pdf'),
+    'file' => new CURLFile('/path/to/file','application/pdf', 'file_name'),
     'output' => 'example_linearizedPdf_out'
 );
 

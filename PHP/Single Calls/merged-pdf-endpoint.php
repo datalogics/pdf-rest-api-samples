@@ -1,5 +1,4 @@
 <?php
-require("../Sample_Input/sample_input.php");
 
 // The /merged-pdf endpoint can take one or more PDF files or ids as input.
 // This sample takes 2 PDF files and merges all the pages in the document into a single document.
@@ -8,8 +7,8 @@ $merged_pdf_endpoint_url = 'https://api.pdfrest.com/merged-pdf';
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(
     'file' => array(
-        SAMPLE_INPUT_DIR . 'merge1.pdf',
-        SAMPLE_INPUT_DIR . 'merge2.pdf'
+        '/path/to/file',
+        '/path/to/file'
     ),
     'pages' => array("1-last", "1-last"),
     'type' => array ('file', 'file'),

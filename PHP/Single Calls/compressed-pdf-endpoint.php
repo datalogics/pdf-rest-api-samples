@@ -1,5 +1,4 @@
 <?php
-require("../Sample_Input/sample_input.php");
 
 // The /compressed-pdf endpoint can take a single PDF file or id as input.
 // This sample demonstrates setting compression_level to 'medium'.
@@ -8,7 +7,7 @@ $compressed_pdf_endpoint_url = 'https://api.pdfrest.com/compressed-pdf';
 
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'toOptimize.pdf','application/pdf', 'toOptimize.pdf'),
+    'file' => new CURLFile('/path/to/file','application/pdf', 'file_name'),
     'output' => 'example_compressedPdf_out',
     'compression_level' => 'medium'
 );

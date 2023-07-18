@@ -1,5 +1,4 @@
 <?php
-require("../Sample_Input/sample_input.php");
 
 // The /restricted-pdf endpoint can take a single PDF file or id as input.
 // This sample demonstrates setting the permissions password to 'password' and adding restrictions.
@@ -7,7 +6,7 @@ $restricted_pdf_endpoint_url = 'https://api.pdfrest.com/restricted-pdf';
 
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'toRestrict.pdf','application/pdf', 'toRestrict.pdf'),
+    'file' => new CURLFile('/path/to/file','application/pdf', 'file_name'),
     'output' => 'example_restrictedPdf_out',
     'new_permissions_password' => 'password',
     'restrictions[0]' => 'print_low',

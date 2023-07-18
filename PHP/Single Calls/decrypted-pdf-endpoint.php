@@ -1,5 +1,4 @@
 <?php
-require("../Sample_Input/sample_input.php");
 
 // The /decrypted-pdf endpoint can take a single PDF file or id as input.
 // This sample demonstrates the removal of encryption from a PDF.
@@ -7,7 +6,7 @@ $decrypted_pdf_endpoint_url = 'https://api.pdfrest.com/decrypted-pdf';
 
 // Create an array that contains that data that will be passed to the POST request.
 $data = array(
-    'file' => new CURLFile(SAMPLE_INPUT_DIR . 'toDecrypt.pdf','application/pdf', 'toDecrypt.pdf'),
+    'file' => new CURLFile('/path/to/file','application/pdf', 'file_name'),
     'output' => 'example_decryptedPdf_out',
     'current_open_password' => 'password'
 );
