@@ -10,9 +10,9 @@ In this directory you will find sample calls to single endpoints, as well as mor
 
 ### Installation
 
-1. Clone this repository or download the `pdfrest_api_example.php` file.
+1. Clone this repository or download your file of choice.
 
-2. Navigate to the directory containing the `pdfrest_api_example.php` file.
+2. Navigate to the directory containing the `php` file.
 
 3. Run the following command to install the required dependencies (Guzzle HTTP client):
 
