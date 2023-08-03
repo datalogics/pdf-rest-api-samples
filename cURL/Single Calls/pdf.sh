@@ -2,11 +2,5 @@ curl -X POST "https://api.pdfrest.com/pdf" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -H "Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" \
-  -F "url=https://pdfrest.com/" \
-  -F "output=example_out" \
-  -F "compression=lossless" \
-  -F "downsample=off" \
-  -F "page_size=letter" \
-  -F "page_margin=1in" \
-  -F "page_orientation=portrait" \
-  -F "web_layout=mobile"
+  -F "file=@/path/to/file" \
+  -F "output=example_out"
