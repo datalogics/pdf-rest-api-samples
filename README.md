@@ -58,26 +58,6 @@ and replace `xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` with the resource UUID you r
 
 Below are instructions for running a sample in each language included in this repository.
 
-#### How to run JavaScript samples
-
-Using Node 16 or greater:
-
-1. `cd Node/`
-2. `npm install node-fetch`
-3. `node name-of-sample-program.js`
-
-#### How to run PHP samples
-
-1. `cd PHP/`
-2. `php name-of-sample-program.php`
-
-#### How to run Python samples
-
-Using Python3:
-
-1. `cd Python/`
-2. `python name-of-sample-program.py`
-
 <br>
 
 ## API Documentation
