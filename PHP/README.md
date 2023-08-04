@@ -1,4 +1,4 @@
-**PDFRest API Example**
+**pdfRest API Example**
 
 In this directory you will find sample calls to single endpoints, as well as more advanced workflows presented in PHP
 
@@ -22,7 +22,7 @@ composer install
 
 ### Usage
 
-1. Set your PDFRest API key in the `$headers` array. Replace `'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'` with your actual API key.
+1. Set your pdfRest API key in the `$headers` array. Replace `'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'` with your actual API key.
 
 2. Provide the path to the PDF file you want to process in the `$options` array. Replace `'/path/to/file'` with the actual file path.
 
@@ -31,4 +31,3 @@ composer install
 ```bash
 php pdfrest_api_example.php
 ```
-
