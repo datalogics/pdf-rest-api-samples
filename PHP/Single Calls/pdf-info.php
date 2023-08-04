@@ -1,42 +1,35 @@
 <?php
+require 'vendor/autoload.php'; // Require the autoload file to load Guzzle HTTP client.
 
-// The /pdf-info endpoint can take a single PDF file or id as input.
-// This sample demonstrates querying the title, page count, document language and author
-$pdf_info_endpoint_url = 'https://api.pdfrest.com/pdf-info';
+use GuzzleHttp\Client; // Import the Guzzle HTTP client namespace.
+use GuzzleHttp\Psr7\Request; // Import the PSR-7 Request class.
+use GuzzleHttp\Psr7\Utils; // Import the PSR-7 Utils class for working with streams.
 
-// Create an array that contains that data that will be passed to the POST request.
-$data = array(
-    'file' => new CURLFile('/path/to/file','application/pdf', 'file_name'),
-    'queries' => 'title,page_count,doc_language,author'
-);
+$client = new Client(); // Create a new instance of the Guzzle HTTP client.
 
-$headers = array(
-    'Accept: application/json',
-    'Content-Type: multipart/form-data',
-    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // place your api key here
-);
+$headers = [
+  'Api-Key' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // Set the API key in the headers for authentication.
+];
 
-// Initialize a cURL session.
-$ch = curl_init();
+$options = [
+  'multipart' => [
+    [
+      'name' => 'file', // Specify the field name for the file.
+      'contents' => Utils::tryFopen('/path/to/file', 'r'), // Open the file specified by '/path/to/file' for reading.
+      'filename' => '/path/to/file', // Set the filename for the file to be processed, in this case, '/path/to/file'.
+      'headers' => [
+        'Content-Type' => '<Content-type header>' // Set the Content-Type header for the file.
+      ]
+    ],
+    [
+      'name' => 'queries', // Specify the field name for the queries option.
+      'contents' => 'tagged,image_only,title,subject,author,producer,creator,creation_date,modified_date,keywords,doc_language,page_count,contains_annotations,contains_signature,pdf_version,file_size,filename,restrict_permissions_set,contains_xfa,contains_acroforms,contains_javascript,contains_transparency,contains_embedded_file,uses_embedded_fonts,uses_nonembedded_fonts,pdfa,requires_password_to_open,pdfua_claim,pdfe_claim,pdfx_claim' // Set the value for the queries option (a comma-separated list of various queries).
+    ]
+  ]
+];
 
-// Set the url, headers, and data that will be sent to pdf-info endpoint.
-curl_setopt($ch, CURLOPT_URL, $pdf_info_endpoint_url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+$request = new Request('POST', 'https://api.pdfrest.com/pdf-info', $headers); // Create a new HTTP POST request with the API endpoint and headers.
 
-print "Sending POST request to pdf-info endpoint...\n";
-$response = curl_exec($ch);
+$res = $client->sendAsync($request, $options)->wait(); // Send the asynchronous request and wait for the response.
 
-print "Response status code: " . curl_getinfo($ch, CURLINFO_HTTP_CODE) . "\n";
-
-if($response === false){
-    print 'Error: ' . curl_error($ch) . "\n";
-}else{
-    print json_encode(json_decode($response), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    print "\n";
-}
-
-curl_close($ch);
-?>
+echo $res->getBody(); // Output the response body, which contains the information about the PDF file based on the specified queries.

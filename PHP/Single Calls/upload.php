@@ -1,31 +1,47 @@
 <?php
+require 'vendor/autoload.php'; // Require the autoload file to load Guzzle HTTP client.
 
-// The /upload endpoint can take one or more files as input.
-// This sample takes 3 files and uploads them to the pdfRest service.
-$upload_endpoint_url = 'https://api.pdfrest.com/upload';
+use GuzzleHttp\Client; // Import the Guzzle HTTP client namespace.
+use GuzzleHttp\Psr7\Request; // Import the PSR-7 Request class.
+use GuzzleHttp\Psr7\Utils; // Import the PSR-7 Utils class for working with streams.
 
-// Create an array that contains that data that will be passed to the POST request.
-$data = array(
-    'file' => array(
-        '/path/to/file',
-        '/path/to/file',
-        '/path/to/file'
-    ),
-);
+$client = new Client(); // Create a new instance of the Guzzle HTTP client.
 
-$headers = array(
-    'Accept: application/json',
-    'Content-Type: multipart/form-data',
-    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // place your api key here
-);
+$headers = [
+  'Api-Key' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // Set the API key in the headers for authentication.
+];
 
-// Form cURL POST command that will be executed with the upload endpoint.
-// NOTE: The '-s' in the cURL command below runs cURL in silent mode, so exec() output is not shown.
-$curl_command = 'curl -s -X POST "'.$upload_endpoint_url.'" -H "'.$headers[0].'" -H "'.$headers[1].'" -H "'.$headers[2].'" -F "file=@'.$data['file'][0].'" -F "file=@'.$data['file'][1].'"  -F "file=@'.$data['file'][2].'"';
+$options = [
+  'multipart' => [
+    [
+      'name' => 'file', // Specify the field name for the first file.
+      'contents' => Utils::tryFopen('/path/to/file1', 'r'), // Open the first file for reading.
+      'filename' => '/path/to/file1', // Set the filename for the first file to be uploaded.
+      'headers' => [
+        'Content-Type' => '<Content-type header for file1>' // Set the Content-Type header for the first file.
+      ]
+    ],
+    [
+      'name' => 'file', // Specify the field name for the second file.
+      'contents' => Utils::tryFopen('/path/to/file2', 'r'), // Open the second file for reading.
+      'filename' => '/path/to/file2', // Set the filename for the second file to be uploaded.
+      'headers' => [
+        'Content-Type' => '<Content-type header for file2>' // Set the Content-Type header for the second file.
+      ]
+    ],
+    [
+      'name' => 'file', // Specify the field name for the third file.
+      'contents' => Utils::tryFopen('/path/to/file3', 'r'), // Open the third file for reading.
+      'filename' => '/path/to/file3', // Set the filename for the third file to be uploaded.
+      'headers' => [
+        'Content-Type' => '<Content-type header for file3>' // Set the Content-Type header for the third file.
+      ]
+    ]
+  ]
+];
 
-print "Sending POST request to upload endpoint...\n";
-exec($curl_command, $response);
+$request = new Request('POST', 'https://api.pdfrest.com/upload', $headers); // Create a new HTTP POST request with the API endpoint and headers.
 
-print json_encode(json_decode($response[0]), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-print "\n";
-?>
+$res = $client->sendAsync($request, $options)->wait(); // Send the asynchronous request and wait for the response.
+
+echo $res->getBody(); // Output the response body.

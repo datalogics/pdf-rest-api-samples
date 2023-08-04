@@ -1,33 +1,44 @@
 <?php
+require 'vendor/autoload.php'; // Require the autoload file to load Guzzle HTTP client.
 
-// The /zip endpoint can take one or more file or ids as input and compresses them into a .zip.
-// This sample takes 2 files and compresses them into a zip file.
+use GuzzleHttp\Client; // Import the Guzzle HTTP client namespace.
+use GuzzleHttp\Psr7\Request; // Import the PSR-7 Request class.
+use GuzzleHttp\Psr7\Utils; // Import the PSR-7 Utils class for working with streams.
 
-$zip_endpoint_url = 'https://api.pdfrest.com/zip';
+$client = new Client();
+$headers = [
+  'Api-Key' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+];
+$options = [
+  'multipart' => [
+    [
+      'name' => 'file',
+      'contents' => Utils::tryFopen('/path/to/file1', 'r'), // Provide the path to the first file to be included in the zip.
+      'filename' => '/path/to/file1',
+      'headers'  => [
+        'Content-Type' => '<Content-type header>'
+      ]
+    ],
+    [
+      'name' => 'file',
+      'contents' => Utils::tryFopen('/path/to/file2', 'r'), // Provide the path to the second file to be included in the zip.
+      'filename' => '/path/to/file2',
+      'headers'  => [
+        'Content-Type' => '<Content-type header>'
+      ]
+    ],
+    [
+      'name' => 'id[]',
+      'contents' => 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // Provide the ID of the file to be included in the zip.
+    ],
+    [
+      'name' => 'output',
+      'contents' => 'pdfrest_zip' // Specify the output type as zip.
+    ]
+]];
 
-// Create an array that contains that data that will be passed to the POST request.
-$data = array(
-    'file' => array(
-        '/path/to/file',
-        '/path/to/file',
-        '/path/to/file'
-    ),
-    'output' => 'example_zip_out'
-);
+$request = new Request('POST', 'https://api.pdfrest.com/zip', $headers);  // Create a new HTTP POST request with the API endpoint and headers.
 
-$headers = array(
-    'Accept: application/json',
-    'Content-Type: multipart/form-data',
-    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // place your api key here
-);
+$res = $client->sendAsync($request, $options)->wait(); // Send the asynchronous request and wait for the response.
 
-// Form cURL POST command that will be executed with the zip endpoint.
-// NOTE: The '-s' in the cURL command below runs cURL in silent mode, so exec() output is not shown.
-$curl_command = 'curl -s -X POST "'.$zip_endpoint_url.'" -H "'.$headers[0].'" -H "'.$headers[1].'" -H "'.$headers[2].'" -F "file=@'.$data['file'][0].'" -F "file=@'.$data['file'][1].'" -F "output='.$data['output'].'"';
-
-print "Sending POST request to zip endpoint...\n";
-exec($curl_command, $response);
-
-print json_encode(json_decode($response[0]), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-print "\n";
-?>
+echo $res->getBody(); // Output the response body, which contains the zipped files.

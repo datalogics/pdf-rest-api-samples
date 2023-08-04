@@ -1,43 +1,39 @@
 <?php
+require 'vendor/autoload.php'; // Require the autoload file to load Guzzle HTTP client.
 
-// The /pdfa endpoint can take a single PDF file or id as input.
-$pdfa_endpoint_url = 'https://api.pdfrest.com/pdfa';
+use GuzzleHttp\Client; // Import the Guzzle HTTP client namespace.
+use GuzzleHttp\Psr7\Request; // Import the PSR-7 Request class.
+use GuzzleHttp\Psr7\Utils; // Import the PSR-7 Utils class for working with streams.
 
-// Create an array that contains that data that will be passed to the POST request.
-$data = array(
-    'file' => new CURLFile('/path/to/file','application/pdf', 'file_name'),
-    'output_type' => 'PDF/A-1b',
-    'rasterize_if_errors_encountered' => 'on',
-    'output' => 'example_pdfa_out'
-);
+$client = new Client(); // Create a new instance of the Guzzle HTTP client.
 
-$headers = array(
-    'Accept: application/json',
-    'Content-Type: multipart/form-data',
-    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // place your api key here
-);
+$headers = [
+  'Api-Key' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // Set the API key in the headers for authentication.
+];
 
-// Initialize a cURL session.
-$ch = curl_init();
+$options = [
+  'multipart' => [
+    [
+      'name' => 'file', // Specify the field name for the file.
+      'contents' => Utils::tryFopen('/path/to/file', 'r'), // Open the file specified by the '/path/to/file' for reading.
+      'filename' => '/path/to/file', // Set the filename for the file to be processed, in this case, '/path/to/file'.
+      'headers' => [
+        'Content-Type' => '<Content-type header>' // Set the Content-Type header for the file.
+      ]
+    ],
+    [
+      'name' => 'output_type', // Specify the field name for the output type.
+      'contents' => 'PDF/A-2b' // Set the value for the output type (in this case, 'PDF/A-2b').
+    ],
+    [
+      'name' => 'output', // Specify the field name for the output option.
+      'contents' => 'pdfrest_pdfa' // Set the value for the output option (in this case, 'pdfrest_pdfa').
+    ]
+  ]
+];
 
-// Set the url, headers, and data that will be sent to pdfa endpoint.
-curl_setopt($ch, CURLOPT_URL, $pdfa_endpoint_url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+$request = new Request('POST', 'https://api.pdfrest.com/pdfa', $headers); // Create a new HTTP POST request with the API endpoint and headers.
 
-print "Sending POST request to pdfa endpoint...\n";
-$response = curl_exec($ch);
+$res = $client->sendAsync($request, $options)->wait(); // Send the asynchronous request and wait for the response.
 
-print "Response status code: " . curl_getinfo($ch, CURLINFO_HTTP_CODE) . "\n";
-
-if($response === false){
-    print 'Error: ' . curl_error($ch) . "\n";
-}else{
-    print json_encode(json_decode($response), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    print "\n";
-}
-
-curl_close($ch);
-?>
+echo $res->getBody(); // Output the response body, which contains the processed PDF/A content.

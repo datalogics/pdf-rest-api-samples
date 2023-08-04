@@ -1,46 +1,47 @@
 <?php
+require 'vendor/autoload.php'; // Require the autoload file to load Guzzle HTTP client.
 
-// The /bmp endpoint can take a single PDF file or id as input and turn them into BMP image files.
-// This sample takes in a PDF and converts all pages into grayscale BMP files.
+use GuzzleHttp\Client; // Import the Guzzle HTTP client namespace.
+use GuzzleHttp\Psr7\Request; // Import the PSR-7 Request class.
+use GuzzleHttp\Psr7\Utils; // Import the PSR-7 Utils class for working with streams.
 
-$bmp_endpoint_url = 'https://api.pdfrest.com/bmp';
+$client = new Client(); // Create a new instance of the Guzzle HTTP client.
 
-// Create an array that contains that data that will be passed to the POST request.
-$data = array(
-    'file' => new CURLFile('/path/to/file', 'application/pdf', 'file_name'),
-    'pages' => '1-last',
-    'resolution' => '600',
-    'color_model' => 'gray',
-    'output' => 'example_bmp_out'
-);
+$headers = [
+  'Api-Key' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // Set the API key in the headers for authentication.
+];
 
-$headers = array(
-    'Accept: application/json',
-    'Content-Type: multipart/form-data',
-    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // place your api key here
-);
+$options = [
+  'multipart' => [
+    [
+      'name' => 'file', // Specify the field name for the file.
+      'contents' => Utils::tryFopen('/path/to/file', 'r'), // Open the file specified by the '/path/to/file' for reading.
+      'filename' => '/path/to/file', // Set the filename for the file to be converted, in this case, '/path/to/file'.
+      'headers' => [
+        'Content-Type' => '<Content-type header>' // Set the Content-Type header for the file.
+      ]
+    ],
+    [
+      'name' => 'pages', // Specify the field name for the pages option.
+      'contents' => '1-last' // Set the value for the pages option (in this case, '1-last').
+    ],
+    [
+      'name' => 'resolution', // Specify the field name for the resolution option.
+      'contents' => '300' // Set the value for the resolution option (in this case, '300').
+    ],
+    [
+      'name' => 'color_model', // Specify the field name for the color_model option.
+      'contents' => 'rgb' // Set the value for the color_model option (in this case, 'rgb').
+    ],
+    [
+      'name' => 'output', // Specify the field name for the output option.
+      'contents' => 'pdfrest_bmp' // Set the value for the output option (in this case, 'pdfrest_bmp').
+    ]
+  ]
+];
 
-// Initialize a cURL session.
-$ch = curl_init();
+$request = new Request('POST', 'https://api.pdfrest.com/bmp', $headers); // Create a new HTTP POST request with the API endpoint and headers.
 
-// Set the url, headers, and data that will be sent to bmp endpoint.
-curl_setopt($ch, CURLOPT_URL, $bmp_endpoint_url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+$res = $client->sendAsync($request, $options)->wait(); // Send the asynchronous request and wait for the response.
 
-print "Sending POST request to bmp endpoint...\n";
-$response = curl_exec($ch);
-
-print "Response status code: " . curl_getinfo($ch, CURLINFO_HTTP_CODE) . "\n";
-
-if($response === false){
-    print 'Error: ' . curl_error($ch) . "\n";
-}else{
-    print json_encode(json_decode($response), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    print "\n";
-}
-
-curl_close($ch);
-?>
+echo $res->getBody(); // Output the response body, which contains the converted BMP image.

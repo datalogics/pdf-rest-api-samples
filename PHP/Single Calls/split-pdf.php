@@ -1,45 +1,47 @@
 <?php
+require 'vendor/autoload.php'; // Require the autoload file to load Guzzle HTTP client.
 
-// The /split-pdf endpoint can take one PDF file or id as input.
-// This sample takes one PDF file that has at least 5 pages and splits it into two documents when given two page ranges.
-$split_pdf_endpoint_url = 'https://api.pdfrest.com/split-pdf';
+use GuzzleHttp\Client; // Import the Guzzle HTTP client namespace.
+use GuzzleHttp\Psr7\Request; // Import the PSR-7 Request class.
+use GuzzleHttp\Psr7\Utils; // Import the PSR-7 Utils class for working with streams.
 
-// Create an array that contains that data that will be passed to the POST request.
-// NOTE: PHP array keys cannot be an array, but the endpoint expects the 'pages[]' field so the page range key must be passed as 'pages[0]', 'pages[1]', etc.
-$data = array(
-    'file' => new CURLFile('/path/to/file','application/pdf', 'file_name'),
-    'pages[0]' => '1,2,5',
-    'pages[1]' => '3,4',
-    'output' => 'example_splitPdf_out'
-);
+$client = new Client(); // Create a new instance of the Guzzle HTTP client.
 
-$headers = array(
-    'Accept: application/json',
-    'Content-Type: multipart/form-data',
-    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // place your api key here
-);
+$headers = [
+  'Api-Key' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // Set the API key in the headers for authentication.
+];
 
-// Initialize a cURL session.
-$ch = curl_init();
+$options = [
+  'multipart' => [
+    [
+      'name' => 'file', // Specify the field name for the file.
+      'contents' => Utils::tryFopen('/path/to/file', 'r'), // Open the file specified by '/path/to/file' for reading.
+      'filename' => '/path/to/file', // Set the filename for the file to be processed, in this case, '/path/to/file'.
+      'headers' => [
+        'Content-Type' => '<Content-type header>' // Set the Content-Type header for the file.
+      ]
+    ],
+    [
+      'name' => 'pages[]', // Specify the field name for the pages option as an array.
+      'contents' => 'even' // Set the value for the pages option to 'even'.
+    ],
+    [
+      'name' => 'pages[]', // Specify the field name for the pages option as an array.
+      'contents' => 'odd' // Set the value for the pages option to 'odd'.
+    ],
+    [
+      'name' => 'pages[]', // Specify the field name for the pages option as an array.
+      'contents' => '1,3,4-6' // Set the value for the pages option to '1,3,4-6' (a combination of specific pages and page ranges).
+    ],
+    [
+      'name' => 'output', // Specify the field name for the output option.
+      'contents' => 'pdfrest_split_pdf' // Set the value for the output option to generate split PDFs.
+    ]
+  ]
+];
 
-// Set the url, headers, and data that will be sent to split-pdf endpoint.
-curl_setopt($ch, CURLOPT_URL, $split_pdf_endpoint_url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+$request = new Request('POST', 'https://api.pdfrest.com/split-pdf', $headers); // Create a new HTTP POST request with the API endpoint and headers.
 
-print "Sending POST request to split-pdf endpoint...\n";
-$response = curl_exec($ch);
+$res = $client->sendAsync($request, $options)->wait(); // Send the asynchronous request and wait for the response.
 
-print "Response status code: " . curl_getinfo($ch, CURLINFO_HTTP_CODE) . "\n";
-
-if($response === false){
-    print 'Error: ' . curl_error($ch) . "\n";
-}else{
-    print json_encode(json_decode($response), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    print "\n";
-}
-
-curl_close($ch);
-?>
+echo $res->getBody(); // Output the response body, which contains the split PDFs.

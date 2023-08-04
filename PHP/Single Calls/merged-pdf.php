@@ -1,33 +1,71 @@
 <?php
+require 'vendor/autoload.php'; // Require the autoload file to load Guzzle HTTP client.
 
-// The /merged-pdf endpoint can take one or more PDF files or ids as input.
-// This sample takes 2 PDF files and merges all the pages in the document into a single document.
-$merged_pdf_endpoint_url = 'https://api.pdfrest.com/merged-pdf';
+use GuzzleHttp\Client; // Import the Guzzle HTTP client namespace.
+use GuzzleHttp\Psr7\Request; // Import the PSR-7 Request class.
+use GuzzleHttp\Psr7\Utils; // Import the PSR-7 Utils class for working with streams.
 
-// Create an array that contains that data that will be passed to the POST request.
-$data = array(
-    'file' => array(
-        '/path/to/file',
-        '/path/to/file'
-    ),
-    'pages' => array("1-last", "1-last"),
-    'type' => array ('file', 'file'),
-    'output' => 'example_mergedPdf_out'
-);
+$client = new Client(); // Create a new instance of the Guzzle HTTP client.
 
-$headers = array(
-    'Accept: application/json',
-    'Content-Type: multipart/form-data',
-    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // place your api key here
-);
+$headers = [
+  'Api-Key' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // Set the API key in the headers for authentication.
+];
 
-// Form cURL POST command that will be executed with the merged-pdf endpoint.
-// NOTE: The '-s' in the cURL command below runs cURL in silent mode, so exec() output is not shown.
-$curl_command = 'curl -s -X POST "'.$merged_pdf_endpoint_url.'" -H "'.$headers[0].'" -H "'.$headers[1].'" -H "'.$headers[2].'" -F "file=@'.$data['file'][0].'" -F "pages[]='.$data['pages'][0].'" -F "type[]='.$data['type'][0].'" -F "file=@'.$data['file'][1].'" -F "pages[]='.$data['pages'][1].'" -F "type[]='.$data['type'][1].'" -F "output='.$data['output'].'"';
+$options = [
+  'multipart' => [
+    [
+      'name' => 'file', // Specify the field name for the first file.
+      'contents' => Utils::tryFopen('/path/to/file', 'r'), // Open the file specified by the '/path/to/file' for reading.
+      'filename' => '/path/to/file', // Set the filename for the first file to be merged, in this case, '/path/to/file'.
+      'headers' => [
+        'Content-Type' => '<Content-type header>' // Set the Content-Type header for the first file.
+      ]
+    ],
+    [
+      'name' => 'pages[]', // Specify the field name for the pages option for the first file.
+      'contents' => '1-last' // Set the pages value for the first file (in this case, '1-last').
+    ],
+    [
+      'name' => 'type[]', // Specify the field name for the type option for the first file.
+      'contents' => 'file' // Set the type value for the first file (in this case, 'file').
+    ],
+    [
+      'name' => 'file', // Specify the field name for the second file.
+      'contents' => Utils::tryFopen('/path/to/file', 'r'), // Open the file specified by the '/path/to/file' for reading.
+      'filename' => '/path/to/file', // Set the filename for the second file to be merged, in this case, '/path/to/file'.
+      'headers' => [
+        'Content-Type' => '<Content-type header>' // Set the Content-Type header for the second file.
+      ]
+    ],
+    [
+      'name' => 'pages[]', // Specify the field name for the pages option for the second file.
+      'contents' => '1-last' // Set the pages value for the second file (in this case, '1-last').
+    ],
+    [
+      'name' => 'type[]', // Specify the field name for the type option for the second file.
+      'contents' => 'file' // Set the type value for the second file (in this case, 'file').
+    ],
+    [
+      'name' => 'id[]', // Specify the field name for the ID option.
+      'contents' => 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // Set the value for the ID option (in this case, 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx').
+    ],
+    [
+      'name' => 'pages[]', // Specify the field name for the pages option for the third file (identified by ID).
+      'contents' => '1-last' // Set the pages value for the third file (identified by ID) (in this case, '1-last').
+    ],
+    [
+      'name' => 'type[]', // Specify the field name for the type option for the third file (identified by ID).
+      'contents' => 'id' // Set the type value for the third file (identified by ID) (in this case, 'id').
+    ],
+    [
+      'name' => 'output', // Specify the field name for the output option.
+      'contents' => 'pdfrest_merged_pdf' // Set the value for the output option (in this case, 'pdfrest_merged_pdf').
+    ]
+  ]
+];
 
-print "Sending POST request to merged-pdf endpoint...\n";
-exec($curl_command, $response);
+$request = new Request('POST', 'https://api.pdfrest.com/merged-pdf', $headers); // Create a new HTTP POST request with the API endpoint and headers.
 
-print json_encode(json_decode($response[0]), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-print "\n";
-?>
+$res = $client->sendAsync($request, $options)->wait(); // Send the asynchronous request and wait for the response.
+
+echo $res->getBody(); // Output the response body, which contains the merged PDF content.

@@ -1,45 +1,47 @@
 <?php
+require 'vendor/autoload.php'; // Require the autoload file to load Guzzle HTTP client.
 
-// The /pdf endpoint can take a single file, id, or url as input.
-// This sample passes a jpeg file to the endpoint, but there's a variety of input file types that are accepted by this endpoint.
+use GuzzleHttp\Client; // Import the Guzzle HTTP client namespace.
+use GuzzleHttp\Psr7\Request; // Import the PSR-7 Request class.
+use GuzzleHttp\Psr7\Utils; // Import the PSR-7 Utils class for working with streams.
 
-$pdf_endpoint_url = 'https://api.pdfrest.com/pdf';
+$client = new Client(); // Create a new instance of the Guzzle HTTP client.
 
-// Create an array that contains that data that will be passed to the POST request.
-// The 'image/jpeg' string below is known as a MIME type, which is a label used to identify the type of a file so that it is handled properly by software.
-// Please see https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types for more information about MIME types.
-$data = array(
-    'file' => new CURLFile('/path/to/file', 'image/tiff', 'file_name'),
-    'output' => 'example_pdf_out'
-);
+$headers = [
+  'Api-Key' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // Set the API key in the headers for authentication.
+];
 
-$headers = array(
-    'Accept: application/json',
-    'Content-Type: multipart/form-data',
-    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // place your api key here
-);
+$options = [
+  'multipart' => [
+    [
+      'name' => 'file', // Specify the field name for the file.
+      'contents' => Utils::tryFopen('/path/to/file', 'r'), // Open the file specified by the '/path/to/file' for reading.
+      'filename' => '/path/to/file', // Set the filename for the file to be processed, in this case, '/path/to/file'.
+      'headers' => [
+        'Content-Type' => '<Content-type header>' // Set the Content-Type header for the file.
+      ]
+    ],
+    [
+      'name' => 'compression', // Specify the field name for the compression option.
+      'contents' => 'lossless' // Set the value for the compression option (in this case, 'lossless').
+    ],
+    [
+      'name' => 'downsample', // Specify the field name for the downsample option.
+      'contents' => '300' // Set the value for the downsample option (in this case, '300').
+    ],
+    [
+      'name' => 'tagged_pdf', // Specify the field name for the tagged PDF option.
+      'contents' => 'off' // Set the value for the tagged PDF option (in this case, 'off').
+    ],
+    [
+      'name' => 'output', // Specify the field name for the output option.
+      'contents' => 'pdfrest_pdf' // Set the value for the output option (in this case, 'pdfrest_pdf').
+    ]
+  ]
+];
 
-// Initialize a cURL session.
-$ch = curl_init();
+$request = new Request('POST', 'https://api.pdfrest.com/pdf', $headers); // Create a new HTTP POST request with the API endpoint and headers.
 
-// Set the url, headers, and data that will be sent to pdf endpoint.
-curl_setopt($ch, CURLOPT_URL, $pdf_endpoint_url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+$res = $client->sendAsync($request, $options)->wait(); // Send the asynchronous request and wait for the response.
 
-print "Sending POST request to pdf endpoint...\n";
-$response = curl_exec($ch);
-
-print "Response status code: " . curl_getinfo($ch, CURLINFO_HTTP_CODE) . "\n";
-
-if($response === false){
-    print 'Error: ' . curl_error($ch) . "\n";
-}else{
-    print json_encode(json_decode($response), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    print "\n";
-}
-
-curl_close($ch);
-?>
+echo $res->getBody(); // Output the response body, which contains the processed PDF content.

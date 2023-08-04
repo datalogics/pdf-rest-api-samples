@@ -1,37 +1,32 @@
 <?php
+require 'vendor/autoload.php'; // Require the autoload file to load Guzzle HTTP client.
 
-$flatten_forms_endpoint_url = 'https://api.pdfrest.com/flattened-forms-pdf';
+use GuzzleHttp\Client; // Import the Guzzle HTTP client namespace.
+use GuzzleHttp\Psr7\Request; // Import the PSR-7 Request class.
+use GuzzleHttp\Psr7\Utils; // Import the PSR-7 Utils class for working with streams.
 
-$data = array(
-    'file' => new CURLFile('/path/to/file','application/pdf', 'file_name'),
-    'output' => 'example_out'
-);
+$client = new Client();
+$headers = [
+  'Api-Key' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+];
+$options = [
+  'multipart' => [
+    [
+      'name' => 'file',
+      'contents' => Utils::tryFopen('/path/to/file', 'r'), // Provide the path to the PDF file with forms.
+      'filename' => '/path/to/file',
+      'headers'  => [
+        'Content-Type' => '<Content-type header>'
+      ]
+    ],
+    [
+      'name' => 'output',
+      'contents' => '' // Specify the output type (e.g., 'pdfrest_flattened_form', 'pdfrest_flattened_annotations', etc.)
+    ]
+]];
 
-$headers = array(
-    'Accept: application/json',
-    'Content-Type: multipart/form-data',
-    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // place your api key here
-);
+$request = new Request('POST', 'https://api.pdfrest.com/flattened-forms-pdf', $headers);  // Create a new HTTP POST request with the API endpoint and headers.
 
-$ch = curl_init();
+$res = $client->sendAsync($request, $options)->wait(); // Send the asynchronous request and wait for the response.
 
-curl_setopt($ch, CURLOPT_URL, $flatten_forms_endpoint_url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-print "Sending POST request to flattened-forms-pdf endpoint...\n";
-$response = curl_exec($ch);
-
-print "Response status code: " . curl_getinfo($ch, CURLINFO_HTTP_CODE) . "\n";
-
-if($response === false){
-    print 'Error: ' . curl_error($ch) . "\n";
-}else{
-    print json_encode(json_decode($response), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    print "\n";
-}
-
-curl_close($ch);
-?>
+echo $res->getBody(); // Output the response body, which contains the flattened PDF with forms .

@@ -1,41 +1,55 @@
 <?php
+require 'vendor/autoload.php'; // Require the autoload file to load Guzzle HTTP client.
 
-$pdf_with_added_image_endpoint_url = 'https://api.pdfrest.com/pdf-with-added-image';
+use GuzzleHttp\Client; // Import the Guzzle HTTP client namespace.
+use GuzzleHttp\Psr7\Request; // Import the PSR-7 Request class.
+use GuzzleHttp\Psr7\Utils; // Import the PSR-7 Utils class for working with streams.
 
-$data = array(
-    'file' => new CURLFile('/path/to/file', 'file_name'),
-    'image_file' => new CURLFile('/path/to/file','image/jpeg', 'file_name'),
-    'output' => 'example_out',
-    'x' => '10',
-    'y' => '10',
-    'page' => '1'
-);
+$client = new Client(); // Create a new instance of the Guzzle HTTP client.
 
-$headers = array(
-    'Accept: application/json',
-    'Content-Type: multipart/form-data',
-    'Api-Key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // place your api key here
-);
+$headers = [
+  'Api-Key' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' // Set the API key in the headers for authentication.
+];
 
-$ch = curl_init();
+$options = [
+  'multipart' => [
+    [
+      'name' => 'file', // Specify the field name for the main PDF file.
+      'contents' => Utils::tryFopen('/path/to/file', 'r'), // Open the main PDF file specified by the '/path/to/file' for reading.
+      'filename' => '/path/to/file', // Set the filename for the main PDF file to be processed, in this case, '/path/to/file'.
+      'headers' => [
+        'Content-Type' => '<Content-type header>' // Set the Content-Type header for the main PDF file.
+      ]
+    ],
+    [
+      'name' => 'image_file', // Specify the field name for the image file.
+      'contents' => Utils::tryFopen('/path/to/file', 'r'), // Open the image file specified by the '/path/to/file' for reading.
+      'filename' => '/path/to/file', // Set the filename for the image file to be added, in this case, '/path/to/file'.
+      'headers' => [
+        'Content-Type' => '<Content-type header>' // Set the Content-Type header for the image file.
+      ]
+    ],
+    [
+      'name' => 'x', // Specify the field name for the X-coordinate of the added image.
+      'contents' => '72' // Set the value for the X-coordinate (in this case, '72').
+    ],
+    [
+      'name' => 'y', // Specify the field name for the Y-coordinate of the added image.
+      'contents' => '72' // Set the value for the Y-coordinate (in this case, '72').
+    ],
+    [
+      'name' => 'page', // Specify the field name for the page number where the image should be added.
+      'contents' => '1' // Set the value for the page number (in this case, '1').
+    ],
+    [
+      'name' => 'output', // Specify the field name for the output option.
+      'contents' => 'pdfrest_pdf_with_added_image' // Set the value for the output option (in this case, 'pdfrest_pdf_with_added_image').
+    ]
+  ]
+];
 
-curl_setopt($ch, CURLOPT_URL, $pdf_with_added_image_endpoint_url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+$request = new Request('POST', 'https://api.pdfrest.com/pdf-with-added-image', $headers); // Create a new HTTP POST request with the API endpoint and headers.
 
-print "Sending POST request to pdf-with-added-image endpoint...\n";
-$response = curl_exec($ch);
+$res = $client->sendAsync($request, $options)->wait(); // Send the asynchronous request and wait for the response.
 
-print "Response status code: " . curl_getinfo($ch, CURLINFO_HTTP_CODE) . "\n";
-
-if($response === false){
-    print 'Error: ' . curl_error($ch) . "\n";
-}else{
-    print json_encode(json_decode($response), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    print "\n";
-}
-
-curl_close($ch);
-?>
+echo $res->getBody(); // Output the response body, which contains the processed PDF with the added image.
