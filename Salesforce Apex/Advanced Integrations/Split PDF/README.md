@@ -1,4 +1,9 @@
-<img src='https://pdfrest.com/_nuxt/image/ffb8c8.webp' alt='Salesforce Apex Integration'><br/><br/>
+<img src='https://pdfrest.com/_nuxt/image/ffb8c8.webp' alt='Salesforce Apex Integration'><br/>
+
+# Integrate pdfRest with Salesforce Apex Code
+
+### Learn how to send files from Salesforce to pdfRest for document processing and download output files back into Salesforce
+<br/>
 
 Just like thousands of companies around the world, we use Salesforce as a customer relationship management (CRM) service, customizing its many features to meet our specific business needs. Within our Salesforce environment, we generate, edit, and archive a trove of documents, including product license agreements, invoices, and customer support case files, and we have developed countless automated business processes, both within Salesforce and through integrations with external tools and services. Through conversations with users, we've discovered that we're not alone - many companies just like us are searching for efficient ways to bring together:
 
