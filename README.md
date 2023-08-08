@@ -44,7 +44,7 @@ and replace `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` with your API Key.
 
 ### Downloading your output file(s)
 
-Each subdirectory includes a `get-resource-id-endpoint` sample that demonstrates how to download output files.
+Each subdirectory includes a `get-resource` sample that demonstrates how to download output files.
 
 When you make a POST call to one of the API endpoints, you will receive back a response that includes an ID reference to each resource, including newly uploaded input files and newly generated output files. These IDs are in the form of a universally unique identifier (UUID).
 
