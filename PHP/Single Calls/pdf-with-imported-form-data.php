@@ -37,4 +37,4 @@ $request = new Request('POST', 'https://api.pdfrest.com/pdf-with-imported-form-d
 
 $res = $client->sendAsync($request, $options)->wait(); // Send the asynchronous request and wait for the response.
 
-echo $res->getBody(); // Output the response body, which contains the flattened PDF with forms .
+echo $res->getBody(); // Output the response body, which contains the PDF with data.
