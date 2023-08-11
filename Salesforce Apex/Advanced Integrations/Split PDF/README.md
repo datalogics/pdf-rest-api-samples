@@ -1,4 +1,4 @@
-<img src='https://pdfrest.com/_nuxt/image/ffb8c8.webp' alt='Salesforce Apex Integration'><br/>
+<img src='https://cms.pdfrest.com/content/images/2023/04/Solution-Integrate-pdfRest-with-Salesforce-Apex-Code.png' alt='Salesforce Apex Integration'><br/>
 
 # Integrate pdfRest with Salesforce Apex Code
 
