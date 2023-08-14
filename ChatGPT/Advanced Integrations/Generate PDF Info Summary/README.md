@@ -1,4 +1,4 @@
-<img src='https://pdfrest.com/_nuxt/image/6fa0c8.webp' alt='Integration with ChatGPt'>
+<img src='https://cms.pdfrest.com/content/images/2023/07/Solution-Integrate-pdfRest-with-ChatGPT-to-Generate-PDF-Info-Summary.png' alt='Integration with ChatGPT'>
 <br/>
 
 # Integrate pdfRest with ChatGPT to Generate PDF Info Summary
