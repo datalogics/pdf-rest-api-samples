@@ -1,4 +1,4 @@
-
+import io.github.cdimascio.dotenv.Dotenv;
 import java.io.File;
 import java.io.IOException;
 import okhttp3.MediaType;
@@ -14,7 +14,8 @@ public class CompressedPdf {
   // Specify the path to your file here, or as the first argument when running the program.
   private static final String DEFAULT_FILE_PATH = "/path/to/file.pdf";
 
-  // Specify your API key here, or in the environment variable PDFREST_API_KEY
+  // Specify your API key here, or in the environment variable PDFREST_API_KEY.
+  // You can also put the environment variable in a .env file.
   private static final String DEFAULT_API_KEY = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
 
   private static final String COMPRESSION_LEVEL = "medium";
@@ -27,6 +28,8 @@ public class CompressedPdf {
       inputFile = new File(DEFAULT_FILE_PATH);
     }
 
+    final Dotenv dotenv = Dotenv.configure().ignoreIfMalformed().ignoreIfMissing().load();
+
     final RequestBody inputFileRequestBody =
         RequestBody.create(inputFile, MediaType.parse("application/pdf"));
     RequestBody requestBody =
@@ -38,7 +41,7 @@ public class CompressedPdf {
             .build();
     Request request =
         new Request.Builder()
-            .header("Api-Key", getApiKey())
+            .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
             .url("https://api.pdfrest.com/compressed-pdf")
             .post(requestBody)
             .build();
@@ -52,14 +55,6 @@ public class CompressedPdf {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  private static String getApiKey() {
-    String pdfrestApiKey = System.getenv("PDFREST_API_KEY");
-    if (pdfrestApiKey == null) {
-      pdfrestApiKey = DEFAULT_API_KEY;
-    }
-    return pdfrestApiKey;
   }
 
   private static String prettyJson(String json) {
