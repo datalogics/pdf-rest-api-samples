@@ -14,11 +14,7 @@ In this directory you will find sample calls to single endpoints, as well as mor
 
 2. Navigate to the directory containing the `php` file.
 
-3. Run the following command to install the required dependencies (Guzzle HTTP client):
-
-```bash
-composer install
-```
+3. Install the required dependencies (Guzzle HTTP client) by following the instructions at https://docs.guzzlephp.org/en/stable/overview.html
 
 ### Usage
 
