@@ -2,7 +2,7 @@ using System.Text;
 
 using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfrest.com") })
 {
-    using (var request = new HttpRequestMessage(HttpMethod.Post, "extract-text"))
+    using (var request = new HttpRequestMessage(HttpMethod.Post, "extracted-text"))
     {
         request.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
         request.Headers.Accept.Add(new("application/json"));

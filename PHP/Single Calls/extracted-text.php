@@ -24,7 +24,7 @@ $options = [
   ]
 ];
 
-$request = new Request('POST', 'https://api.pdfrest.com/extract-text', $headers); // Create a new HTTP POST request with the API endpoint and headers.
+$request = new Request('POST', 'https://api.pdfrest.com/extracted-text', $headers); // Create a new HTTP POST request with the API endpoint and headers.
 
 $res = $client->sendAsync($request, $options)->wait(); // Send the asynchronous request and wait for the response.
 
