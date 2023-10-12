@@ -9,7 +9,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.json.JSONObject;
 
-public class ExtractText {
+public class ExtractedText {
 
   // Specify the path to your file here, or as the first argument when running the program.
   private static final String DEFAULT_FILE_PATH = "/path/to/file.pdf";
@@ -38,7 +38,7 @@ public class ExtractText {
     Request request =
         new Request.Builder()
             .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
-            .url("https://api.pdfrest.com/extract-text")
+            .url("https://api.pdfrest.com/extracted-text")
             .post(requestBody)
             .build();
     try {

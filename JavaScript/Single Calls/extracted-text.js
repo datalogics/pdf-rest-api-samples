@@ -11,7 +11,7 @@ data.append("file", fs.createReadStream("/path/to/file"));
 var config = {
   method: "post",
   maxBodyLength: Infinity, // set maximum length of the request body
-  url: "https://api.pdfrest.com/extract-text",
+  url: "https://api.pdfrest.com/extracted-text",
   headers: {
     "Api-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Replace with your API key
     ...data.getHeaders(), // set headers for the request
@@ -27,5 +27,3 @@ axios(config)
   .catch(function (error) {
     console.log(error);
   });
-
-// If you would like to download the file instead of getting the JSON response, please see the 'get-resource-id-endpoint.js' sample.
