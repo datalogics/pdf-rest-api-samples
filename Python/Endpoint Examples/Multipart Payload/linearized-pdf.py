@@ -8,7 +8,7 @@ linearized_pdf_endpoint_url = 'https://api.pdfrest.com/linearized-pdf'
 # This sample demonstrates linearizing a PDF file.
 mp_encoder_linearizedPdf = MultipartEncoder(
     fields={
-        'file': ('file_name', open('/path/to/file', 'rb'), 'application/pdf'),
+        'file': ('file_name.pdf', open('/path/to/file', 'rb'), 'application/pdf'),
         'output' : 'example_linearizedPdf_out',
     }
 )

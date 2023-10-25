@@ -9,7 +9,7 @@ compressed_pdf_endpoint_url = 'https://api.pdfrest.com/compressed-pdf'
 # We have preset 'high', 'medium', and 'low' compression levels available for use. These preset levels do not require the 'profile' parameter.
 mp_encoder_compressedPdf = MultipartEncoder(
     fields={
-        'file': ('file_name', open('/path/to/file', 'rb'), 'application/pdf'),
+        'file': ('file_name.pdf', open('/path/to/file', 'rb'), 'application/pdf'),
         'output' : 'example_compressedPdf_out',
         'compression_level': 'medium',
     }

@@ -8,7 +8,7 @@ extract_text_endpoint_url = 'https://api.pdfrest.com/extracted-text'
 #This sample demonstrates extracting the text from a document to return as JSON
 mp_encoder_extractText = MultipartEncoder(
     fields={
-        'file': ('file_name', open('/path/to/file', 'rb'), 'application/pdf'),
+        'file': ('file_name.pdf', open('/path/to/file', 'rb'), 'application/pdf'),
     }
 )
 

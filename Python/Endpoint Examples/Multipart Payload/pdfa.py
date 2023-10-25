@@ -7,7 +7,7 @@ pdfa_endpoint_url = 'https://api.pdfrest.com/pdfa'
 # The /pdfa endpoint can take a single PDF file or id as input.
 mp_encoder_pdfa = MultipartEncoder(
     fields={
-        'file': ('file_name', open('/path/to/file', 'rb'), 'application/pdf'),
+        'file': ('file_name.pdf', open('/path/to/file', 'rb'), 'application/pdf'),
         'output_type': 'PDF/A-1b',
         'rasterize_if_errors_encountered': 'on',
         'output' : 'example_pdfa_out',

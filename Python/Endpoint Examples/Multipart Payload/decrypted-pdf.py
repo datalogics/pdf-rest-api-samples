@@ -8,7 +8,7 @@ decrypted_pdf_endpoint_url = 'https://api.pdfrest.com/decrypted-pdf'
 # This sample demonstrates decryption of a PDF with the password 'password'.
 mp_encoder_decryptedPdf = MultipartEncoder(
     fields={
-        'file': ('file_name', open('/path/to/file', 'rb'), 'application/pdf'),
+        'file': ('file_name.pdf', open('/path/to/file', 'rb'), 'application/pdf'),
         'output' : 'example_decryptedPdf_out',
         'current_open_password': 'password',
     }

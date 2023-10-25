@@ -8,7 +8,7 @@ exported_form_data_endpoint_url = 'https://api.pdfrest.com/exported-form-data'
 # This sample demonstrates encryption of a PDF with the password 'password'.
 mp_encoder_exportedFormData = MultipartEncoder(
     fields={
-        'file': ('file_name', open('/path/to/file', 'rb'), 'application/pdf'),
+        'file': ('file_name.pdf', open('/path/to/file', 'rb'), 'application/pdf'),
         'output' : 'example_exportedFormData_out',
         'data_format': 'xml',
     }

@@ -8,7 +8,7 @@ pdf_info_endpoint_url = 'https://api.pdfrest.com/pdf-info'
 #This sample demonstrates querying the title, page count, document language and author
 mp_encoder_pdfInfo = MultipartEncoder(
     fields={
-        'file': ('file_name', open('/path/to/file', 'rb'), 'application/pdf'),
+        'file': ('file_name.pdf', open('/path/to/file', 'rb'), 'application/pdf'),
         'queries': 'title,page_count,doc_language,author',
     }
 )
