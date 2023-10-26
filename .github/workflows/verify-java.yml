@@ -24,4 +24,4 @@ jobs:
             # code builds, tests pass, and a package can be created.
             # The -f option indicates the root of the Maven project, where the pom.xml is located
             -   name: Build with Maven
-                run: mvn -f 'Java/Single Calls' --show-version --batch-mode --update-snapshots verify
+                run: mvn -f 'Java/Endpoint Examples/Multipart Payload' --show-version --batch-mode --update-snapshots verify
