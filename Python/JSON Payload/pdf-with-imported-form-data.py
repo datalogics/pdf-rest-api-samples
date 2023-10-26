@@ -1,38 +1,38 @@
 import requests
 import json
 
-with open('/path/to/file', 'rb') as f:
-    upload_data1 = f.read()
+with open('/path/to/pdf_file', 'rb') as f:
+    upload_pdf_data = f.read()
 
-print("Uploading file1...")
-upload_response1 = requests.post(url='https://api.pdfrest.com/upload',
-                    data=upload_data1,
-                    headers={'Content-Type': 'application/octet-stream', 'content-filename': 'file.pdf', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
+print("Uploading PDF file...")
+upload_pdf_response = requests.post(url='https://api.pdfrest.com/upload',
+                    data=upload_pdf_data,
+                    headers={'Content-Type': 'application/octet-stream', 'content-filename': 'pdf_file.pdf', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
 
-print("Upload response status code: " + str(upload_response1.status_code))
-
-
-with open('/path/to/file', 'rb') as f:
-    upload_data2 = f.read()
-
-print("Uploading file2...")
-upload_response2 = requests.post(url='https://api.pdfrest.com/upload',
-                    data=upload_data2,
-                    headers={'Content-Type': 'application/octet-stream', 'content-filename': 'data.xml', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
-
-print("Upload response status code: " + str(upload_response2.status_code))
-
-if upload_response1.ok and upload_response2.ok:
-    upload_response_json1 = upload_response1.json()
-    print(json.dumps(upload_response_json1, indent = 2))
-
-    upload_response_json2 = upload_response2.json()
-    print(json.dumps(upload_response_json2, indent = 2))
+print("Upload PDF response status code: " + str(upload_pdf_response.status_code))
 
 
-    uploaded_id1 = upload_response_json1['files'][0]['id']
-    uploaded_id2 = upload_response_json2['files'][0]['id']
-    added_image_data = { "id" : uploaded_id1, "data_id": uploaded_id2, "x":0, "y":0, "page":1 }
+with open('/path/to/data_file', 'rb') as f:
+    upload_data_data = f.read()
+
+print("Uploading data file...")
+upload_data_response = requests.post(url='https://api.pdfrest.com/upload',
+                    data=upload_data_data,
+                    headers={'Content-Type': 'application/octet-stream', 'content-filename': 'data_file.xml', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
+
+print("Upload data file response status code: " + str(upload_data_response.status_code))
+
+if upload_pdf_response.ok and upload_data_response.ok:
+    upload_pdf_response_json = upload_pdf_response.json()
+    print(json.dumps(upload_pdf_response_json, indent = 2))
+
+    upload_data_response_json = upload_data_response.json()
+    print(json.dumps(upload_data_response_json, indent = 2))
+
+
+    uploaded_pdf_id = upload_pdf_response_json['files'][0]['id']
+    uploaded_data_id = upload_data_response_json['files'][0]['id']
+    added_image_data = { "id" : uploaded_pdf_id, "data_id": uploaded_data_id }
     print(json.dumps(added_image_data, indent = 2))
 
 
@@ -51,5 +51,5 @@ if upload_response1.ok and upload_response2.ok:
     else:
         print(added_image_response.text)
 else:
-    print(upload_response1.text)
-    print(upload_response2.text)
+    print(upload_pdf_response.text)
+    print(upload_data_response.text)
