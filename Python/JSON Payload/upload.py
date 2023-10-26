@@ -7,7 +7,7 @@ with open('/path/to/file', 'rb') as f:
 print("Uploading file...")
 upload_response = requests.post(url='https://api.pdfrest.com/upload',
                     data=upload_data,
-                    headers={'Content-Type': 'application/octet-stream', 'content-filename': 'file.pdf', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
+                    headers={'Content-Type': 'application/octet-stream', 'Content-Filename': 'file.pdf', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
 
 print("Upload response status code: " + str(upload_response.status_code))
 

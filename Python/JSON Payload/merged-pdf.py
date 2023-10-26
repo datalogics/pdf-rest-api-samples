@@ -7,7 +7,7 @@ with open('/path/to/first_file', 'rb') as f:
 print("Uploading first PDF file...")
 upload_first_file_response = requests.post(url='https://api.pdfrest.com/upload',
                     data=upload_first_file_data,
-                    headers={'Content-Type': 'application/octet-stream', 'content-filename': 'first_file.pdf', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
+                    headers={'Content-Type': 'application/octet-stream', 'Content-Filename': 'first_file.pdf', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
 
 print("First upload response status code: " + str(upload_first_file_response.status_code))
 

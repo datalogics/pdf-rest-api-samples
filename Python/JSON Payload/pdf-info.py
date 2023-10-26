@@ -18,7 +18,7 @@ if upload_response.ok:
 
     uploaded_id = upload_response_json['files'][0]['id']
     info_data = { "id" : uploaded_id, "queries": "title" }
-    print(json.dumps(info_data, indent = 2))
+    print(json.dumps(info_data, indent = 2))Content-Filename
 
 
     print("Processing file...")
