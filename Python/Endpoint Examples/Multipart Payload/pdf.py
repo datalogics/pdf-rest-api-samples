@@ -10,7 +10,7 @@ pdf_endpoint_url = 'https://api.pdfrest.com/pdf'
 # Please see https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types for more information about MIME types.
 mp_encoder_pdf = MultipartEncoder(
     fields={
-        'file': ('file_name', open('/path/to/file', 'rb'), 'image/tiff'),
+        'file': ('file_name.tif', open('/path/to/file', 'rb'), 'image/tiff'),
         'output' : 'example_pdf_out',
     }
 )

@@ -11,8 +11,8 @@ merge_request_data = []
 
 # Array of tuples that contains information about the 2 files that will be merged
 files = [
-    ('file_name', open('/path/to/file', 'rb'), 'application/pdf'),
-    ('file_name', open('/path/to/file', 'rb'), 'application/pdf')
+    ('file_name.pdf', open('/path/to/file', 'rb'), 'application/pdf'),
+    ('file_name2.pdf', open('/path/to/file', 'rb'), 'application/pdf')
 ]
 
 # Structure the data that will be sent to POST merge request as an array of tuples

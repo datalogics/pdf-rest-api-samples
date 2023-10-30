@@ -8,7 +8,7 @@ restricted_pdf_endpoint_url = 'https://api.pdfrest.com/restricted-pdf'
 # This sample demonstrates setting the permissions password to 'password' and adding restrictions.
 mp_encoder_restrictedPdf = MultipartEncoder(
     fields=[
-        ('file', ('file_name', open('/path/to/file', 'rb'), 'application/pdf')),
+        ('file', ('file_name.pdf', open('/path/to/file', 'rb'), 'application/pdf')),
         ('output', 'example_restrictedPdf_out'),
         ('new_permissions_password', 'password'),
         ('restrictions', 'print_high'),

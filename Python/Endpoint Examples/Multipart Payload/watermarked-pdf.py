@@ -6,7 +6,7 @@ watermarked_pdf_endpoint_url = 'https://api.pdfrest.com/watermarked-pdf'
 
 mp_encoder_watermarkedPDF = MultipartEncoder(
     fields={
-        'file': ('file_name', open('/path/to/file', 'rb'), 'application/pdf'),
+        'file': ('file_name.pdf', open('/path/to/file', 'rb'), 'application/pdf'),
         'watermark_text': 'watermark',
         'output' : 'example_out'
     }

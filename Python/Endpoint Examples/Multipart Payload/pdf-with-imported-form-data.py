@@ -6,8 +6,8 @@ import_form_data_endpoint_url = 'https://api.pdfrest.com/pdf-with-imported-form-
 
 mp_encoder_importFormData = MultipartEncoder(
     fields={
-        'file': ('file_name', open('/path/to/file', 'rb'), 'application/pdf'),
-        'data_file': ('file_name', open('/path/to/datafile', 'rb'), 'application/xml'), # Update for your data file format
+        'file': ('file_name.pdf', open('/path/to/file', 'rb'), 'application/pdf'),
+        'data_file': ('file_name.xml', open('/path/to/datafile', 'rb'), 'application/xml'), # Update for your data file format
         'output' : 'example_out'
     }
 )

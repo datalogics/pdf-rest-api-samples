@@ -6,7 +6,7 @@ flattened_forms_pdf_endpoint_url = 'https://api.pdfrest.com/flattened-forms-pdf'
 
 mp_encoder_flattenedPDF = MultipartEncoder(
     fields={
-        'file': ('file_name', open('/path/to/file', 'rb'), 'application/pdf'),
+        'file': ('file_name.pdf', open('/path/to/file', 'rb'), 'application/pdf'),
         'output' : 'example_out'
     }
 )

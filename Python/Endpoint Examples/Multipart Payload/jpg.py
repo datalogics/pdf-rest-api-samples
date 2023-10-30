@@ -8,7 +8,7 @@ jpg_endpoint_url = 'https://api.pdfrest.com/jpg'
 # This sample takes in a PDF and converts all pages into JPEG files.
 mp_encoder_jpg = MultipartEncoder(
     fields={
-        'file': ('file_name', open('/path/to/file', 'rb'), 'application/pdf'),
+        'file': ('file_name.pdf', open('/path/to/file', 'rb'), 'application/pdf'),
         'pages': '1-last',
         'resolution': '600',
         'color_model': 'cmyk',
