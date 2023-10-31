@@ -32,12 +32,12 @@ if upload_pdf_response.ok and upload_data_response.ok:
 
     uploaded_pdf_id = upload_pdf_response_json['files'][0]['id']
     uploaded_data_id = upload_data_response_json['files'][0]['id']
-    added_image_data = { "id" : uploaded_pdf_id, "data_id": uploaded_data_id }
+    added_image_data = { "id" : uploaded_pdf_id, "data__file_id": uploaded_data_id }
     print(json.dumps(added_image_data, indent = 2))
 
 
     print("Processing file...")
-    added_image_response = requests.post(url='https://api.pdfrest.com/pdf-with-added-image',
+    added_image_response = requests.post(url='https://api.pdfrest.com/pdf-with-imported-form-data',
                         data=json.dumps(added_image_data),
                         headers={'Content-Type': 'application/json', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
 

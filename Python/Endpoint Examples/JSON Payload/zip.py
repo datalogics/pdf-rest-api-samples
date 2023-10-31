@@ -1,24 +1,24 @@
 import requests
 import json
 
-with open('/path/to/first_file', 'rb') as f:
+with open('/path/to/first_file', 'rb') as f: # Note that the full file name plus extension needs to be reflected in 'Content-Filename below'
     upload_first_file_data = f.read()
 
 print("Uploading first file...")
 upload_first_file_response = requests.post(url='https://api.pdfrest.com/upload',
                     data=upload_first_file_data,
-                    headers={'Content-Type': 'application/octet-stream', 'Content-Filename': 'first_file.pdf', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
+                    headers={'Content-Type': 'application/octet-stream', 'Content-Filename': 'first_file', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
 
 print("First upload response status code: " + str(upload_first_file_response.status_code))
 
 
-with open('/path/to/second_file', 'rb') as f:
+with open('/path/to/second_file', 'rb') as f: # Note that the full file name plus extension needs to be reflected in 'Content-Filename below'
     upload_second_file_data = f.read()
 
 print("Uploading second file...")
 upload_second_file_response = requests.post(url='https://api.pdfrest.com/upload',
                     data=upload_second_file_data,
-                    headers={'Content-Type': 'application/octet-stream', 'content-filename': 'second_file.png', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
+                    headers={'Content-Type': 'application/octet-stream', 'content-filename': 'second_file', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
 
 print("Second upload response status code: " + str(upload_second_file_response.status_code))
 
