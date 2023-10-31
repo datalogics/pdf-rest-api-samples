@@ -6,5 +6,5 @@ for accepted inputs, options, and other specifics about individual endpoints.
 
 Using Python3:
 
-1. `cd 'Python/Endpoint Examples/JSON Payload/`
+1. `cd 'Python/Endpoint Examples/JSON Payload/'`
 2. `python name-of-sample-program.py`
