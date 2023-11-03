@@ -16,7 +16,7 @@ UPLOAD_DATA_FILE_ID=$(curl --location 'https://api.pdfrest.com/upload' \
 
 echo "Data file successfully uploaded with an ID of: $UPLOAD_DATA_FILE_ID"
 
-curl 'https://api.pdfrest.com/pdf-with-added-image' \
+curl 'https://api.pdfrest.com/pdf-with-imported-form-data' \
 --header 'Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' \
 --header 'Content-Type: application/json' \
 --data-raw "{ \"id\": \"$UPLOAD_PDF_FILE_ID\", \"data_file_id\": \"$UPLOAD_DATA_FILE_ID\"}" | jq -r '.'
