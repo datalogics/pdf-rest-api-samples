@@ -14,7 +14,7 @@ mp_encoder_exportedFormData = MultipartEncoder(
     }
 )
 
-# Let's set the headers that the encrypted-pdf endpoint expects.
+# Let's set the headers that the exported-form-data endpoint expects.
 # Since MultipartEncoder is used, the 'Content-Type' header gets set to 'multipart/form-data' via the content_type attribute below.
 headers = {
     'Accept': 'application/json',

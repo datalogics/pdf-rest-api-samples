@@ -1,6 +1,5 @@
 /**
- * This request demonstrates how to apply a file watermark to a PDF. This kind of watermark uses another PDF (using either watermark_file or watermark_file_id as a form-data parameter) and applies it as a watermark to the primary input document (file or id).
- * Horizontal and vertical offsets of the watermark are measured in PDF units. (1 inch = 72 PDF units)
+ * This request demonstrates how to apply an image to a PDF. Horizontal and vertical offsets of the image are measured in PDF units. (1 inch = 72 PDF units)
  */
 var axios = require('axios');
 var FormData = require('form-data');
