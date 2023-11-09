@@ -22,14 +22,18 @@ $options = [
       ]
     ],
     [
+      'name' => 'watermark_text', // Specify the field name for the output option.
+      'contents' => 'TEXT' // Set the value for the watermark_text option (in this case, 'TEXT').
+    ]
+    [
       'name' => 'output', // Specify the field name for the output option.
-      'contents' => 'pdfrest_flattened_pdf' // Set the value for the output option (in this case, 'pdfrest_flattened_pdf').
+      'contents' => 'pdfrest_watermarked_pdf' // Set the value for the output option (in this case, 'pdfrest_watermarked_pdf').
     ]
   ]
 ];
 
-$request = new Request('POST', 'https://api.pdfrest.com/flattened-layers-pdf', $headers); // Create a new HTTP POST request with the API endpoint and headers.
+$request = new Request('POST', 'https://api.pdfrest.com/watermarked-pdf', $headers); // Create a new HTTP POST request with the API endpoint and headers.
 
 $res = $client->sendAsync($request, $options)->wait(); // Send the asynchronous request and wait for the response.
 
-echo $res->getBody(); // Output the response body, which contains the flattened layers PDF content.
+echo $res->getBody(); // Output the response body, which contains the watermarked PDF content.

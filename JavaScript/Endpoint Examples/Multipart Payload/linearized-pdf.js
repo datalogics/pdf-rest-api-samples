@@ -1,7 +1,7 @@
-// This request demonstrates how to flatten transparencies in a PDF.
 var axios = require('axios');
 var FormData = require('form-data');
 var fs = require('fs');
+// This request demonstrates how to liearize a PDF for fast web viewing.
 
 // Create a new form data instance and append the PDF file and parameters to it
 var data = new FormData();

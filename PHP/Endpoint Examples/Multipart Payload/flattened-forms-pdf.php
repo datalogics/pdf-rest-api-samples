@@ -21,7 +21,7 @@ $options = [
     ],
     [
       'name' => 'output',
-      'contents' => '' // Specify the output type (e.g., 'pdfrest_flattened_form', 'pdfrest_flattened_annotations', etc.)
+      'contents' => 'pdfrest_flattened_pdf' // Specify the output name for the file
     ]
 ]];
 

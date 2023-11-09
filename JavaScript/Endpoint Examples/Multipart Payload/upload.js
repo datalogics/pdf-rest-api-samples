@@ -1,7 +1,7 @@
-// This request demonstrates how to upload . 
 var axios = require('axios');
 var FormData = require('form-data');
 var fs = require('fs');
+// This request demonstrates how to upload a document to the service.
 
 // Create a new form data object and append the PDF file and parameters to it
 var data = new FormData();
