@@ -12,6 +12,7 @@ from tenacity import (
 
 
 openai.api_key = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"  # place your OpenAI API Key here
+pdfRest_api_key = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'  # place your pdfRest API Key here
 extract_text_endpoint_url = 'https://api.pdfrest.com/extracted-text'
 query_prompt = ('Assuming the following text is from a PDF Document, derive a relatively short summary of the '
                 'contents. \n\n')
@@ -46,7 +47,7 @@ mp_encoder_extractText = MultipartEncoder(
 headers = {
     'Accept': 'application/json',
     'Content-Type': mp_encoder_extractText.content_type,
-    'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'  # place your api key here
+    'Api-Key': pdfRest_api_key
 }
 
 # Send the POST request to the /extracted-text endpoint
