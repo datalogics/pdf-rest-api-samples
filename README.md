@@ -14,7 +14,8 @@ pdfRest is a REST API Toolkit for developers with all of the API Tools you'll ne
 | **[Decrypt PDF](https://pdfrest.com/apitoolkit/encrypt-pdf/)**     | **[Unrestrict PDF](https://pdfrest.com/apitoolkit/restrict-pdf/)**                   | **[Add to PDF](https://pdfrest.com/apitoolkit/add-to-pdf/)**       | **[PDF to Images](https://pdfrest.com/apitoolkit/pdf-to-images/)**         |
 | **[Watermark PDF](https://pdfrest.com/apitoolkit/watermark-pdf/)** | **[Flatten Transparencies](https://pdfrest.com/apitoolkit/flatten-transparencies/)** | **[Flatten Annotations](https://pdfrest.com/apitoolkit/flatten-annotations/)** | **[Flatten Layers](https://pdfrest.com/apitoolkit/flatten-layers/)** |
 **[Query PDF](https://pdfrest.com/apitoolkit/query-pdf/)**           | **[Linearize PDF](https://pdfrest.com/apitoolkit/linearize-pdf/)**   | **[Upload Files](https://pdfrest.com/apitoolkit/upload-files/)**                   | **[Zip Files](https://pdfrest.com/apitoolkit/zip-files/)**
-| **[Flatten Forms](https://pdfrest.com/apitoolkit/flatten-forms/)** | **[Import Form Data](https://pdfrest.com/apitoolkit/import-form-data/)** | **[Export Form Data](https://pdfrest.com/apitoolkit/export-form-data/)** | **[Extract Text](https://pdfrest.com/apitoolkit/extract-text/)**
+| **[Flatten Forms](https://pdfrest.com/apitoolkit/flatten-forms/)** | **[Import Form Data](https://pdfrest.com/apitoolkit/import-form-data/)** | **[Export Form Data](https://pdfrest.com/apitoolkit/export-form-data/)** | **[Extract Text](https://pdfrest.com/apitoolkit/extract-text/)** |
+| **[PDF to Word](https://pdfrest.com/apitoolkit/pdf-to-word/)** | **[PDF to Excel](https://pdfrest.com/apitoolkit/pdf-to-excel/)** | **[PDF to PowerPoint](https://pdfrest.com/apitoolkit/pdf-to-powerpoint/)** | | 
 
 <br>
 
