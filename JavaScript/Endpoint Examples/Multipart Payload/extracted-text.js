@@ -6,6 +6,7 @@ var fs = require("fs");
 // Create a new form data instance and append the PDF file and parameters to it
 var data = new FormData();
 data.append("file", fs.createReadStream("/path/to/file"));
+data.append("word_style", "on");
 
 // define configuration options for axios request
 var config = {
