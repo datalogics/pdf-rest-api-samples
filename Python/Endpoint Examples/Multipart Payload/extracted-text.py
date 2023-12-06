@@ -9,6 +9,7 @@ extract_text_endpoint_url = 'https://api.pdfrest.com/extracted-text'
 mp_encoder_extractText = MultipartEncoder(
     fields={
         'file': ('file_name.pdf', open('/path/to/file', 'rb'), 'application/pdf'),
+        'word_style': 'on',
     }
 )
 
