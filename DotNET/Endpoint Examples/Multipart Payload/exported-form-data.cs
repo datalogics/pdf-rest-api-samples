@@ -16,6 +16,9 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
         var byteArrayOption = new ByteArrayContent(Encoding.UTF8.GetBytes("xml"));
         multipartContent.Add(byteArrayOption, "data_format");
 
+        var byteArrayOption2 = new ByteArrayContent(Encoding.UTF8.GetBytes("extracted"));
+        multipartContent.Add(byteArrayOption2, "output");
+
 
         request.Content = multipartContent;
         var response = await httpClient.SendAsync(request);
