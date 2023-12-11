@@ -6,11 +6,11 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Utils;
 
-/* In this sample we will show how to optimize a word file for long term preservation
+/* In this sample, we will show how to optimize a Word file for long-term preservation
 * as discussed in https://pdfrest.com/solutions/optimize-word-excel-and-powerpoint-files-for-long-term-preservation/
-* We will take our word (or excel or powerpoint) document and first convert it to
-* a PDF with a call to the /pdf route. Then we will take that converted PDF
-* and convert it to the PDF/A format for long term storage.
+* We will take our Word (or Excel or PowerPoint) document and first convert it to
+* a PDF with a call to the /pdf route. Then, we will take that converted PDF
+* and convert it to the PDF/A format for long-term storage.
 */
 
 

@@ -2,13 +2,13 @@ from requests_toolbelt import MultipartEncoder
 import requests
 import json
 
-# In this sample we will show how attach an xml document to a PDF file and then
-# convert the file with the attachment to conform to the PDF/A standard which
+# In this sample, we will show how to attach an xml document to a PDF file and then
+# convert the file with the attachment to conform to the PDF/A standard, which
 # can be useful for invoicing and standards compliance. We will be running the
-#input document through /pdf-with-added-attachment to add the attachment and
+# input document through /pdf-with-added-attachment to add the attachment and
 # then /pdfa to do the PDF/A conversion.
 
-# Note that there is nothing special about attaching an xml file, and any approprite
+# Note that there is nothing special about attaching an xml file, and any appropriate
 # file may be attached and wrapped into the PDF/A conversion.
 
 pdf_with_added_attachment_endpoint_url = 'https://api.pdfrest.com/pdf-with-added-attachment'

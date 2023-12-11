@@ -1,9 +1,9 @@
 #!/bin/sh
 
-# In this sample we will show how to to watermark a PDF document and then restrict
-# editing on the document so that the watermark cannot be removed as discussed in
+# In this sample, we will show how to watermark a PDF document and then restrict
+# editing on the document so that the watermark cannot be removed, as discussed in
 # https://pdfrest.com/solutions/add-pdf-watermarks-that-cannot-be-removed/.
-# We will be running the input file through watermarked-pdf to apply the watermark
+# We will be running the input file through /watermarked-pdf to apply the watermark
 # and then /restricted-pdf to lock the watermark in.
 
 WATERMARKED_ID=$(curl -X POST "https://api.pdfrest.com/watermarked-pdf" \

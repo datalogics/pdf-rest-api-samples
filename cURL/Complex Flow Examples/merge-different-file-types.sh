@@ -1,15 +1,15 @@
 #!/bin/sh
 
-# In this sample we will show how to merge different file types together as
+# In this sample, we will show how to merge different file types together as
 # discussed in https://pdfrest.com/solutions/merge-multiple-types-of-files-together/.
-# Specifically we will be uploadng an image file to the /pdf route and capturing
-# the output ID, uploading a powerpoint file to the /pdf route and capturing the
-# output ID and then passing both of those IDs to the /merged-pdf route to get
-# a singular output PDF combining the two inputs
-
-# Note that there is nothing special about an image and a powepoint file and
+# First, we will upload an image file to the /pdf route and capture the output ID.
+# Next, we will upload a PowerPoint file to the /pdf route and capture its output
+# ID. Finally, we will pass both IDs to the /merged-pdf route to combine both inputs
+# into a single PDF.
+#
+# Note that there is nothing special about an image and a PowerPoint file, and
 # this sample could be easily used to convert and combine any two file types
-# that the /pdf route takes as inputs
+# that the /pdf route takes as inputs.
 
 IMAGE_ID=$(curl -X POST "https://api.pdfrest.com/pdf" \
   -H "Accept: application/json" \

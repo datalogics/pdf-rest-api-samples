@@ -2,7 +2,7 @@ var axios = require("axios");
 var FormData = require("form-data");
 var fs = require("fs");
 
-/* In this sample we will show how to take an encrypted file and decrypt, modify
+/* In this sample, we will show how to take an encrypted file and decrypt, modify
  * and re-encrypt it to create an encryption-at-rest solution as discussed in
  * https://pdfrest.com/solutions/create-secure-document-workflows-with-pdf-password-protection/
  * We will be running the document through /decrypted-pdf to open the document
