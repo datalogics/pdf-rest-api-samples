@@ -13,6 +13,9 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
         multipartContent.Add(byteAryContent, "file", "file_name");
         byteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/pdf");
 
+        var byteArrayOption = new ByteArrayContent(Encoding.UTF8.GetBytes("converted"));
+        multipartContent.Add(byteArrayOption, "output");
+
 
         request.Content = multipartContent;
         var response = await httpClient.SendAsync(request);

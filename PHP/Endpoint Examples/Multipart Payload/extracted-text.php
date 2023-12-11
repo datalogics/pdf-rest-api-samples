@@ -20,6 +20,10 @@ $options = [
       'headers' => [
         'Content-Type' => '<Content-type header>' // Set the Content-Type header for the file.
       ]
+    ],
+    [
+      'name' => 'word_style', // Specify the field name for the word_style option.
+      'contents' => 'on' // Set the value for the output option (in this case, 'on').
     ]
   ]
 ];

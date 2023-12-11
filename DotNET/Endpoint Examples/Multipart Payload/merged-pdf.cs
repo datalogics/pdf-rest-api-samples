@@ -29,6 +29,9 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
         var byteArrayOption4 = new ByteArrayContent(Encoding.UTF8.GetBytes("all"));
         multipartContent.Add(byteArrayOption4, "pages[]");
 
+        var byteArrayOption5 = new ByteArrayContent(Encoding.UTF8.GetBytes("merged"));
+        multipartContent.Add(byteArrayOption5, "output");
+
         request.Content = multipartContent;
         var response = await httpClient.SendAsync(request);
 
