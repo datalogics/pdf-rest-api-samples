@@ -14,6 +14,8 @@ import json
 # this sample could be easily used to convert and combine any two file types
 # that the /pdf route takes as inputs.
 
+api_key = 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+
 pdf_endpoint_url = 'https://api.pdfrest.com/pdf'
 mp_encoder_image_pdf = MultipartEncoder(
     fields={
@@ -24,7 +26,7 @@ mp_encoder_image_pdf = MultipartEncoder(
 image_headers = {
     'Accept': 'application/json',
     'Content-Type': mp_encoder_image_pdf.content_type,
-    'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+    'Api-Key': api_key
 }
 
 print("Sending POST request to pdf endpoint...")
@@ -49,7 +51,7 @@ if response.ok:
     ppt_headers = {
         'Accept': 'application/json',
         'Content-Type': mp_encoder_ppt_pdf.content_type,
-        'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+        'Api-Key': api_key
     }
 
     print("Sending POST request to pdf endpoint...")
@@ -73,7 +75,7 @@ if response.ok:
         merge_headers = {
             'Accept': 'application/json',
             'Content-Type': mp_encoder_merge.content_type,
-            'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+            'Api-Key': api_key
         }
 
         print("Sending POST request to merged-pdf endpoint...")

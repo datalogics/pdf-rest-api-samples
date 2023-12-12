@@ -11,6 +11,8 @@ import json
 # Note that there is nothing special about attaching an xml file, and any appropriate
 # file may be attached and wrapped into the PDF/A conversion.
 
+api_key = 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+
 pdf_with_added_attachment_endpoint_url = 'https://api.pdfrest.com/pdf-with-added-attachment'
 
 mp_encoder_pdfWithAddedAttachment = MultipartEncoder(
@@ -24,7 +26,7 @@ mp_encoder_pdfWithAddedAttachment = MultipartEncoder(
 attachment_headers = {
     'Accept': 'application/json',
     'Content-Type': mp_encoder_pdfWithAddedAttachment.content_type,
-    'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+    'Api-Key': api_key
 }
 
 print("Sending POST request to pdf-with-added-attachment endpoint...")
@@ -50,7 +52,7 @@ if response.ok:
     headers = {
         'Accept': 'application/json',
         'Content-Type': mp_encoder_pdfa.content_type,
-        'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+        'Api-Key': api_key
     }
 
     print("Sending POST request to pdfa endpoint...")

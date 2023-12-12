@@ -11,6 +11,8 @@ var fs = require("fs");
  * lock it up again.
  */
 
+var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Replace with your API key
+
 var decryptRequestData = new FormData();
 decryptRequestData.append("file", fs.createReadStream("/path/to/file.pdf"));
 decryptRequestData.append("current_open_password", "current_example_pw");
@@ -20,7 +22,7 @@ var decryptConfig = {
   maxBodyLength: Infinity,
   url: "https://api.pdfrest.com/decrypted-pdf",
   headers: {
-    "Api-Key": "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Replace with your API key
+    "Api-Key": apiKey,
     ...decryptRequestData.getHeaders(),
   },
   data: decryptRequestData,
@@ -41,7 +43,7 @@ axios(decryptConfig)
       maxBodyLength: Infinity,
       url: "https://api.pdfrest.com/pdf-with-added-image",
       headers: {
-        "Api-Key": "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Replace with your API key
+        "Api-Key": apiKey,
         ...data.getHeaders(),
       },
       data: data,
@@ -58,7 +60,7 @@ axios(decryptConfig)
           maxBodyLength: Infinity,
           url: "https://api.pdfrest.com/encrypted-pdf",
           headers: {
-            "Api-Key": "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Replace with your API key
+            "Api-Key": apiKey,
             ...data.getHeaders(),
           },
           data: data,

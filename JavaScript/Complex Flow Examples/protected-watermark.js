@@ -9,6 +9,8 @@ var fs = require("fs");
  * and then /restricted-pdf to lock the watermark in.
  */
 
+var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Replace with your API key
+
 var watermarkData = new FormData();
 watermarkData.append("file", fs.createReadStream("/path/to/file.pdf"));
 watermarkData.append("watermark_text", "Watermarked");
@@ -18,7 +20,7 @@ var watermarkConfig = {
   maxBodyLength: Infinity,
   url: "https://api.pdfrest.com/watermarked-pdf",
   headers: {
-    "Api-Key": "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Replace with your API key
+    "Api-Key": apiKey,
     ...watermarkData.getHeaders(),
   },
   data: watermarkData,
@@ -40,7 +42,7 @@ axios(watermarkConfig)
       maxBodyLength: Infinity,
       url: "https://api.pdfrest.com/restricted-pdf",
       headers: {
-        "Api-Key": "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Replace with your API key
+        "Api-Key": apiKey,
         ...data.getHeaders(),
       },
       data: data,

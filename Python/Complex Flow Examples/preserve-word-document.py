@@ -8,6 +8,7 @@ import json
 # a PDF with a call to the /pdf route. Then, we will take that converted PDF
 # and convert it to the PDF/A format for long-term storage.
 
+api_key = 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
 
 pdf_endpoint_url = 'https://api.pdfrest.com/pdf'
 
@@ -20,7 +21,7 @@ mp_encoder_pdf = MultipartEncoder(
 pdf_headers = {
     'Accept': 'application/json',
     'Content-Type': mp_encoder_pdf.content_type,
-    'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+    'Api-Key': api_key
 }
 
 print("Sending POST request to pdf endpoint...")
@@ -47,7 +48,7 @@ if response.ok:
     headers = {
         'Accept': 'application/json',
         'Content-Type': mp_encoder_pdfa.content_type,
-        'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+        'Api-Key': api_key
     }
 
     print("Sending POST request to pdfa endpoint...")

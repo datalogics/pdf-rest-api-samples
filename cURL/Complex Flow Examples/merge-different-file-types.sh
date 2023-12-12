@@ -11,10 +11,12 @@
 # this sample could be easily used to convert and combine any two file types
 # that the /pdf route takes as inputs.
 
+API_KEY="xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" # place your api key here
+
 IMAGE_ID=$(curl -X POST "https://api.pdfrest.com/pdf" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
-  -H "Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" \
+  -H "Api-Key: $API_KEY" \
   -F "file=@/path/to/file.png" \
   -F "output=example_out" \
   | jq -r '.outputId')
@@ -23,7 +25,7 @@ IMAGE_ID=$(curl -X POST "https://api.pdfrest.com/pdf" \
 PPT_ID=$(curl -X POST "https://api.pdfrest.com/pdf" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
-  -H "Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" \
+  -H "Api-Key: $API_KEY" \
   -F "file=@/path/to/powerpoint.ppt" \
   -F "output=example_out" \
   | jq -r '.outputId')
@@ -32,7 +34,7 @@ PPT_ID=$(curl -X POST "https://api.pdfrest.com/pdf" \
 curl -X POST "https://api.pdfrest.com/merged-pdf" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
-  -H "Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" \
+  -H "Api-Key: $API_KEY" \
   -F "id=$IMAGE_ID" \
   -F "pages[]=all" -F "type[]=id" \
   -F "id=$PPT_ID" \

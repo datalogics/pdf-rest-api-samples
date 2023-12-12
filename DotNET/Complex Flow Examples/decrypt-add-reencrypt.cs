@@ -10,11 +10,13 @@ using System.Text;
 * lock it up again.
 */
 
+var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Your API key here
+
 using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfrest.com") })
 {
     using (var decryptRequest = new HttpRequestMessage(HttpMethod.Post, "decrypted-pdf"))
     {
-        decryptRequest.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
+        decryptRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
         decryptRequest.Headers.Accept.Add(new("application/json"));
         var decryptMultipartContent = new MultipartFormDataContent();
 
@@ -41,7 +43,7 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
 
         using (var addImageRequest = new HttpRequestMessage(HttpMethod.Post, "pdf-with-added-image"))
         {
-            addImageRequest.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
+            addImageRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
             addImageRequest.Headers.Accept.Add(new("application/json"));
             var addImageMultipartContent = new MultipartFormDataContent();
 
@@ -74,7 +76,7 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
 
             using (var encryptRequest = new HttpRequestMessage(HttpMethod.Post, "encrypted-pdf"))
             {
-                encryptRequest.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
+                encryptRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
                 encryptRequest.Headers.Accept.Add(new("application/json"));
                 var multipartContent = new MultipartFormDataContent();
 

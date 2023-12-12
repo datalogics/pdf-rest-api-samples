@@ -9,11 +9,13 @@ using System.Text;
 * and then /restricted-pdf to lock the watermark in.
 */
 
+var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Your API key here
+
 using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfrest.com") })
 {
     using (var watermarkRequest = new HttpRequestMessage(HttpMethod.Post, "watermarked-pdf"))
     {
-        watermarkRequest.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"); // Your API key here
+        watermarkRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
         watermarkRequest.Headers.Accept.Add(new("application/json"));
         var watermarkMultipartContent = new MultipartFormDataContent();
 
@@ -37,7 +39,7 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
 
         using (var restrictRequest = new HttpRequestMessage(HttpMethod.Post, "restricted-pdf"))
         {
-            restrictRequest.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"); // Your API key here
+            restrictRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
             restrictRequest.Headers.Accept.Add(new("application/json"));
             var restrictMultipartContent = new MultipartFormDataContent();
 

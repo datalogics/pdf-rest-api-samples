@@ -8,11 +8,13 @@ using System.Text;
 * and convert it to the PDF/A format for long-term storage.
 */
 
+var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Your API key here
+
 using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfrest.com") })
 {
     using (var pdfRequest = new HttpRequestMessage(HttpMethod.Post, "pdf"))
     {
-        pdfRequest.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"); // Your API key here
+        pdfRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
         pdfRequest.Headers.Accept.Add(new("application/json"));
         var pdfMultipartContent = new MultipartFormDataContent();
 
@@ -33,7 +35,7 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
 
         using (var request = new HttpRequestMessage(HttpMethod.Post, "pdfa"))
         {
-            request.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"); // Your API key here
+            request.Headers.TryAddWithoutValidation("Api-Key", apiKey);
             request.Headers.Accept.Add(new("application/json"));
             var multipartContent = new MultipartFormDataContent();
 

@@ -8,10 +8,12 @@
 # and then sending the output with the new image through /encrypted-pdf to
 # lock it up again.
 
+API_KEY="xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" # place your api key here
+
 DECRYPTED_ID=$(curl -X POST "https://api.pdfrest.com/decrypted-pdf" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
-  -H "Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" \
+  -H "Api-Key: $API_KEY" \
   -F "file=@/path/to/file.pdf" \
   -F "output=example_out" \
   -F "current_open_password=password" \
@@ -21,7 +23,7 @@ DECRYPTED_ID=$(curl -X POST "https://api.pdfrest.com/decrypted-pdf" \
 ADDED_IMAGE_ID=$(curl -X POST "https://api.pdfrest.com/pdf-with-added-image" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
-  -H "Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" \
+  -H "Api-Key: $API_KEY" \
   -F "id=$DECRYPTED_ID" \
   -F "image_file=@/path/to/image.png" \
   -F "output=example_out" \
@@ -34,7 +36,7 @@ ADDED_IMAGE_ID=$(curl -X POST "https://api.pdfrest.com/pdf-with-added-image" \
 curl -X POST "https://api.pdfrest.com/encrypted-pdf" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
-  -H "Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" \
+  -H "Api-Key: $API_KEY" \
   -F "id=$ADDED_IMAGE_ID" \
   -F "output=example_out" \
   -F "new_open_password=password"

@@ -13,11 +13,13 @@ First, we will upload an image file to the /pdf route and capture the output ID.
 * that the /pdf route takes as inputs.
 */
 
+var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Your API key here
+
 using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfrest.com") })
 {
     using (var imageRequest = new HttpRequestMessage(HttpMethod.Post, "pdf"))
     {
-        imageRequest.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"); // Your API key here
+        imageRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
         imageRequest.Headers.Accept.Add(new("application/json"));
         var imageMultipartContent = new MultipartFormDataContent();
 
@@ -38,7 +40,7 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
 
         using (var powerpointRequest = new HttpRequestMessage(HttpMethod.Post, "pdf"))
         {
-            powerpointRequest.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"); // Your API key here
+            powerpointRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
             powerpointRequest.Headers.Accept.Add(new("application/json"));
             var powerpointMultipartContent = new MultipartFormDataContent();
 
@@ -59,7 +61,7 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
 
             using (var request = new HttpRequestMessage(HttpMethod.Post, "merged-pdf"))
             {
-                request.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
+                request.Headers.TryAddWithoutValidation("Api-Key", apiKey);
                 request.Headers.Accept.Add(new("application/json"));
                 var multipartContent = new MultipartFormDataContent();
 

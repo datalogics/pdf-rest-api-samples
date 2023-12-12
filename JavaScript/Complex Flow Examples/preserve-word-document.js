@@ -9,6 +9,8 @@ var fs = require("fs");
  * and convert it to the PDF/A format for long-term storage.
  */
 
+var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Replace with your API key
+
 var pdfData = new FormData();
 pdfData.append("file", fs.createReadStream("/path/to/word.doc"));
 
@@ -17,7 +19,7 @@ var pdfConfig = {
   maxBodyLength: Infinity,
   url: "https://api.pdfrest.com/pdf",
   headers: {
-    "Api-Key": "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Replace with your API key
+    "Api-Key": apiKey,
     ...pdfData.getHeaders(),
   },
   data: pdfData,
@@ -37,7 +39,7 @@ axios(pdfConfig)
       maxBodyLength: Infinity,
       url: "https://api.pdfrest.com/pdfa",
       headers: {
-        "Api-Key": "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Replace with your API key
+        "Api-Key": apiKey,
         ...pdfaData.getHeaders(),
       },
       data: pdfaData,

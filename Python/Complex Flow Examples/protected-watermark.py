@@ -9,6 +9,8 @@ import json
 # We will be running the input file through /watermarked-pdf to apply the watermark
 # and then /restricted-pdf to lock the watermark in.
 
+api_key = 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+
 watermarked_pdf_endpoint_url = 'https://api.pdfrest.com/watermarked-pdf'
 
 mp_encoder_watermarkedPDF = MultipartEncoder(
@@ -21,7 +23,7 @@ mp_encoder_watermarkedPDF = MultipartEncoder(
 watermark_headers = {
     'Accept': 'application/json',
     'Content-Type': mp_encoder_watermarkedPDF.content_type,
-    'Api-Key': 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+    'Api-Key': api_key
 }
 
 print("Sending POST request to watermarked-pdf endpoint...")
@@ -50,7 +52,7 @@ if response.ok:
     restrict_headers = {
         'Accept': 'application/json',
         'Content-Type': mp_encoder_restrictedPdf.content_type,
-        'Api-Key': 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+        'Api-Key': api_key
     }
 
     print("Sending POST request to restricted-pdf endpoint...")

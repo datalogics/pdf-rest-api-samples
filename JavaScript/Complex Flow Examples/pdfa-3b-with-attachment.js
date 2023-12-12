@@ -12,6 +12,8 @@ var fs = require("fs");
 * file may be attached and wrapped into the PDF/A conversion.
 */
 
+var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Replace with your API key
+
 var attachData = new FormData();
 attachData.append("file", fs.createReadStream("/path/to/file.pdf"));
 attachData.append(
@@ -25,7 +27,7 @@ var attachConfig = {
   maxBodyLength: Infinity,
   url: "https://api.pdfrest.com/pdf-with-added-attachment",
   headers: {
-    "Api-Key": "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Replace with your API key
+    "Api-Key": apiKey,
     ...attachData.getHeaders(),
   },
   data: attachData,
@@ -45,7 +47,7 @@ axios(attachConfig)
       maxBodyLength: Infinity,
       url: "https://api.pdfrest.com/pdfa",
       headers: {
-        "Api-Key": "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Replace with your API key
+        "Api-Key": apiKey,
         ...pdfaData.getHeaders(),
       },
       data: pdfaData,

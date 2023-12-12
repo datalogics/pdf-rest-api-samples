@@ -10,6 +10,8 @@ import json
 # and then sending the output with the new image through /encrypted-pdf to
 # lock it up again.
 
+api_key = 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+
 decrypted_pdf_endpoint_url = 'https://api.pdfrest.com/decrypted-pdf'
 
 mp_encoder_decryptedPdf = MultipartEncoder(
@@ -22,7 +24,7 @@ mp_encoder_decryptedPdf = MultipartEncoder(
 decrypt_headers = {
     'Accept': 'application/json',
     'Content-Type': mp_encoder_decryptedPdf.content_type,
-    'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+    'Api-Key': api_key
 }
 
 print("Sending POST request to decrypted-pdf endpoint...")
@@ -50,7 +52,7 @@ if response.ok:
     add_image_headers = {
         'Accept': 'application/json',
         'Content-Type': mp_encoder_pdfWithAddedImage.content_type,
-        'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+        'Api-Key': api_key
     }
 
     print("Sending POST request to pdf-with-added-image endpoint...")
@@ -75,7 +77,7 @@ if response.ok:
         encrypt_headers = {
             'Accept': 'application/json',
             'Content-Type': mp_encoder_encryptedPdf.content_type,
-            'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+            'Api-Key': api_key
         }
 
         print("Sending POST request to encrypted-pdf endpoint...")

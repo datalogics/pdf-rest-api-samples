@@ -11,11 +11,13 @@ using System.Text;
 * file may be attached and wrapped into the PDF/A conversion.
 */
 
+var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Your API key here
+
 using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfrest.com") })
 {
     using (var attachRequest = new HttpRequestMessage(HttpMethod.Post, "pdf-with-added-attachment"))
     {
-        attachRequest.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");  // Your API key here
+        attachRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
         attachRequest.Headers.Accept.Add(new("application/json"));
         var attachMultipartContent = new MultipartFormDataContent();
 
@@ -27,7 +29,7 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
         var byteArray2 = File.ReadAllBytes("/path/to/file.xml");
         var byteAryContent2 = new ByteArrayContent(byteArray2);
         attachMultipartContent.Add(byteAryContent2, "file_to_attach", "file_name.xml");
-        byteAryContent2.Headers.TryAddWithoutValidation("Content-Type", "application/xml"); // Update content type
+        byteAryContent2.Headers.TryAddWithoutValidation("Content-Type", "application/xml");
 
         attachRequest.Content = attachMultipartContent;
         var attachResponse = await httpClient.SendAsync(attachRequest);
@@ -41,7 +43,7 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
 
         using (var request = new HttpRequestMessage(HttpMethod.Post, "pdfa"))
         {
-            request.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"); // Your API key here
+            request.Headers.TryAddWithoutValidation("Api-Key", apiKey);
             request.Headers.Accept.Add(new("application/json"));
             var multipartContent = new MultipartFormDataContent();
 

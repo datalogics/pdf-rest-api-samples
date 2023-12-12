@@ -14,6 +14,8 @@ First, we will upload an image file to the /pdf route and capture the output ID.
 * that the /pdf route takes as inputs.
 */
 
+var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Replace with your API key
+
 var imageData = new FormData();
 imageData.append("file", fs.createReadStream("/path/to/image.png"));
 
@@ -22,7 +24,7 @@ var imageConfig = {
   maxBodyLength: Infinity,
   url: "https://api.pdfrest.com/pdf",
   headers: {
-    "Api-Key": "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Replace with your API key
+    "Api-Key": apiKey,
     ...imageData.getHeaders(),
   },
   data: imageData,
@@ -40,7 +42,7 @@ axios(imageConfig)
       maxBodyLength: Infinity,
       url: "https://api.pdfrest.com/pdf",
       headers: {
-        "Api-Key": "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Replace with your API key
+        "Api-Key": apiKey,
         ...pptData.getHeaders(),
       },
       data: pptData,
@@ -64,7 +66,7 @@ axios(imageConfig)
           maxBodyLength: Infinity,
           url: "https://api.pdfrest.com/merged-pdf",
           headers: {
-            "Api-Key": "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Replace with your API key
+            "Api-Key": apiKey,
             ...mergeData.getHeaders(),
           },
           data: mergeData,
