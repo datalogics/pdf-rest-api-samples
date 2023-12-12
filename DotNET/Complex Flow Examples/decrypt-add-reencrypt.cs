@@ -14,87 +14,86 @@ var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Your API key here
 
 using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfrest.com") })
 {
-    using (var decryptRequest = new HttpRequestMessage(HttpMethod.Post, "decrypted-pdf"))
-    {
-        decryptRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
-        decryptRequest.Headers.Accept.Add(new("application/json"));
-        var decryptMultipartContent = new MultipartFormDataContent();
+    // Begin decryption
+    var decryptRequest = new HttpRequestMessage(HttpMethod.Post, "decrypted-pdf");
 
-        var byteArray = File.ReadAllBytes("/path/to/file.pdf");
-        var byteAryContent = new ByteArrayContent(byteArray);
-        decryptMultipartContent.Add(byteAryContent, "file", "file.pdf");
-        byteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/pdf");
+    decryptRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+    decryptRequest.Headers.Accept.Add(new("application/json"));
+    var decryptMultipartContent = new MultipartFormDataContent();
 
-        var byteArrayOption = new ByteArrayContent(Encoding.UTF8.GetBytes("password"));
-        decryptMultipartContent.Add(byteArrayOption, "current_open_password");
+    var byteArray = File.ReadAllBytes("/path/to/file.pdf");
+    var byteAryContent = new ByteArrayContent(byteArray);
+    decryptMultipartContent.Add(byteAryContent, "file", "file.pdf");
+    byteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/pdf");
 
-
-        decryptRequest.Content = decryptMultipartContent;
-        var decryptResponse = await httpClient.SendAsync(decryptRequest);
-
-        var decryptResult = await decryptResponse.Content.ReadAsStringAsync();
-
-        Console.WriteLine("Decrypt response received.");
-        Console.WriteLine(decryptResult);
-
-        dynamic decryptJson = JObject.Parse(decryptResult);
-        string decryptID = decryptJson.outputId;
+    var byteArrayOption = new ByteArrayContent(Encoding.UTF8.GetBytes("password"));
+    decryptMultipartContent.Add(byteArrayOption, "current_open_password");
 
 
-        using (var addImageRequest = new HttpRequestMessage(HttpMethod.Post, "pdf-with-added-image"))
-        {
-            addImageRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
-            addImageRequest.Headers.Accept.Add(new("application/json"));
-            var addImageMultipartContent = new MultipartFormDataContent();
+    decryptRequest.Content = decryptMultipartContent;
+    var decryptResponse = await httpClient.SendAsync(decryptRequest);
 
-            var addImageId = new ByteArrayContent(Encoding.UTF8.GetBytes(decryptID));
-            addImageMultipartContent.Add(addImageId, "id");
+    var decryptResult = await decryptResponse.Content.ReadAsStringAsync();
 
-            var addImageImage = File.ReadAllBytes("/path/to/file.png");
-            var imageContent = new ByteArrayContent(addImageImage);
-            addImageMultipartContent.Add(imageContent, "image_file", "file_name.png");
-            imageContent.Headers.TryAddWithoutValidation("Content-Type", "image/png");
+    Console.WriteLine("Decrypt response received.");
+    Console.WriteLine(decryptResult);
 
-            var addImagePage = new ByteArrayContent(Encoding.UTF8.GetBytes("1"));
-            addImageMultipartContent.Add(addImagePage, "page");
+    dynamic decryptJson = JObject.Parse(decryptResult);
+    string decryptID = decryptJson.outputId;
 
-            var addImageX = new ByteArrayContent(Encoding.UTF8.GetBytes("0"));
-            addImageMultipartContent.Add(addImageX, "x");
-            var addImageY = new ByteArrayContent(Encoding.UTF8.GetBytes("0"));
-            addImageMultipartContent.Add(addImageY, "y");
+    // Begin add image
+    var addImageRequest = new HttpRequestMessage(HttpMethod.Post, "pdf-with-added-image");
 
-            addImageRequest.Content = addImageMultipartContent;
-            var addImageResponse = await httpClient.SendAsync(addImageRequest);
+    addImageRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+    addImageRequest.Headers.Accept.Add(new("application/json"));
+    var addImageMultipartContent = new MultipartFormDataContent();
 
-            var addImageResult = await addImageResponse.Content.ReadAsStringAsync();
+    var addImageId = new ByteArrayContent(Encoding.UTF8.GetBytes(decryptID));
+    addImageMultipartContent.Add(addImageId, "id");
 
-            Console.WriteLine("Add image response received.");
-            Console.WriteLine(addImageResult);
+    var addImageImage = File.ReadAllBytes("/path/to/file.png");
+    var imageContent = new ByteArrayContent(addImageImage);
+    addImageMultipartContent.Add(imageContent, "image_file", "file_name.png");
+    imageContent.Headers.TryAddWithoutValidation("Content-Type", "image/png");
 
-            dynamic addImageJson = JObject.Parse(addImageResult);
-            string addImageID = addImageJson.outputId;
+    var addImagePage = new ByteArrayContent(Encoding.UTF8.GetBytes("1"));
+    addImageMultipartContent.Add(addImagePage, "page");
 
-            using (var encryptRequest = new HttpRequestMessage(HttpMethod.Post, "encrypted-pdf"))
-            {
-                encryptRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
-                encryptRequest.Headers.Accept.Add(new("application/json"));
-                var multipartContent = new MultipartFormDataContent();
+    var addImageX = new ByteArrayContent(Encoding.UTF8.GetBytes("0"));
+    addImageMultipartContent.Add(addImageX, "x");
+    var addImageY = new ByteArrayContent(Encoding.UTF8.GetBytes("0"));
+    addImageMultipartContent.Add(addImageY, "y");
 
-                var encryptID = new ByteArrayContent(Encoding.UTF8.GetBytes(addImageID));
-                multipartContent.Add(encryptID, "id");
+    addImageRequest.Content = addImageMultipartContent;
+    var addImageResponse = await httpClient.SendAsync(addImageRequest);
 
-                var encryptPassword = new ByteArrayContent(Encoding.UTF8.GetBytes("password"));
-                multipartContent.Add(encryptPassword, "new_open_password");
+    var addImageResult = await addImageResponse.Content.ReadAsStringAsync();
+
+    Console.WriteLine("Add image response received.");
+    Console.WriteLine(addImageResult);
+
+    dynamic addImageJson = JObject.Parse(addImageResult);
+    string addImageID = addImageJson.outputId;
+
+    // Begin re-encryption
+    var encryptRequest = new HttpRequestMessage(HttpMethod.Post, "encrypted-pdf");
+
+    encryptRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+    encryptRequest.Headers.Accept.Add(new("application/json"));
+    var multipartContent = new MultipartFormDataContent();
+
+    var encryptID = new ByteArrayContent(Encoding.UTF8.GetBytes(addImageID));
+    multipartContent.Add(encryptID, "id");
+
+    var encryptPassword = new ByteArrayContent(Encoding.UTF8.GetBytes("password"));
+    multipartContent.Add(encryptPassword, "new_open_password");
 
 
-                encryptRequest.Content = multipartContent;
-                var response = await httpClient.SendAsync(encryptRequest);
+    encryptRequest.Content = multipartContent;
+    var response = await httpClient.SendAsync(encryptRequest);
 
-                var apiResult = await response.Content.ReadAsStringAsync();
+    var apiResult = await response.Content.ReadAsStringAsync();
 
-                Console.WriteLine("Encrypt response received.");
-                Console.WriteLine(apiResult);
-            }
-        }
-    }
+    Console.WriteLine("Encrypt response received.");
+    Console.WriteLine(apiResult);
 }

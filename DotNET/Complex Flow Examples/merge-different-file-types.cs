@@ -17,82 +17,80 @@ var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Your API key here
 
 using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfrest.com") })
 {
-    using (var imageRequest = new HttpRequestMessage(HttpMethod.Post, "pdf"))
-    {
-        imageRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
-        imageRequest.Headers.Accept.Add(new("application/json"));
-        var imageMultipartContent = new MultipartFormDataContent();
+    // Begin first PDF conversion
+    var imageRequest = new HttpRequestMessage(HttpMethod.Post, "pdf");
 
-        var imageByteArray = File.ReadAllBytes("/path/to/file.png");
-        var imageByteAryContent = new ByteArrayContent(imageByteArray);
-        imageMultipartContent.Add(imageByteAryContent, "file", "file.png");
-        imageByteAryContent.Headers.TryAddWithoutValidation("Content-Type", "image/x-png");
+    imageRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+    imageRequest.Headers.Accept.Add(new("application/json"));
+    var imageMultipartContent = new MultipartFormDataContent();
 
-        imageRequest.Content = imageMultipartContent;
-        var imageResponse = await httpClient.SendAsync(imageRequest);
+    var imageByteArray = File.ReadAllBytes("/path/to/file.png");
+    var imageByteAryContent = new ByteArrayContent(imageByteArray);
+    imageMultipartContent.Add(imageByteAryContent, "file", "file.png");
+    imageByteAryContent.Headers.TryAddWithoutValidation("Content-Type", "image/x-png");
 
-        var imageResult = await imageResponse.Content.ReadAsStringAsync();
-        Console.WriteLine("Image to PDF response received.");
-        Console.WriteLine(imageResult);
+    imageRequest.Content = imageMultipartContent;
+    var imageResponse = await httpClient.SendAsync(imageRequest);
 
-        dynamic imageResponseData = JObject.Parse(imageResult);
-        string imageID = imageResponseData.outputId;
+    var imageResult = await imageResponse.Content.ReadAsStringAsync();
+    Console.WriteLine("Image to PDF response received.");
+    Console.WriteLine(imageResult);
 
-        using (var powerpointRequest = new HttpRequestMessage(HttpMethod.Post, "pdf"))
-        {
-            powerpointRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
-            powerpointRequest.Headers.Accept.Add(new("application/json"));
-            var powerpointMultipartContent = new MultipartFormDataContent();
+    dynamic imageResponseData = JObject.Parse(imageResult);
+    string imageID = imageResponseData.outputId;
 
-            var powerpointByteArray = File.ReadAllBytes("/path/to/file.ppt");
-            var powerpointByteAryContent = new ByteArrayContent(powerpointByteArray);
-            powerpointMultipartContent.Add(powerpointByteAryContent, "file", "file.ppt");
-            powerpointByteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/vnd.ms-powerpoint");
+    // Begin second PDF conversion
+    var powerpointRequest = new HttpRequestMessage(HttpMethod.Post, "pdf");
 
-            powerpointRequest.Content = powerpointMultipartContent;
-            var powerpointResponse = await httpClient.SendAsync(powerpointRequest);
+    powerpointRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+    powerpointRequest.Headers.Accept.Add(new("application/json"));
+    var powerpointMultipartContent = new MultipartFormDataContent();
 
-            var powerpointResult = await powerpointResponse.Content.ReadAsStringAsync();
-            Console.WriteLine("powerpoint to PDF response received.");
-            Console.WriteLine(powerpointResult);
+    var powerpointByteArray = File.ReadAllBytes("/path/to/file.ppt");
+    var powerpointByteAryContent = new ByteArrayContent(powerpointByteArray);
+    powerpointMultipartContent.Add(powerpointByteAryContent, "file", "file.ppt");
+    powerpointByteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/vnd.ms-powerpoint");
 
-            dynamic powerpointResponseData = JObject.Parse(powerpointResult);
-            string powerpointID = powerpointResponseData.outputId;
+    powerpointRequest.Content = powerpointMultipartContent;
+    var powerpointResponse = await httpClient.SendAsync(powerpointRequest);
 
-            using (var request = new HttpRequestMessage(HttpMethod.Post, "merged-pdf"))
-            {
-                request.Headers.TryAddWithoutValidation("Api-Key", apiKey);
-                request.Headers.Accept.Add(new("application/json"));
-                var multipartContent = new MultipartFormDataContent();
+    var powerpointResult = await powerpointResponse.Content.ReadAsStringAsync();
+    Console.WriteLine("powerpoint to PDF response received.");
+    Console.WriteLine(powerpointResult);
 
+    dynamic powerpointResponseData = JObject.Parse(powerpointResult);
+    string powerpointID = powerpointResponseData.outputId;
 
-                var imageByteArrayID = new ByteArrayContent(Encoding.UTF8.GetBytes(imageID));
-                multipartContent.Add(imageByteArrayID, "id[]");
+    // Begin file merge
+    var request = new HttpRequestMessage(HttpMethod.Post, "merged-pdf");
 
-                var byteArrayOption = new ByteArrayContent(Encoding.UTF8.GetBytes("id"));
-                multipartContent.Add(byteArrayOption, "type[]");
-                var byteArrayOption2 = new ByteArrayContent(Encoding.UTF8.GetBytes("all"));
-                multipartContent.Add(byteArrayOption2, "pages[]");
+    request.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+    request.Headers.Accept.Add(new("application/json"));
+    var multipartContent = new MultipartFormDataContent();
 
 
-                var powerpointByteArrayID = new ByteArrayContent(Encoding.UTF8.GetBytes(powerpointID));
-                multipartContent.Add(powerpointByteArrayID, "id[]");
+    var imageByteArrayID = new ByteArrayContent(Encoding.UTF8.GetBytes(imageID));
+    multipartContent.Add(imageByteArrayID, "id[]");
 
-                var byteArrayOption3 = new ByteArrayContent(Encoding.UTF8.GetBytes("id"));
-                multipartContent.Add(byteArrayOption3, "type[]");
-                var byteArrayOption4 = new ByteArrayContent(Encoding.UTF8.GetBytes("all"));
-                multipartContent.Add(byteArrayOption4, "pages[]");
-
-                request.Content = multipartContent;
-                var response = await httpClient.SendAsync(request);
-
-                var apiResult = await response.Content.ReadAsStringAsync();
-
-                Console.WriteLine("Merge response received.");
-                Console.WriteLine(apiResult);
-            }
+    var byteArrayOption = new ByteArrayContent(Encoding.UTF8.GetBytes("id"));
+    multipartContent.Add(byteArrayOption, "type[]");
+    var byteArrayOption2 = new ByteArrayContent(Encoding.UTF8.GetBytes("all"));
+    multipartContent.Add(byteArrayOption2, "pages[]");
 
 
-        }
-    }
+    var powerpointByteArrayID = new ByteArrayContent(Encoding.UTF8.GetBytes(powerpointID));
+    multipartContent.Add(powerpointByteArrayID, "id[]");
+
+    var byteArrayOption3 = new ByteArrayContent(Encoding.UTF8.GetBytes("id"));
+    multipartContent.Add(byteArrayOption3, "type[]");
+    var byteArrayOption4 = new ByteArrayContent(Encoding.UTF8.GetBytes("all"));
+    multipartContent.Add(byteArrayOption4, "pages[]");
+
+    request.Content = multipartContent;
+    var response = await httpClient.SendAsync(request);
+
+    var apiResult = await response.Content.ReadAsStringAsync();
+
+    Console.WriteLine("Merge response received.");
+    Console.WriteLine(apiResult);
 }

@@ -15,53 +15,53 @@ var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Your API key here
 
 using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfrest.com") })
 {
-    using (var attachRequest = new HttpRequestMessage(HttpMethod.Post, "pdf-with-added-attachment"))
-    {
-        attachRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
-        attachRequest.Headers.Accept.Add(new("application/json"));
-        var attachMultipartContent = new MultipartFormDataContent();
+    // Begin file attachment
+    var attachRequest = new HttpRequestMessage(HttpMethod.Post, "pdf-with-added-attachment");
 
-        var byteArray = File.ReadAllBytes("/path/to/file.pdf");
-        var byteAryContent = new ByteArrayContent(byteArray);
-        attachMultipartContent.Add(byteAryContent, "file", "file_name.pdf");
-        byteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/pdf");
+    attachRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+    attachRequest.Headers.Accept.Add(new("application/json"));
+    var attachMultipartContent = new MultipartFormDataContent();
 
-        var byteArray2 = File.ReadAllBytes("/path/to/file.xml");
-        var byteAryContent2 = new ByteArrayContent(byteArray2);
-        attachMultipartContent.Add(byteAryContent2, "file_to_attach", "file_name.xml");
-        byteAryContent2.Headers.TryAddWithoutValidation("Content-Type", "application/xml");
+    var byteArray = File.ReadAllBytes("/path/to/file.pdf");
+    var byteAryContent = new ByteArrayContent(byteArray);
+    attachMultipartContent.Add(byteAryContent, "file", "file_name.pdf");
+    byteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/pdf");
 
-        attachRequest.Content = attachMultipartContent;
-        var attachResponse = await httpClient.SendAsync(attachRequest);
+    var byteArray2 = File.ReadAllBytes("/path/to/file.xml");
+    var byteAryContent2 = new ByteArrayContent(byteArray2);
+    attachMultipartContent.Add(byteAryContent2, "file_to_attach", "file_name.xml");
+    byteAryContent2.Headers.TryAddWithoutValidation("Content-Type", "application/xml");
 
-        var attachResult = await attachResponse.Content.ReadAsStringAsync();
-        Console.WriteLine("Attachement response received.");
-        Console.WriteLine(attachResult);
+    attachRequest.Content = attachMultipartContent;
+    var attachResponse = await httpClient.SendAsync(attachRequest);
 
-        dynamic responseData = JObject.Parse(attachResult);
-        string attachementID = responseData.outputId;
+    var attachResult = await attachResponse.Content.ReadAsStringAsync();
+    Console.WriteLine("Attachement response received.");
+    Console.WriteLine(attachResult);
 
-        using (var request = new HttpRequestMessage(HttpMethod.Post, "pdfa"))
-        {
-            request.Headers.TryAddWithoutValidation("Api-Key", apiKey);
-            request.Headers.Accept.Add(new("application/json"));
-            var multipartContent = new MultipartFormDataContent();
+    dynamic responseData = JObject.Parse(attachResult);
+    string attachementID = responseData.outputId;
 
+    // Begin PDF/A conversion
+    var pdfaRequest = new HttpRequestMessage(HttpMethod.Post, "pdfa");
 
-            var byteArrayOption = new ByteArrayContent(Encoding.UTF8.GetBytes(attachementID));
-            multipartContent.Add(byteArrayOption, "id");
-
-            var byteArrayOption2 = new ByteArrayContent(Encoding.UTF8.GetBytes("PDF/A-3b"));
-            multipartContent.Add(byteArrayOption2, "output_type");
+    pdfaRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+    pdfaRequest.Headers.Accept.Add(new("application/json"));
+    var multipartContent = new MultipartFormDataContent();
 
 
-            request.Content = multipartContent;
-            var response = await httpClient.SendAsync(request);
+    var byteArrayOption = new ByteArrayContent(Encoding.UTF8.GetBytes(attachementID));
+    multipartContent.Add(byteArrayOption, "id");
 
-            var apiResult = await response.Content.ReadAsStringAsync();
+    var byteArrayOption2 = new ByteArrayContent(Encoding.UTF8.GetBytes("PDF/A-3b"));
+    multipartContent.Add(byteArrayOption2, "output_type");
 
-            Console.WriteLine("PDF/A response received.");
-            Console.WriteLine(apiResult);
-        }
-    }
+
+    pdfaRequest.Content = multipartContent;
+    var response = await httpClient.SendAsync(pdfaRequest);
+
+    var apiResult = await response.Content.ReadAsStringAsync();
+
+    Console.WriteLine("PDF/A response received.");
+    Console.WriteLine(apiResult);
 }
