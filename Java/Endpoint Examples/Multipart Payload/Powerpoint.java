@@ -1,6 +1,8 @@
 import io.github.cdimascio.dotenv.Dotenv;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -43,7 +45,7 @@ public class Powerpoint {
             .post(requestBody)
             .build();
     try {
-      OkHttpClient client = new OkHttpClient().newBuilder().build();
+      OkHttpClient client = new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
       Response response = client.newCall(request).execute();
       System.out.println("Result code " + response.code());
       if (response.body() != null) {
