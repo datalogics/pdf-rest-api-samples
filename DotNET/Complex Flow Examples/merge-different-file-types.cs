@@ -18,7 +18,7 @@ var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Your API key here
 using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfrest.com") })
 {
     // Begin first PDF conversion
-    var imageRequest = new HttpRequestMessage(HttpMethod.Post, "pdf");
+    using var imageRequest = new HttpRequestMessage(HttpMethod.Post, "pdf");
 
     imageRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
     imageRequest.Headers.Accept.Add(new("application/json"));
@@ -40,7 +40,7 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
     string imageID = imageResponseData.outputId;
 
     // Begin second PDF conversion
-    var powerpointRequest = new HttpRequestMessage(HttpMethod.Post, "pdf");
+    using var powerpointRequest = new HttpRequestMessage(HttpMethod.Post, "pdf");
 
     powerpointRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
     powerpointRequest.Headers.Accept.Add(new("application/json"));
@@ -62,7 +62,7 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
     string powerpointID = powerpointResponseData.outputId;
 
     // Begin file merge
-    var request = new HttpRequestMessage(HttpMethod.Post, "merged-pdf");
+    using var request = new HttpRequestMessage(HttpMethod.Post, "merged-pdf");
 
     request.Headers.TryAddWithoutValidation("Api-Key", apiKey);
     request.Headers.Accept.Add(new("application/json"));

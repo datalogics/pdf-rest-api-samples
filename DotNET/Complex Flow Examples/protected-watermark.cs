@@ -14,7 +14,7 @@ var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Your API key here
 using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfrest.com") })
 {
     // Begin watermarking
-    var watermarkRequest = new HttpRequestMessage(HttpMethod.Post, "watermarked-pdf");
+    using var watermarkRequest = new HttpRequestMessage(HttpMethod.Post, "watermarked-pdf");
 
     watermarkRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
     watermarkRequest.Headers.Accept.Add(new("application/json"));
@@ -39,7 +39,7 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
     string watermarkID = watermarkResponseData.outputId;
 
     // Begin restricting
-    var restrictRequest = new HttpRequestMessage(HttpMethod.Post, "restricted-pdf");
+    using var restrictRequest = new HttpRequestMessage(HttpMethod.Post, "restricted-pdf");
 
     restrictRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
     restrictRequest.Headers.Accept.Add(new("application/json"));

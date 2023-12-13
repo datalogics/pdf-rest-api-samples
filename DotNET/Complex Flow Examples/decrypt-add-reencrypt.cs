@@ -15,7 +15,7 @@ var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Your API key here
 using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfrest.com") })
 {
     // Begin decryption
-    var decryptRequest = new HttpRequestMessage(HttpMethod.Post, "decrypted-pdf");
+    using var decryptRequest = new HttpRequestMessage(HttpMethod.Post, "decrypted-pdf");
 
     decryptRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
     decryptRequest.Headers.Accept.Add(new("application/json"));
@@ -42,7 +42,7 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
     string decryptID = decryptJson.outputId;
 
     // Begin add image
-    var addImageRequest = new HttpRequestMessage(HttpMethod.Post, "pdf-with-added-image");
+    using var addImageRequest = new HttpRequestMessage(HttpMethod.Post, "pdf-with-added-image");
 
     addImageRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
     addImageRequest.Headers.Accept.Add(new("application/json"));
@@ -67,7 +67,7 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
     addImageRequest.Content = addImageMultipartContent;
     var addImageResponse = await httpClient.SendAsync(addImageRequest);
 
-    var addImageResult = await addImageResponse.Content.ReadAsStringAsync();
+    using var addImageResult = await addImageResponse.Content.ReadAsStringAsync();
 
     Console.WriteLine("Add image response received.");
     Console.WriteLine(addImageResult);

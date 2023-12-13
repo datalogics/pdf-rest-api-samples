@@ -16,7 +16,7 @@ var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Your API key here
 using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfrest.com") })
 {
     // Begin file attachment
-    var attachRequest = new HttpRequestMessage(HttpMethod.Post, "pdf-with-added-attachment");
+    using var attachRequest = new HttpRequestMessage(HttpMethod.Post, "pdf-with-added-attachment");
 
     attachRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
     attachRequest.Headers.Accept.Add(new("application/json"));
@@ -43,7 +43,7 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
     string attachementID = responseData.outputId;
 
     // Begin PDF/A conversion
-    var pdfaRequest = new HttpRequestMessage(HttpMethod.Post, "pdfa");
+    using var pdfaRequest = new HttpRequestMessage(HttpMethod.Post, "pdfa");
 
     pdfaRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
     pdfaRequest.Headers.Accept.Add(new("application/json"));

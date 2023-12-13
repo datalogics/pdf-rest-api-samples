@@ -14,7 +14,7 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
 {
 
     // Begin PDF conversion
-    var pdfRequest = new HttpRequestMessage(HttpMethod.Post, "pdf");
+    using var pdfRequest = new HttpRequestMessage(HttpMethod.Post, "pdf");
 
     pdfRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
     pdfRequest.Headers.Accept.Add(new("application/json"));
@@ -36,7 +36,7 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
     string pdfID = responseData.outputId;
 
     // Begin PDF/A conversion
-    var pdfaRequest = new HttpRequestMessage(HttpMethod.Post, "pdfa");
+    using var pdfaRequest = new HttpRequestMessage(HttpMethod.Post, "pdfa");
 
     pdfaRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
     pdfaRequest.Headers.Accept.Add(new("application/json"));
