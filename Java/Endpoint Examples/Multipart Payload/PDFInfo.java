@@ -1,10 +1,9 @@
 import io.github.cdimascio.dotenv.Dotenv;
-import okhttp3.*;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+import okhttp3.*;
+import org.json.JSONObject;
 
 public class PDFInfo {
 
@@ -14,7 +13,6 @@ public class PDFInfo {
   // Specify your API key here, or in the environment variable PDFREST_API_KEY.
   // You can also put the environment variable in a .env file.
   private static final String DEFAULT_API_KEY = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
-
 
   public static void main(String[] args) {
     File inputFile;
@@ -41,8 +39,8 @@ public class PDFInfo {
             .post(requestBody)
             .build();
     try {
-      OkHttpClient client = new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
-
+      OkHttpClient client =
+          new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
 
       Response response = client.newCall(request).execute();
       System.out.println("Result code " + response.code());

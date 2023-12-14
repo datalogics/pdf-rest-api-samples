@@ -1,10 +1,9 @@
 import io.github.cdimascio.dotenv.Dotenv;
-import okhttp3.*;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+import okhttp3.*;
+import org.json.JSONObject;
 
 public class SplitPDF {
 
@@ -42,7 +41,8 @@ public class SplitPDF {
             .post(requestBody)
             .build();
     try {
-      OkHttpClient client = new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
+      OkHttpClient client =
+          new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
       Response response = client.newCall(request).execute();
       System.out.println("Result code " + response.code());
       if (response.body() != null) {

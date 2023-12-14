@@ -1,10 +1,9 @@
 import io.github.cdimascio.dotenv.Dotenv;
-import okhttp3.*;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+import okhttp3.*;
+import org.json.JSONObject;
 
 public class Bmp {
 
@@ -14,7 +13,6 @@ public class Bmp {
   // Specify your API key here, or in the environment variable PDFREST_API_KEY.
   // You can also put the environment variable in a .env file.
   private static final String DEFAULT_API_KEY = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
-
 
   public static void main(String[] args) {
     File inputFile;
@@ -27,22 +25,22 @@ public class Bmp {
     final Dotenv dotenv = Dotenv.configure().ignoreIfMalformed().ignoreIfMissing().load();
 
     final RequestBody inputFileRequestBody =
-            RequestBody.create(inputFile, MediaType.parse("application/pdf"));
+        RequestBody.create(inputFile, MediaType.parse("application/pdf"));
     RequestBody requestBody =
-            new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("file", inputFile.getName(), inputFileRequestBody)
-                    .addFormDataPart("output", "pdfrest_bmp")
-                    .build();
+        new MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("file", inputFile.getName(), inputFileRequestBody)
+            .addFormDataPart("output", "pdfrest_bmp")
+            .build();
     Request request =
-            new Request.Builder()
-                    .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
-                    .url("https://api.pdfrest.com/bmp")
-                    .post(requestBody)
-                    .build();
+        new Request.Builder()
+            .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
+            .url("https://api.pdfrest.com/bmp")
+            .post(requestBody)
+            .build();
     try {
-      OkHttpClient client = new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
-
+      OkHttpClient client =
+          new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
 
       Response response = client.newCall(request).execute();
       System.out.println("Result code " + response.code());

@@ -1,9 +1,8 @@
 import io.github.cdimascio.dotenv.Dotenv;
-import okhttp3.*;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
+import okhttp3.*;
+import org.json.JSONObject;
 
 public class Zip {
 
@@ -31,8 +30,7 @@ public class Zip {
       final File inputFile = new File(inputFilePath);
       final RequestBody inputFileRequestBody =
           RequestBody.create(inputFile, MediaType.parse("application/pdf"));
-      bodyBuilder
-          .addFormDataPart("file", inputFile.getName(), inputFileRequestBody);
+      bodyBuilder.addFormDataPart("file", inputFile.getName(), inputFileRequestBody);
     }
 
     RequestBody requestBody = bodyBuilder.addFormDataPart("output", "pdfrest_zip").build();
