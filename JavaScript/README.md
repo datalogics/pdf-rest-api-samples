@@ -5,6 +5,6 @@ as more advanced workflows presented in Javascript
 
 Using Node 16 or greater:
 
-1. `cd Node/`
+1. `cd JavaScript/`
 2. `npm install node-fetch`
 3. `node name-of-sample-program.js`
