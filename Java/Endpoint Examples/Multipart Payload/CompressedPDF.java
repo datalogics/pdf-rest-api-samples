@@ -10,45 +10,40 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.json.JSONObject;
 
-public class PdfWithAddedAttachment {
+public class CompressedPDF {
 
   // Specify the path to your file here, or as the first argument when running the program.
   private static final String DEFAULT_FILE_PATH = "/path/to/file.pdf";
-
-  // Specify the path to your file attachment here, or as the second argument when running the
-  // program.
-  private static final String DEFAULT_ATTACHMENT_PATH = "/path/to/file.xml";
 
   // Specify your API key here, or in the environment variable PDFREST_API_KEY.
   // You can also put the environment variable in a .env file.
   private static final String DEFAULT_API_KEY = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
 
+  private static final String COMPRESSION_LEVEL = "medium";
+
   public static void main(String[] args) {
-    File inputFile, attachmentFile;
-    if (args.length > 1) {
+    File inputFile;
+    if (args.length > 0) {
       inputFile = new File(args[0]);
-      attachmentFile = new File(args[1]);
     } else {
       inputFile = new File(DEFAULT_FILE_PATH);
-      attachmentFile = new File(DEFAULT_ATTACHMENT_PATH);
     }
 
     final Dotenv dotenv = Dotenv.configure().ignoreIfMalformed().ignoreIfMissing().load();
 
     final RequestBody inputFileRequestBody =
         RequestBody.create(inputFile, MediaType.parse("application/pdf"));
-    final RequestBody attachmentFileRequestBody =
-        RequestBody.create(attachmentFile, MediaType.parse("application/xml"));
     RequestBody requestBody =
         new MultipartBody.Builder()
             .setType(MultipartBody.FORM)
             .addFormDataPart("file", inputFile.getName(), inputFileRequestBody)
-            .addFormDataPart("file_to_attach", attachmentFile.getName(), attachmentFileRequestBody)
+            .addFormDataPart("compression_level", COMPRESSION_LEVEL)
+            .addFormDataPart("output", "pdfrest_compressed_pdf")
             .build();
     Request request =
         new Request.Builder()
             .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
-            .url("https://api.pdfrest.com/pdf-with-added-attachment")
+            .url("https://api.pdfrest.com/compressed-pdf")
             .post(requestBody)
             .build();
     try {
