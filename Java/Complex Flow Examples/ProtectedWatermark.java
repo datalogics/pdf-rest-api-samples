@@ -3,7 +3,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import okhttp3.*;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 /* In this sample, we will show how to watermark a PDF document and then restrict
@@ -66,24 +65,24 @@ public class ProtectedWatermark {
         String watermarkID = watermarkJSON.get("outputId").toString();
 
         RequestBody restrictRequestBody =
-                new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("id", watermarkID)
-                        .addFormDataPart("new_permissions_password", "password")
-                        .addFormDataPart("restrictions[]", "copy_content")
-                        .addFormDataPart("restrictions[]", "edit_annotations")
-                        .addFormDataPart("restrictions[]", "edit_content")
-                        .addFormDataPart("output", "pdfrest_restricted")
-                        .build();
+            new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("id", watermarkID)
+                .addFormDataPart("new_permissions_password", "password")
+                .addFormDataPart("restrictions[]", "copy_content")
+                .addFormDataPart("restrictions[]", "edit_annotations")
+                .addFormDataPart("restrictions[]", "edit_content")
+                .addFormDataPart("output", "pdfrest_restricted")
+                .build();
         Request restrictRequest =
-                new Request.Builder()
-                        .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
-                        .url("https://api.pdfrest.com/restricted-pdf")
-                        .post(restrictRequestBody)
-                        .build();
+            new Request.Builder()
+                .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
+                .url("https://api.pdfrest.com/restricted-pdf")
+                .post(restrictRequestBody)
+                .build();
         try {
           OkHttpClient restrictClient =
-                  new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
+              new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
           Response restrictResponse = restrictClient.newCall(restrictRequest).execute();
           System.out.println("Result code from restrict call: " + restrictResponse.code());
           if (restrictResponse.body() != null) {
@@ -92,7 +91,6 @@ public class ProtectedWatermark {
         } catch (IOException e) {
           throw new RuntimeException(e);
         }
-
       }
     } catch (IOException e) {
       throw new RuntimeException(e);

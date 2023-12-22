@@ -1,10 +1,9 @@
 import io.github.cdimascio.dotenv.Dotenv;
-import okhttp3.*;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+import okhttp3.*;
+import org.json.JSONObject;
 
 /* In this sample, we will show how to optimize a Word file for long-term preservation
  * as discussed in https://pdfrest.com/solutions/optimize-word-excel-and-powerpoint-files-for-long-term-preservation/
@@ -65,21 +64,21 @@ public class PreserveWordDocument {
         String pdfID = pdfJSON.get("outputId").toString();
 
         RequestBody pdfaRequestBody =
-                new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("id", pdfID)
-                        .addFormDataPart("output_type", "PDF/A-3b")
-                        .addFormDataPart("output", "pdfrest_pdfa")
-                        .build();
+            new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("id", pdfID)
+                .addFormDataPart("output_type", "PDF/A-3b")
+                .addFormDataPart("output", "pdfrest_pdfa")
+                .build();
         Request pdfaRequest =
-                new Request.Builder()
-                        .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
-                        .url("https://api.pdfrest.com/pdfa")
-                        .post(pdfaRequestBody)
-                        .build();
+            new Request.Builder()
+                .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
+                .url("https://api.pdfrest.com/pdfa")
+                .post(pdfaRequestBody)
+                .build();
         try {
           OkHttpClient pdfaClient =
-                  new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
+              new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
           Response pdfaResponse = pdfaClient.newCall(pdfaRequest).execute();
           System.out.println("Result code from pdfa call: " + pdfaResponse.code());
           if (pdfaResponse.body() != null) {
@@ -88,7 +87,6 @@ public class PreserveWordDocument {
         } catch (IOException e) {
           throw new RuntimeException(e);
         }
-
       }
     } catch (IOException e) {
       throw new RuntimeException(e);

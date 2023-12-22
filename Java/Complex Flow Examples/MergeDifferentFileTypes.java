@@ -1,10 +1,9 @@
 import io.github.cdimascio.dotenv.Dotenv;
-import okhttp3.*;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+import okhttp3.*;
+import org.json.JSONObject;
 
 /* In this sample, we will show how to merge different file types together as
 * discussed in https://pdfrest.com/solutions/merge-multiple-types-of-files-together/.
@@ -44,22 +43,22 @@ public class MergeDifferentFileTypes {
     final Dotenv dotenv = Dotenv.configure().ignoreIfMalformed().ignoreIfMissing().load();
 
     final RequestBody firstFileInputFileRequestBody =
-            RequestBody.create(firstFile, MediaType.parse("application/png"));
+        RequestBody.create(firstFile, MediaType.parse("application/png"));
     RequestBody firstFileRequestBody =
-            new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("file", firstFile.getName(), firstFileInputFileRequestBody)
-                    .addFormDataPart("output", "pdfrest_pdf")
-                    .build();
+        new MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("file", firstFile.getName(), firstFileInputFileRequestBody)
+            .addFormDataPart("output", "pdfrest_pdf")
+            .build();
     Request firstFileRequest =
-            new Request.Builder()
-                    .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
-                    .url("https://api.pdfrest.com/pdf")
-                    .post(firstFileRequestBody)
-                    .build();
+        new Request.Builder()
+            .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
+            .url("https://api.pdfrest.com/pdf")
+            .post(firstFileRequestBody)
+            .build();
     try {
       OkHttpClient firstFileClient =
-              new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
+          new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
 
       Response firstFileResponse = firstFileClient.newCall(firstFileRequest).execute();
 
@@ -76,22 +75,22 @@ public class MergeDifferentFileTypes {
         String firstFileID = firstFileJSON.get("outputId").toString();
 
         final RequestBody secondFileInputFileRequestBody =
-                RequestBody.create(secondFile, MediaType.parse("application/powerpoint"));
+            RequestBody.create(secondFile, MediaType.parse("application/powerpoint"));
         RequestBody secondFileRequestBody =
-                new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("file", secondFile.getName(), secondFileInputFileRequestBody)
-                        .addFormDataPart("output", "pdfrest_pdf")
-                        .build();
+            new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("file", secondFile.getName(), secondFileInputFileRequestBody)
+                .addFormDataPart("output", "pdfrest_pdf")
+                .build();
         Request secondFileRequest =
-                new Request.Builder()
-                        .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
-                        .url("https://api.pdfrest.com/pdf")
-                        .post(secondFileRequestBody)
-                        .build();
+            new Request.Builder()
+                .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
+                .url("https://api.pdfrest.com/pdf")
+                .post(secondFileRequestBody)
+                .build();
         try {
           OkHttpClient secondFileClient =
-                  new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
+              new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
 
           Response secondFileResponse = secondFileClient.newCall(secondFileRequest).execute();
 
@@ -101,32 +100,33 @@ public class MergeDifferentFileTypes {
 
             JSONObject secondFileJSON = new JSONObject(secondFileResponseString);
             if (secondFileJSON.has("error")) {
-              System.out.println("Error during second PDF call: " + secondFileResponse.body().string());
+              System.out.println(
+                  "Error during second PDF call: " + secondFileResponse.body().string());
               return;
             }
 
             String secondFileID = secondFileJSON.get("outputId").toString();
 
             RequestBody mergeRequestBody =
-                    new MultipartBody.Builder()
-                            .setType(MultipartBody.FORM)
-                            .addFormDataPart("id[]", firstFileID)
-                            .addFormDataPart("id[]", secondFileID)
-                            .addFormDataPart("type[]", "id")
-                            .addFormDataPart("type[]", "id")
-                            .addFormDataPart("pages[]", "1-last")
-                            .addFormDataPart("pages[]", "1-last")
-                            .addFormDataPart("output", "pdfrest_merged")
-                            .build();
+                new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("id[]", firstFileID)
+                    .addFormDataPart("id[]", secondFileID)
+                    .addFormDataPart("type[]", "id")
+                    .addFormDataPart("type[]", "id")
+                    .addFormDataPart("pages[]", "1-last")
+                    .addFormDataPart("pages[]", "1-last")
+                    .addFormDataPart("output", "pdfrest_merged")
+                    .build();
             Request mergeRequest =
-                    new Request.Builder()
-                            .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
-                            .url("https://api.pdfrest.com/merged-pdf")
-                            .post(mergeRequestBody)
-                            .build();
+                new Request.Builder()
+                    .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
+                    .url("https://api.pdfrest.com/merged-pdf")
+                    .post(mergeRequestBody)
+                    .build();
             try {
               OkHttpClient mergeClient =
-                      new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
+                  new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
               Response mergeResponse = mergeClient.newCall(mergeRequest).execute();
               System.out.println("Result code from merge call: " + mergeResponse.code());
               if (mergeResponse.body() != null) {
@@ -135,12 +135,10 @@ public class MergeDifferentFileTypes {
             } catch (IOException e) {
               throw new RuntimeException(e);
             }
-
           }
         } catch (IOException e) {
           throw new RuntimeException(e);
         }
-
       }
     } catch (IOException e) {
       throw new RuntimeException(e);

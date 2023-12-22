@@ -1,10 +1,9 @@
 import io.github.cdimascio.dotenv.Dotenv;
-import okhttp3.*;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+import okhttp3.*;
+import org.json.JSONObject;
 
 /* In this sample, we will show how to take an encrypted file and decrypt, modify
  * and re-encrypt it to create an encryption-at-rest solution as discussed in
@@ -41,23 +40,23 @@ public class DecryptAddReencrypt {
     final Dotenv dotenv = Dotenv.configure().ignoreIfMalformed().ignoreIfMissing().load();
 
     final RequestBody inputFileRequestBody =
-            RequestBody.create(inputFile, MediaType.parse("application/pdf"));
+        RequestBody.create(inputFile, MediaType.parse("application/pdf"));
     RequestBody decryptRequestBody =
-            new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("file", inputFile.getName(), inputFileRequestBody)
-                    .addFormDataPart("current_open_password", "password")
-                    .addFormDataPart("output", "pdfrest_decrypted")
-                    .build();
+        new MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("file", inputFile.getName(), inputFileRequestBody)
+            .addFormDataPart("current_open_password", "password")
+            .addFormDataPart("output", "pdfrest_decrypted")
+            .build();
     Request decryptRequest =
-            new Request.Builder()
-                    .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
-                    .url("https://api.pdfrest.com/decrypted-pdf")
-                    .post(decryptRequestBody)
-                    .build();
+        new Request.Builder()
+            .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
+            .url("https://api.pdfrest.com/decrypted-pdf")
+            .post(decryptRequestBody)
+            .build();
     try {
       OkHttpClient decryptClient =
-              new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
+          new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
 
       Response decryptResponse = decryptClient.newCall(decryptRequest).execute();
 
@@ -71,30 +70,29 @@ public class DecryptAddReencrypt {
           return;
         }
 
-
         String decryptID = decryptJSON.get("outputId").toString();
 
         final RequestBody imageFileRequestBody =
-                RequestBody.create(imageFile, MediaType.parse("application/png"));
+            RequestBody.create(imageFile, MediaType.parse("application/png"));
         RequestBody addImageRequestBody =
-                new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("id", decryptID)
-                        .addFormDataPart("image_file", imageFile.getName(), imageFileRequestBody)
-                        .addFormDataPart("page", "1")
-                        .addFormDataPart("x", "0")
-                        .addFormDataPart("y", "0")
-                        .addFormDataPart("output", "pdfrest_added_image")
-                        .build();
+            new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("id", decryptID)
+                .addFormDataPart("image_file", imageFile.getName(), imageFileRequestBody)
+                .addFormDataPart("page", "1")
+                .addFormDataPart("x", "0")
+                .addFormDataPart("y", "0")
+                .addFormDataPart("output", "pdfrest_added_image")
+                .build();
         Request addImageRequest =
-                new Request.Builder()
-                        .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
-                        .url("https://api.pdfrest.com/pdf-with-added-image")
-                        .post(addImageRequestBody)
-                        .build();
+            new Request.Builder()
+                .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
+                .url("https://api.pdfrest.com/pdf-with-added-image")
+                .post(addImageRequestBody)
+                .build();
         try {
           OkHttpClient addImageClient =
-                  new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
+              new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
 
           Response addImageResponse = addImageClient.newCall(addImageRequest).execute();
 
@@ -104,28 +102,29 @@ public class DecryptAddReencrypt {
 
             JSONObject addImageJSON = new JSONObject(addImageResponseString);
             if (addImageJSON.has("error")) {
-              System.out.println("Error during add image call: " + addImageResponse.body().string());
+              System.out.println(
+                  "Error during add image call: " + addImageResponse.body().string());
               return;
             }
 
             String addImageID = addImageJSON.get("outputId").toString();
 
             RequestBody encryptRequestBody =
-                    new MultipartBody.Builder()
-                            .setType(MultipartBody.FORM)
-                            .addFormDataPart("id", addImageID)
-                            .addFormDataPart("new_open_password", "password")
-                            .addFormDataPart("output", "pdfrest_encrypted")
-                            .build();
+                new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("id", addImageID)
+                    .addFormDataPart("new_open_password", "password")
+                    .addFormDataPart("output", "pdfrest_encrypted")
+                    .build();
             Request encryptRequest =
-                    new Request.Builder()
-                            .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
-                            .url("https://api.pdfrest.com/encrypted-pdf")
-                            .post(encryptRequestBody)
-                            .build();
+                new Request.Builder()
+                    .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
+                    .url("https://api.pdfrest.com/encrypted-pdf")
+                    .post(encryptRequestBody)
+                    .build();
             try {
               OkHttpClient encryptClient =
-                      new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
+                  new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
               Response encryptResponse = encryptClient.newCall(encryptRequest).execute();
               System.out.println("Result code from encrypt call: " + encryptResponse.code());
               if (encryptResponse.body() != null) {
@@ -134,12 +133,10 @@ public class DecryptAddReencrypt {
             } catch (IOException e) {
               throw new RuntimeException(e);
             }
-
           }
         } catch (IOException e) {
           throw new RuntimeException(e);
         }
-
       }
     } catch (IOException e) {
       throw new RuntimeException(e);

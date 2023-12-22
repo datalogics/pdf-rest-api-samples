@@ -1,20 +1,19 @@
 import io.github.cdimascio.dotenv.Dotenv;
-import okhttp3.*;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+import okhttp3.*;
+import org.json.JSONObject;
 
 /* In this sample, we will show how to attach an xml document to a PDF file and then
- * convert the file with the attachment to conform to the PDF/A standard, which
- * can be useful for invoicing and standards compliance. We will be running the
- * input document through /pdf-with-added-attachment to add the attachment and
- * then /pdfa to do the PDF/A conversion.
+* convert the file with the attachment to conform to the PDF/A standard, which
+* can be useful for invoicing and standards compliance. We will be running the
+* input document through /pdf-with-added-attachment to add the attachment and
+* then /pdfa to do the PDF/A conversion.
 
- * Note that there is nothing special about attaching an xml file, and any appropriate
- * file may be attached and wrapped into the PDF/A conversion.
- */
+* Note that there is nothing special about attaching an xml file, and any appropriate
+* file may be attached and wrapped into the PDF/A conversion.
+*/
 
 public class PDFA3bWithAttachment {
 
@@ -44,12 +43,12 @@ public class PDFA3bWithAttachment {
     final RequestBody attachmentInputFileRequestBody =
         RequestBody.create(inputFile, MediaType.parse("application/pdf"));
     final RequestBody attachmentFileRequestBody =
-            RequestBody.create(attachmentFile, MediaType.parse("application/xml"));
+        RequestBody.create(attachmentFile, MediaType.parse("application/xml"));
     RequestBody attachmentRequestBody =
         new MultipartBody.Builder()
             .setType(MultipartBody.FORM)
             .addFormDataPart("file", inputFile.getName(), attachmentInputFileRequestBody)
-            .addFormDataPart("file_to_attach", attachmentFile.getName(),  attachmentFileRequestBody)
+            .addFormDataPart("file_to_attach", attachmentFile.getName(), attachmentFileRequestBody)
             .addFormDataPart("output", "pdfrest_attachment")
             .build();
     Request attachmentRequest =
@@ -77,21 +76,21 @@ public class PDFA3bWithAttachment {
         String attachmentID = attachmentJSON.get("outputId").toString();
 
         RequestBody pdfaRequestBody =
-                new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("id", attachmentID)
-                        .addFormDataPart("output_type", "PDF/A-3b")
-                        .addFormDataPart("output", "pdfrest_pdfa")
-                        .build();
+            new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("id", attachmentID)
+                .addFormDataPart("output_type", "PDF/A-3b")
+                .addFormDataPart("output", "pdfrest_pdfa")
+                .build();
         Request pdfaRequest =
-                new Request.Builder()
-                        .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
-                        .url("https://api.pdfrest.com/pdfa")
-                        .post(pdfaRequestBody)
-                        .build();
+            new Request.Builder()
+                .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
+                .url("https://api.pdfrest.com/pdfa")
+                .post(pdfaRequestBody)
+                .build();
         try {
           OkHttpClient pdfaClient =
-                  new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
+              new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
           Response pdfaResponse = pdfaClient.newCall(pdfaRequest).execute();
           System.out.println("Result code from pdfa call: " + pdfaResponse.code());
           if (pdfaResponse.body() != null) {
@@ -100,7 +99,6 @@ public class PDFA3bWithAttachment {
         } catch (IOException e) {
           throw new RuntimeException(e);
         }
-
       }
     } catch (IOException e) {
       throw new RuntimeException(e);
