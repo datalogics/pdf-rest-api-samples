@@ -27,3 +27,5 @@ jobs:
                 run: mvn -f 'Java/Endpoint Examples/Multipart Payload' --show-version --batch-mode --update-snapshots verify
             -   name: Build JSON Payload examples with Maven
                 run: mvn -f 'Java/Endpoint Examples/JSON Payload' --show-version --batch-mode --update-snapshots verify
+            -   name: Build Complex Flow examples with Maven
+                run: mvn -f 'Java/Complex Flow Examples' --show-version --batch-mode --update-snapshots verify
