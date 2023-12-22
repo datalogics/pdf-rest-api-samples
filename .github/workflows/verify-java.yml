@@ -23,5 +23,7 @@ jobs:
             # The "Build with Maven" step runs the Maven `verify` target in non-interactive mode to ensure that your
             # code builds, tests pass, and a package can be created.
             # The -f option indicates the root of the Maven project, where the pom.xml is located
-            -   name: Build with Maven
+            -   name: Build Multipart Payload examples with Maven
                 run: mvn -f 'Java/Endpoint Examples/Multipart Payload' --show-version --batch-mode --update-snapshots verify
+            -   name: Build JSON Payload examples with Maven
+                run: mvn -f 'Java/Endpoint Examples/JSON Payload' --show-version --batch-mode --update-snapshots verify
