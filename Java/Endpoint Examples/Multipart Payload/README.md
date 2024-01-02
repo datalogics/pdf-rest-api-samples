@@ -32,7 +32,7 @@ To run a sample, place the jar-with-dependencies on the classpath, specify the
 class name of the sample, and then follow that with the input files.
 
 ```shell
-java -cp target/pdf-rest-api-samples-1.0-SNAPSHOT-jar-with-dependencies.jar CompressedPdf input.pdf
+java -cp target/pdf-rest-api-samples-1.0-SNAPSHOT-jar-with-dependencies.jar CompressedPDF input.pdf
 ```
 
 ## Build/run from IntelliJ IDEA

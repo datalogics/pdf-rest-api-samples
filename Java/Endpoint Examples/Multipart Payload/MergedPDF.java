@@ -9,7 +9,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.json.JSONObject;
 
-public class MergedPdf {
+public class MergedPDF {
 
   // Specify the paths to your file here, or as the arguments when running the program.
   private static final String[] DEFAULT_FILE_PATHS =
