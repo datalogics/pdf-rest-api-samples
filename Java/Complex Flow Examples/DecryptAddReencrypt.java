@@ -21,7 +21,7 @@ public class DecryptAddReencrypt {
 
   // Specify the path to your image file here, or as the second argument when running the
   // program.
-  private static final String DEFAULT_IMAGE_PATH = "/path/to/file.pnf";
+  private static final String DEFAULT_IMAGE_PATH = "/path/to/file.jpg";
 
   // Specify your API key here, or in the environment variable PDFREST_API_KEY.
   // You can also put the environment variable in a .env file.
