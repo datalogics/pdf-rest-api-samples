@@ -1,1 +1,2 @@
-In this directory, you will find sample calls to single endpoints presented in Java.
+In this directory, you will find sample calls to single endpoints as well as more advanced workflows presented in Java.
+
