@@ -1,9 +1,7 @@
 import io.github.cdimascio.dotenv.Dotenv;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.*;
 import org.json.JSONObject;
 
@@ -57,24 +55,24 @@ public class RequestStatus {
   private static String getPdfaResponse(File inputFile, String apiKey) {
 
     final RequestBody inputFileRequestBody =
-            RequestBody.create(inputFile, MediaType.parse("application/pdf"));
+        RequestBody.create(inputFile, MediaType.parse("application/pdf"));
     RequestBody requestBody =
-            new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("file", inputFile.getName(), inputFileRequestBody)
-                    .addFormDataPart("output_type", "PDF/A-2u")
-                    .addFormDataPart("output", "pdfrest_pdfa")
-                    .build();
+        new MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("file", inputFile.getName(), inputFileRequestBody)
+            .addFormDataPart("output_type", "PDF/A-2u")
+            .addFormDataPart("output", "pdfrest_pdfa")
+            .build();
     Request request =
-            new Request.Builder()
-                    .header("Api-Key", apiKey)
-                    .header("response-type", "requestId")
-                    .url("https://api.pdfrest.com/pdfa")
-                    .post(requestBody)
-                    .build();
+        new Request.Builder()
+            .header("Api-Key", apiKey)
+            .header("response-type", "requestId")
+            .url("https://api.pdfrest.com/pdfa")
+            .post(requestBody)
+            .build();
     try {
       OkHttpClient client =
-              new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
+          new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
 
       Response response = client.newCall(request).execute();
       System.out.println("Result code " + response.code());
@@ -88,15 +86,10 @@ public class RequestStatus {
 
   private static String getRequestStatusResponse(String requestId, String apiKey) {
     String urlString = String.format("https://api.pdfrest.com/request-status/%s", requestId);
-    Request request =
-            new Request.Builder()
-                    .header("Api-Key", apiKey)
-                    .url(urlString)
-                    .get()
-                    .build();
+    Request request = new Request.Builder().header("Api-Key", apiKey).url(urlString).get().build();
     try {
       OkHttpClient client =
-              new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
+          new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build();
       Response response = client.newCall(request).execute();
       System.out.println("Result code " + response.code());
       String responseBody = response.body().string();
@@ -106,7 +99,6 @@ public class RequestStatus {
       throw new RuntimeException(e);
     }
   }
-
 
   private static String prettyJson(String json) {
     // https://stackoverflow.com/a/9583835/11996393
