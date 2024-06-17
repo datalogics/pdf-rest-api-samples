@@ -2,23 +2,46 @@ from requests_toolbelt import MultipartEncoder
 import requests
 import json
 
-api_polling_endpoint_url = 'https://api.pdfrest.com/request-status'
+api_key = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
 
-request_id = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place requestId to poll here
+pdfa_endpoint_url = 'https://api.pdfrest.com/pdfa'
 
-api_polling_endpoint_url = f'https://api.pdfrest.com/request-status/{request_id}'
+mp_encoder_pdfa = MultipartEncoder(
+    fields={
+        'file': ('file_name.pdf', open('/path/to/file.pdf', 'rb'), 'application/pdf'),
+        'output_type': 'PDF/A-1b',
+    }
+)
 
-headers = {
-    'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
+pdfa_headers = {
+    'Accept': 'application/json',
+    'Content-Type': mp_encoder_pdfa.content_type,
+    'Response-Type': "requestId",
+    'Api-Key': api_key
 }
 
-print("Sending GET request to request-status endpoint...")
-response = requests.get(api_polling_endpoint_url, headers=headers)
+print("Sending POST request to pdfa endpoint...")
+response = requests.post(pdfa_endpoint_url, data=mp_encoder_pdfa, headers=pdfa_headers)
 
 print("Response status code: " + str(response.status_code))
 
 if response.ok:
-    response_json = response.json()
-    print(json.dumps(response_json, indent = 2))
-else:
-    print(response.text)
+
+    response_json = response.json()   
+    request_id = response_json["requestId"]
+    api_polling_endpoint_url = f'https://api.pdfrest.com/request-status/{request_id}'
+
+    headers = {
+        'Api-Key': api_key
+    }
+
+    print("Sending GET request to request-status endpoint...")
+    response = requests.get(api_polling_endpoint_url, headers=headers)
+
+    print("Response status code: " + str(response.status_code))
+
+    if response.ok:
+        response_json = response.json()
+        print(json.dumps(response_json, indent = 2))
+    else:
+        print(response.text)
