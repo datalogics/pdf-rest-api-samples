@@ -46,6 +46,17 @@ $request = new Request('GET', $request_status_endpoint_url, $headers);
 
 $res = $client->sendAsync($request)->wait();
 
-echo $res->getBody(); // Output the response body, which contains the status information.
+$status = json_decode($res->getBody())->{'status'};
+
+while (strcmp($status, "pending") == 0):
+  echo $res->getBody(); // Output the response body, which contains the status information.
+  echo "\r\n";
+  sleep(5);
+  $res = $client->sendAsync($request)->wait();
+  $status = json_decode($res->getBody())->{'status'};
+endwhile;
+
+echo $res->getBody();
 echo "\r\n";
+
 ?>

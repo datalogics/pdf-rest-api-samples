@@ -1,6 +1,7 @@
 from requests_toolbelt import MultipartEncoder
 import requests
 import json
+import time
 
 api_key = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
 
@@ -42,6 +43,11 @@ if response.ok:
 
     if response.ok:
         response_json = response.json()
+        while response_json["status"] == "pending":
+            print(json.dumps(response_json, indent = 2))
+            time.sleep(5)
+            response = requests.get(api_polling_endpoint_url, headers=headers)
+            response_json = response.json()
         print(json.dumps(response_json, indent = 2))
     else:
         print(response.text)

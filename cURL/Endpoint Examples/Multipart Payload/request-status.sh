@@ -12,5 +12,16 @@ REQUEST_ID=$(curl -X POST "https://api.pdfrest.com/pdfa" \
   -F "output=example_out" \
   | jq -r '.requestId')
 
-curl -X GET "https://api.pdfrest.com/request-status/$REQUEST_ID" \
-  -H "Api-Key: $API_KEY"
+RESPONSE=$(curl -X GET "https://api.pdfrest.com/request-status/$REQUEST_ID" \
+  -H "Api-Key: $API_KEY")
+echo $RESPONSE
+STATUS=$(echo $RESPONSE | jq -r '.status')
+
+while [ $STATUS = "pending" ]
+do
+  sleep 5
+  RESPONSE=$(curl -X GET "https://api.pdfrest.com/request-status/$REQUEST_ID" \
+  -H "Api-Key: $API_KEY")
+  echo $RESPONSE
+  STATUS=$(echo $RESPONSE | jq -r '.status')
+done
