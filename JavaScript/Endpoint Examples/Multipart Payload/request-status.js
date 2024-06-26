@@ -23,6 +23,8 @@ const pollUntilFulfilled = async (requestId) => {
   };
   requestStatusResponse = await axios(pollConfig);
   let status = requestStatusResponse.data.status;
+
+  // This example will repeat the GET request until the BMP request is completed.
   while (status === "pending") {
     console.log(JSON.stringify(requestStatusResponse.data));
     await sleep(5000);
@@ -34,6 +36,7 @@ const pollUntilFulfilled = async (requestId) => {
 
 const demoApiPolling = async () => {
   try {
+    // Send a request with the Response-Type header (using /bmp as an arbitrary example)
     const bmpRequestData = new FormData();
     bmpRequestData.append("file", fs.createReadStream(pathToFile));
   
@@ -50,6 +53,8 @@ const demoApiPolling = async () => {
     };
     bmpResponse = await sendBmpReq(bmpConfig);
     console.log(JSON.stringify(bmpResponse.data));
+    
+    // Get the request ID from the initial response.
     const requestId = bmpResponse.data.requestId;
     await pollUntilFulfilled(requestId);
   } catch (err) {

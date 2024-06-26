@@ -14,6 +14,7 @@ mp_encoder_pdfa = MultipartEncoder(
     }
 )
 
+# Send a request to a pdfRest tool with the Response-Type header to get a request ID,
 pdfa_headers = {
     'Accept': 'application/json',
     'Content-Type': mp_encoder_pdfa.content_type,
@@ -44,6 +45,7 @@ if response.ok:
     if response.ok:
         response_json = response.json()
         while response_json["status"] == "pending":
+            # This example will get the request status every 5 seconds until the request is completed.
             print(json.dumps(response_json, indent = 2))
             time.sleep(5)
             response = requests.get(api_polling_endpoint_url, headers=headers)

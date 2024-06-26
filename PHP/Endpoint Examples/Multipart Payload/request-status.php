@@ -11,7 +11,7 @@ $apiKey = 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'; // Your API key goes here.
 
 $headers = [
   'Api-Key' => $apiKey,
-  'response-type' => 'requestId'
+  'response-type' => 'requestId' // Use this header to obtain a request status.
 ];
 
 $pngOptions = [
@@ -27,6 +27,7 @@ $pngOptions = [
   ]
 ];
 
+// Using /png as an arbitrary example, send a request with the Request-Type header.
 $pngRequest = new Request('POST', 'https://api.pdfrest.com/png', $headers);
 
 $pngResponse = $client->sendAsync($pngRequest, $pngOptions)->wait();
@@ -34,8 +35,10 @@ $pngResponse = $client->sendAsync($pngRequest, $pngOptions)->wait();
 echo $pngResponse->getBody();
 echo "\r\n";
 
+// Get the request ID from the response.
 $requestId = json_decode($pngResponse->getBody())->{'requestId'};
 
+// Get the status of the PNG request by its ID.
 $request_status_endpoint_url = 'https://api.pdfrest.com/request-status/'.$requestId;
 
 $headers = [
@@ -48,6 +51,7 @@ $res = $client->sendAsync($request)->wait();
 
 $status = json_decode($res->getBody())->{'status'};
 
+// This example repeats the status request until the request is fulfilled.
 while (strcmp($status, "pending") == 0):
   echo $res->getBody(); // Output the response body, which contains the status information.
   echo "\r\n";
