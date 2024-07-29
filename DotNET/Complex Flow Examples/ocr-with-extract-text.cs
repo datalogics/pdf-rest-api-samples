@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-class Program
+class OcrWithExtractText
 {
     private static readonly string apiKey = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Your API key here
 
@@ -24,7 +24,6 @@ class Program
             var pdfByteArrayContent = new ByteArrayContent(pdfByteArray);
             ocrMultipartContent.Add(pdfByteArrayContent, "file", "file.pdf");
             pdfByteArrayContent.Headers.TryAddWithoutValidation("Content-Type", "application/pdf");
-            ocrMultipartContent.Add(new StringContent("example_pdf-with-ocr-text_out"), "output");
 
             ocrRequest.Content = ocrMultipartContent;
             var ocrResponse = await httpClient.SendAsync(ocrRequest);
@@ -43,7 +42,8 @@ class Program
             extractTextRequest.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             var extractTextMultipartContent = new MultipartFormDataContent();
 
-            extractTextMultipartContent.Add(new StringContent(ocrPDFID), "id");
+            var byteArrayOption = new ByteArrayContent(Encoding.UTF8.GetBytes(ocrPDFID));
+            extractTextMultipartContent.Add(byteArrayOption, "id");
 
             extractTextRequest.Content = extractTextMultipartContent;
             var extractTextResponse = await httpClient.SendAsync(extractTextRequest);
