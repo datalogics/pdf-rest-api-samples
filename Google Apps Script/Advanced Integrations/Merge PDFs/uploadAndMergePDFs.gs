@@ -1,7 +1,7 @@
 function uploadAndMergePDFs(pdfFiles) {
   // Replace with your actual API key
   const apiKey = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
-  
+
   const uploadUrl = "https://api.pdfrest.com/upload";
   const mergeUrl = "https://api.pdfrest.com/merged-pdf";
 
@@ -33,9 +33,6 @@ function uploadAndMergePDFs(pdfFiles) {
     typeArr.push("id");
   }
 
-  // Wait for all uploads to complete
-  uploadedFiles.forEach(fileId => waitForUploadCompletion(fileId));
-
 
   // Prepare merge request data
   const mergeData = {
@@ -66,28 +63,16 @@ function uploadAndMergePDFs(pdfFiles) {
   return (mergedPdfInfo.outputId);
 }
 
-function checkUploadStatus(fileId) {
-    const options = {
-      "method": "get",
-    };
-    const response = UrlFetchApp.fetch(`https://api.pdfrest.com/resource/${fileId}?format=info`, options);
-    const data = JSON.parse(response.getContentText());
-    return data.size > 0;
-}
-
-function waitForUploadCompletion(fileId) {
-  while (!checkUploadStatus(fileId)) {
-    Utilities.sleep(1000); // Wait 1 second before checking again
-  }
-}
 
 function getFile(fileId, folderId) {
   const options = {
     "method": "get",
     "responseType": UrlFetchApp.BLOB, // Specify response type as blob
   };
+
   const response = UrlFetchApp.fetch(`https://api.pdfrest.com/resource/${fileId}?format=file`, options);
   const pdfBlob = response.getBlob(); // Directly get the blob from the response
+
   const folder = DriveApp.getFolderById(folderId);
   const result = folder.createFile(pdfBlob);
   console.log("Merged PDF downloaded!");
