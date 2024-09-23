@@ -3,7 +3,7 @@ as more advanced workflows presented in Javascript
 
 #### How to run JavaScript samples
 
-Using Node 16 or greater:
+We recommend using Node.js >= 20 with our code samples.
 
 1. `cd JavaScript/`
 2. `npm install node-fetch`
