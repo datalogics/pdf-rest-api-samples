@@ -10,7 +10,7 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
 
         var byteArray = File.ReadAllBytes("/path/to/file");
         var byteAryContent = new ByteArrayContent(byteArray);
-        multipartContent.Add(byteAryContent, "file", "file_name");
+        multipartContent.Add(byteAryContent, "file", "file_name.pdf");
         byteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/pdf");
 
 
