@@ -6,7 +6,7 @@ import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class RasterizedPdf {
+public class RasterizedPDF {
 
   // Specify the path to your file here, or as the first argument when running the program.
   private static final String DEFAULT_FILE_PATH = "/path/to/file.pdf";
