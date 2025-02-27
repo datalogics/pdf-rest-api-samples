@@ -1,0 +1,2 @@
+[workspace]
+members = ["ocr_with_extract_text"]

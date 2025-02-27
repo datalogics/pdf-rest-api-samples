@@ -1289,3 +1289,5 @@ Node/node_modules/
 Node/package-lock.json
 PHP/**/vendor/**
 PHP/**/composer.*
+Rust/**/Cargo.lock
+Rust/**/target/
