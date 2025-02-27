@@ -10,7 +10,8 @@ bin/
 obj/
 
 # Common node modules locations
-/node_modules
+Node/node_modules
+Node/package-lock.json
 /wwwroot/node_modules
 
 ### Emacs ###
@@ -1298,3 +1299,7 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/vim,java,node,emacs,linux,macos,dotenv,python,pycharm,windows,intellij,phpstorm,webstorm,dotnetcore,salesforce,visualstudio,visualstudiocode,rust
+
+# PHP
+PHP/**/vendor/**
+PHP/**/composer.*
