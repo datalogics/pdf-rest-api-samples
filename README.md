@@ -15,8 +15,8 @@ pdfRest is a REST API Toolkit for developers with all of the API Tools you'll ne
 | **[Watermark PDF](https://pdfrest.com/apitools/watermark-pdf/)** | **[Flatten Transparencies](https://pdfrest.com/apitools/flatten-transparencies/)** | **[Flatten Annotations](https://pdfrest.com/apitools/flatten-annotations/)** | **[Flatten Layers](https://pdfrest.com/apitools/flatten-layers/)** |
 **[Query PDF](https://pdfrest.com/apitools/query-pdf/)**           | **[Linearize PDF](https://pdfrest.com/apitools/linearize-pdf/)**   | **[Upload Files](https://pdfrest.com/apitools/upload-files/)**                   | **[Zip Files](https://pdfrest.com/apitools/zip-files/)**
 | **[Flatten Forms](https://pdfrest.com/apitools/flatten-forms/)** | **[Import Form Data](https://pdfrest.com/apitools/import-form-data/)** | **[Export Form Data](https://pdfrest.com/apitools/export-form-data/)** | **[Extract Text](https://pdfrest.com/apitools/extract-text/)** |
-| **[PDF to Word](https://pdfrest.com/apitools/pdf-to-word/)** | **[PDF to Excel](https://pdfrest.com/apitools/pdf-to-excel/)** | **[PDF to PowerPoint](https://pdfrest.com/apitools/pdf-to-powerpoint/)** | **[Convert PDF Colors](https://pdfrest.com/apitools/convert-pdf-colors/)** |
-| **[OCR to PDF](https://pdfrest.com/apitools/ocr-pdf/)** | **[API Polling](https://pdfrest.com/apitools/api-polling/)** | | |
+| **[PDF to Word](https://pdfrest.com/apitools/pdf-to-word/)** | **[PDF to Excel](https://pdfrest.com/apitools/pdf-to-excel/)** | **[PDF to PowerPoint](https://pdfrest.com/apitools/pdf-to-powerpoint/)** | **[Extract Images](https://pdfrest.com/apitools/extract-images/)** |
+| **[OCR to PDF](https://pdfrest.com/apitools/ocr-pdf/)** | **[API Polling](https://pdfrest.com/apitools/api-polling/)** | **[Rasterize PDF](https://pdfrest.com/apitools/rasterize-pdf/)** | **[Convert PDF Colors](https://pdfrest.com/apitools/convert-pdf-colors/)** |
 
 <br>
 
@@ -28,7 +28,7 @@ Get started quickly with our [API Lab](https://pdfrest.com/apilab/) web app, tru
 
 This GitHub repository provides public access to code examples that demonstrate how to programmatically submit requests to the [pdfRest API Toolkit](https://pdfrest.com/) service.
 
-Start by [generating a free API Key](https://pdfrest.com/getstarted/), required to run these samples. Choose between a Guest API Key for 50 free API Calls before signing up, or create an account with a Starter plan for 300 free API Calls per month. [Plans](https://pdfrest.com/pricing/) scale up from there to support all projects and applications, big and small.
+Start by [generating a free API Key](https://pdfrest.com/getstarted/), required to run these samples. Create an account with a Starter plan for 100 free API Calls per month. [Plans](https://pdfrest.com/pricing/) scale up from there to support all projects and applications, big and small.
 
 <br>
 
@@ -70,7 +70,7 @@ After you've successfully sent an API Call using these examples, take a look at 
 
 ## Postman Collection
 
-Use Postman to fast-track your API testing! Check out the pdfRest [Postman Collection](https://www.postman.com/pdfrest/) to start sending POST requests with just a few clicks from pre-configured POST requests.
+Use Postman to fast-track your API testing! Check out the pdfRest [Postman Collection](https://www.postman.com/pdfrest) to start sending POST requests with just a few clicks from pre-configured POST requests.
 
 <br>
 
