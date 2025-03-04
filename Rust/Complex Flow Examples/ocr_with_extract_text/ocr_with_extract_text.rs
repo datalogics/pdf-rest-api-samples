@@ -12,6 +12,7 @@ const API_KEY: &str = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Send POST request to /upload with PDF file
     let client = Client::new();
     let mut file = File::open(INPUT_FILE_PATH).await?;
     let mut upload_contents = Vec::new();
@@ -28,9 +29,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let upload_error = upload_res_obj.error.unwrap();
         panic!("ERROR: {}", upload_error);
     }
+
+    // Get ID of uploaded file
     let uploaded_files = upload_res_obj.files.unwrap();
     let uploaded_file = uploaded_files.get(0).unwrap();
-    
+
+    // Use OCR to add text to PDF
     let mut ocr_headers = HeaderMap::new();
     ocr_headers.insert(ACCEPT, HeaderValue::from_static("application/json"));
     ocr_headers.insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
@@ -49,8 +53,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         panic!("ERROR: {}", pdfrest_error);
     }
 
+    // Get ID of PDF with OCR text
     let file_with_ocr_id = ocr_res_obj.outputId.unwrap();
 
+    // Extract text from PDF
     let mut extract_text_headers = HeaderMap::new();
     extract_text_headers.insert(ACCEPT, HeaderValue::from_static("application/json"));
     extract_text_headers.insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
@@ -68,6 +74,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let pdfrest_error = ocr_res_obj.error.unwrap();
         panic!("ERROR: {}", pdfrest_error);
     }
+    // Get and print text from the response
     let text_extract_res_str = serde_json::to_string_pretty(&text_extract_res_obj)?;
     println!("{}", text_extract_res_str);
     Ok(())
