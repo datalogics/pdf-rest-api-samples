@@ -28,7 +28,7 @@ Get started quickly with our [API Lab](https://pdfrest.com/apilab/) web app, tru
 
 This GitHub repository provides public access to code examples that demonstrate how to programmatically submit requests to the [pdfRest API Toolkit](https://pdfrest.com/) service.
 
-Start by [generating a free API Key](https://pdfrest.com/getstarted/), required to run these samples. Choose between a Guest API Key for 50 free API Calls before signing up, or create an account with a Starter plan for 300 free API Calls per month. [Plans](https://pdfrest.com/pricing/) scale up from there to support all projects and applications, big and small.
+Start by [generating a free API Key](https://pdfrest.com/getstarted/), required to run these samples. Create an account with a Starter plan for 100 free API Calls per month. [Plans](https://pdfrest.com/pricing/) scale up from there to support all projects and applications, big and small.
 
 <br>
 
