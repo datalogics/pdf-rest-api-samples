@@ -16,7 +16,7 @@ pdfRest is a REST API Toolkit for developers with all of the API Tools you'll ne
 **[Query PDF](https://pdfrest.com/apitools/query-pdf/)**           | **[Linearize PDF](https://pdfrest.com/apitools/linearize-pdf/)**   | **[Upload Files](https://pdfrest.com/apitools/upload-files/)**                   | **[Zip Files](https://pdfrest.com/apitools/zip-files/)**
 | **[Flatten Forms](https://pdfrest.com/apitools/flatten-forms/)** | **[Import Form Data](https://pdfrest.com/apitools/import-form-data/)** | **[Export Form Data](https://pdfrest.com/apitools/export-form-data/)** | **[Extract Text](https://pdfrest.com/apitools/extract-text/)** |
 | **[PDF to Word](https://pdfrest.com/apitools/pdf-to-word/)** | **[PDF to Excel](https://pdfrest.com/apitools/pdf-to-excel/)** | **[PDF to PowerPoint](https://pdfrest.com/apitools/pdf-to-powerpoint/)** | **[Convert PDF Colors](https://pdfrest.com/apitools/convert-pdf-colors/)** |
-| **[OCR to PDF](https://pdfrest.com/apitools/ocr-pdf/)** | **[API Polling](https://pdfrest.com/apitools/api-polling/)** | | |
+| **[OCR to PDF](https://pdfrest.com/apitools/ocr-pdf/)** | **[API Polling](https://pdfrest.com/apitools/api-polling/)** | **[Rasterize PDF](https://pdfrest.com/apitools/rasterize-pdf/)** | |
 
 <br>
 
@@ -70,7 +70,7 @@ After you've successfully sent an API Call using these examples, take a look at 
 
 ## Postman Collection
 
-Use Postman to fast-track your API testing! Check out the pdfRest [Postman Collection](https://www.postman.com/pdfrest/) to start sending POST requests with just a few clicks from pre-configured POST requests.
+Use Postman to fast-track your API testing! Check out the pdfRest [Postman Collection](https://www.postman.com/pdfrest) to start sending POST requests with just a few clicks from pre-configured POST requests.
 
 <br>
 
