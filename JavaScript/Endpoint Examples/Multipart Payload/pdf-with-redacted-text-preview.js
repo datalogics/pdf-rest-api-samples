@@ -12,7 +12,7 @@ data.append('file', fs.createReadStream('/path/to/file'));
 var redaction_option_array = [];
 var redaction_options1 = {
     "type": "preset",
-    "value": "uuid",
+    "value": "email",
 };
 var redaction_options2 = {
     "type": "regex",

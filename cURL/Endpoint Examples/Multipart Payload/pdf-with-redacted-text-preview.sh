@@ -1,4 +1,4 @@
-REDACTIONS='[{"type":"preset","value":"uuid"},{"type":"regex","value":"(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}"},{"type":"literal","value":"word"}]'
+REDACTIONS='[{"type":"preset","value":"email"},{"type":"regex","value":"(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}"},{"type":"literal","value":"word"}]'
 
 curl -X POST "https://api.pdfrest.com/pdf-with-redacted-text-preview" \
   -H "Accept: application/json" \

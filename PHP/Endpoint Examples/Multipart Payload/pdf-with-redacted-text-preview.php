@@ -23,7 +23,7 @@ $options = [
     ],
     [
       'name' => 'redactions', // Specify the field name for the text options.
-      'contents' => '[{"type":"preset","value":"uuid"},{"type":"regex","value":"(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}"},{"type":"literal","value":"word"}]' // Set the value for the redactions option. This is a JSON-formatted string consisting of an array with sets of text options.
+      'contents' => '[{"type":"preset","value":"email"},{"type":"regex","value":"(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}"},{"type":"literal","value":"word"}]' // Set the value for the redactions option. This is a JSON-formatted string consisting of an array with sets of text options.
     ],
     [
       'name' => 'output', // Specify the field name for the output option.

@@ -37,7 +37,7 @@ public class PDFWithRedactedTextPreview {
     String uploadedID = fileObject.get("id").toString();
 
     String redactionOptions =
-        "[{\\\"type\\\":\\\"preset\\\",\\\"value\\\":\\\"uuid\\\"},{\\\"type\\\":\\\"regex\\\",\\\"value\\\":\\\"(\\\\\\\\+\\\\\\\\d{1,2}\\\\\\\\s)?\\\\\\\\(?\\\\\\\\d{3}\\\\\\\\)?[\\\\\\\\s.-]\\\\\\\\d{3}[\\\\\\\\s.-]\\\\\\\\d{4}\\\"},{\\\"type\\\":\\\"literal\\\",\\\"value\\\":\\\"word\\\"}]";
+        "[{\\\"type\\\":\\\"preset\\\",\\\"value\\\":\\\"email\\\"},{\\\"type\\\":\\\"regex\\\",\\\"value\\\":\\\"(\\\\\\\\+\\\\\\\\d{1,2}\\\\\\\\s)?\\\\\\\\(?\\\\\\\\d{3}\\\\\\\\)?[\\\\\\\\s.-]\\\\\\\\d{3}[\\\\\\\\s.-]\\\\\\\\d{4}\\\"},{\\\"type\\\":\\\"literal\\\",\\\"value\\\":\\\"word\\\"}]";
 
     String JSONString =
         String.format("{\"id\":\"%s\", \"redactions\":\"%s\"}", uploadedID, redactionOptions);

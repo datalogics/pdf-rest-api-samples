@@ -25,7 +25,7 @@ public class PDFWithRedactedTextPreview {
     final Dotenv dotenv = Dotenv.configure().ignoreIfMalformed().ignoreIfMissing().load();
 
     final String redaction_options =
-        "[{\"type\":\"preset\",\"value\":\"uuid\"},{\"type\":\"regex\",\"value\":\"(\\\\+\\\\d{1,2}\\\\s)?\\\\(?\\\\d{3}\\\\)?[\\\\s.-]\\\\d{3}[\\\\s.-]\\\\d{4}\"},{\"type\":\"literal\",\"value\":\"word\"}]";
+        "[{\"type\":\"preset\",\"value\":\"email\"},{\"type\":\"regex\",\"value\":\"(\\\\+\\\\d{1,2}\\\\s)?\\\\(?\\\\d{3}\\\\)?[\\\\s.-]\\\\d{3}[\\\\s.-]\\\\d{4}\"},{\"type\":\"literal\",\"value\":\"word\"}]";
     final RequestBody inputFileRequestBody =
         RequestBody.create(inputFile, MediaType.parse("application/pdf"));
     RequestBody requestBody =

@@ -19,7 +19,7 @@ if upload_response.ok:
     uploaded_id = upload_response_json['files'][0]['id']
     redaction_options = [{
         "type": "preset",
-        "value": "uuid",
+        "value": "email",
     },
     {
         "type": "regex",

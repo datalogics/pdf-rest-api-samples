@@ -6,7 +6,7 @@ pdf_with_redacted_text_endpoint_url = 'https://api.pdfrest.com/pdf-with-redacted
 
 redaction_options = [{
         "type": "preset",
-        "value": "uuid",
+        "value": "email",
     },
     {
         "type": "regex",
