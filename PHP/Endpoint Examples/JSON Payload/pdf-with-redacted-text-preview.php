@@ -23,7 +23,7 @@ $uploaded_id = $upload_response_json->{'files'}[0]->{'id'};
 echo "Successfully uploaded with an id of: " . $uploaded_id . PHP_EOL;
 
 $redact_text_client = new Client(['http_errors' => false]);
-$redaction_options = '[{\"type\":\"preset\",\"value\":\"email\"},{\"type\":\"regex\",\"value\":\"(\\\\+\\\\d{1,2}\\\\s)?\\\\(?\\\\d{3}\\\\)?[\\\\s.-]\\\\d{3}[\\\\s.-]\\\\d{4}\"},{\"type\":\"literal\",\"value\":\"word\"}]';
+$redaction_options = '[{\"type\":\"preset\",\"value\":\"email\"},{\"type\":\"regex\",\"value\":\"(\\\\\\\\+\\\\\\\\d{1,2}\\\\\\\\s)?\\\\\\\\(?\\\\\\\\d{3}\\\\\\\\)?[\\\\\\\\s.-]\\\\\\\\d{3}[\\\\\\\\s.-]\\\\\\\\d{4}\"},{\"type\":\"literal\",\"value\":\"word\"}]';
 $redact_text_headers = [
   'api-key' => 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
   'Content-Type' => 'application/json'
