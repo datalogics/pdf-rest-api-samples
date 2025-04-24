@@ -49,7 +49,7 @@ axios(upload_config)
       },
       data: {
         id: uploaded_id,
-        text_objects: JSON.stringify(redaction_option_array),
+        redactions: JSON.stringify(redaction_option_array),
       }, // set the data to be sent with the request
     };
 

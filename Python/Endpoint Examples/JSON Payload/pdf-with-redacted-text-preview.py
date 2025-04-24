@@ -29,7 +29,7 @@ if upload_response.ok:
         "type": "literal",
         "value": "word",
     }]
-    redact_text_data = { "id" : uploaded_id, "text_objects": json.dumps(redaction_options) }
+    redact_text_data = { "id" : uploaded_id, "redactions": json.dumps(redaction_options) }
 
     print(json.dumps(redact_text_data, indent = 2))
 
