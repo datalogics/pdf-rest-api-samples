@@ -8,7 +8,7 @@ pdf_with_redacted_text_endpoint_url = 'https://api.pdfrest.com/pdf-with-redacted
 # This sample demonstrates a request to redact text on a document that was processed by /pdf-with-redacted-text-preview
 mp_encoder_pdf_with_redacted_text = MultipartEncoder(
     fields={
-        'file': ('file_name', open('/path/to/file', 'rb'), 'application/pdf'),
+        'file': ('file_name.pdf', open('/path/to/file', 'rb'), 'application/pdf'),
         'output' : 'example_pdf-with-redacted-text-applied_out',
     }
 )
