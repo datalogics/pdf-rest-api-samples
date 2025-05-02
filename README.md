@@ -75,7 +75,7 @@ Below are instructions for running a sample in each language included in this re
 
 ## API Documentation
 
-After you've successfully sent an API Call using these examples, take a look at the [API Reference Guide]([https://pdfrest.com/documentation/](https://docs.pdfrest.com/cloud-api-reference/)) for a full description of each endpoint and parameters you can adjust to customize your solution.
+After you've successfully sent an API Call using these examples, take a look at the [API Reference Guide](https://docs.pdfrest.com/cloud-api-reference/) for a full description of each endpoint and parameters you can adjust to customize your solution.
 
 <br>
 
