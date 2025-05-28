@@ -1,6 +1,6 @@
 #!/bin/sh
 
-UPLOAD_ID=$(curl --location 'http://localhost:3000/upload' \
+UPLOAD_ID=$(curl --location 'https://api.pdfrest.com/upload' \
 --header 'api-key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' \
 --header 'content-filename: filename.pdf' \
 --data-binary '@/path/to/file' \
