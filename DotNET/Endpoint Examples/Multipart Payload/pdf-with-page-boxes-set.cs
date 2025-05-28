@@ -15,23 +15,30 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
         multipartContent.Add(byteAryContent, "file", "file_name.pdf");
         byteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/pdf");
 
-        var boxes_option_array = new JArray();
-        var boxes_option1 = new JObject
+        var boxOptions = new JObject
         {
-            ["box"] = "media",
-            ["pages"] = new JArray();
+            ["boxes"] = new JArray
+            {
+                new JObject
+                {
+                    ["box"] = "media",
+                    ["pages"] = new JArray
+                    {
+                        new JObject
+                        {
+                            ["range"] = "1",
+                            ["left"] = 100,
+                            ["top"] = 100,
+                            ["bottom"] = 100,
+                            ["right"] = 100
+                        }
+                    }
+                }
+            }
         };
-        var pages_option1 = new JObject
-        {
-            ["range"] = "1",
-            ["left"] = "100",
-            ["right"] = "100",
-            ["top"] = "100",
-            ["bottom"] = "100",
-        };
-        ((JArray)boxes_option1["pages"]).Add(pages_option1);
-        boxes_option_array.Add(boxes_option1);
-        var byteArrayOption = new ByteArrayContent(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(boxes_option_array)));
+
+
+        var byteArrayOption = new ByteArrayContent(Encoding.UTF8.GetBytes(boxOptions.ToString(Formatting.None)));
         multipartContent.Add(byteArrayOption, "boxes");
 
 

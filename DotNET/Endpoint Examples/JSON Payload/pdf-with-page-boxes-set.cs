@@ -33,28 +33,33 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
 
             SetBoxesRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
 
-            var boxes_option_array = new JArray();
-            var boxes_option1 = new JObject
+            var boxOptions = new JObject
             {
-                ["box"] = "media",
-                ["pages"] = new JArray();
-            };
-            var pages_option1 = new JObject
+                ["boxes"] = new JArray
             {
-                ["range"] = "1",
-                ["left"] = "100",
-                ["right"] = "100",
-                ["top"] = "100",
-                ["bottom"] = "100",
+                new JObject
+                {
+                    ["box"] = "media",
+                    ["pages"] = new JArray
+                    {
+                        new JObject
+                        {
+                            ["range"] = "1",
+                            ["left"] = 100,
+                            ["top"] = 100,
+                            ["bottom"] = 100,
+                            ["right"] = 100
+                        }
+                    }
+                }
+            }
             };
-            ((JArray)boxes_option1["pages"]).Add(pages_option1);
-            boxes_option_array.Add(boxes_option1);
 
             JObject parameterJson = new JObject
-                {
-                    ["id"] = uploadedID,
-                    ["boxes"] = JsonConvert.SerializeObject(boxes_option_array),
-                };
+            {
+                ["id"] = uploadedID,
+                ["boxes"] = boxOptions.ToString(Formatting.None),
+            };
 
             SetBoxesRequest.Content = new StringContent(parameterJson.ToString(), Encoding.UTF8, "application/json"); ;
             var SetBoxesResponse = await httpClient.SendAsync(SetBoxesRequest);
