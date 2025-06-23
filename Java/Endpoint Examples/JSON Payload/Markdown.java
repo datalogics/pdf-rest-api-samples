@@ -34,7 +34,8 @@ public class Markdown {
     JSONObject fileObject = fileArray.getJSONObject(0);
     String uploadedID = fileObject.get("id").toString();
 
-    String JSONString = String.format("{\"id\":\"%s\", \"page_break_comments\":\"on\"}", uploadedID);
+    String JSONString =
+        String.format("{\"id\":\"%s\", \"page_break_comments\":\"on\"}", uploadedID);
     final RequestBody requestBody =
         RequestBody.create(JSONString, MediaType.parse("application/json"));
 
