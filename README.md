@@ -17,7 +17,7 @@ pdfRest is a REST API Toolkit for developers with all of the API Tools you'll ne
 | **[Flatten Forms](https://pdfrest.com/apitools/flatten-forms/)** | **[Import Form Data](https://pdfrest.com/apitools/import-form-data/)** | **[Export Form Data](https://pdfrest.com/apitools/export-form-data/)** | **[Extract Text](https://pdfrest.com/apitools/extract-text/)** |
 | **[PDF to Word](https://pdfrest.com/apitools/pdf-to-word/)** | **[PDF to Excel](https://pdfrest.com/apitools/pdf-to-excel/)** | **[PDF to PowerPoint](https://pdfrest.com/apitools/pdf-to-powerpoint/)** | **[Extract Images](https://pdfrest.com/apitools/extract-images/)** |
 | **[OCR to PDF](https://pdfrest.com/apitools/ocr-pdf/)** | **[API Polling](https://pdfrest.com/apitools/api-polling/)** | **[Rasterize PDF](https://pdfrest.com/apitools/rasterize-pdf/)** | **[Convert PDF Colors](https://pdfrest.com/apitools/convert-pdf-colors/)** |
-| **[Redact PDF](https://pdfrest.com/apitools/redact-pdf/)** |
+| **[Redact PDF](https://pdfrest.com/apitools/redact-pdf/)** | **[PDF to Markdown](https://pdfrest.com/apitools/pdf-to-markdown/)** |
 
 <br>
 
