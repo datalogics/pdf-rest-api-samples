@@ -34,7 +34,7 @@ public class Markdown {
         new MultipartBody.Builder()
             .setType(MultipartBody.FORM)
             .addFormDataPart("file", inputFile.getName(), inputFileRequestBody)
-            .addFormDataPart("word_style", "on")
+            .addFormDataPart("page_break_comments", "on")
             .build();
     Request request =
         new Request.Builder()
