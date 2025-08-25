@@ -8,17 +8,16 @@
 
 pdfRest is a REST API Toolkit for developers with all of the API Tools you'll need to power your PDF processing requirements, designed and documented by PDF experts to make your development work easier than ever. Rapidly integrate PDF capabilities into web applications in minutes, not days.
 
-| [Compress PDF](https://pdfrest.com/apitools/compress-pdf/)        | [Convert to PDF](https://pdfrest.com/apitools/convert-to-pdf/)                 | **[Convert to PDF/A](https://pdfrest.com/apitools/convert-to-pdfa/)** |     [Convert to PDF/X](https://pdfrest.com/apitools/convert-to-pdfx/)          |
-| :----------------------------------------------------------------- | :----------------------------------------------------------------------------------- | :----------------------------------------------------------------- | :---------------------------------------------------------------------- |
+| [Compress PDF](https://pdfrest.com/apitools/compress-pdf/) | [Convert to PDF](https://pdfrest.com/apitools/convert-to-pdf/) | **[Convert to PDF/A](https://pdfrest.com/apitools/convert-to-pdfa/)** | [Convert to PDF/X](https://pdfrest.com/apitools/convert-to-pdfx/) |
+| :--- | :--- | :--- | :--- |
 | **[Encrypt PDF](https://pdfrest.com/apitools/encrypt-pdf/)** | **[Restrict PDF](https://pdfrest.com/apitools/restrict-pdf/)** | **[Merge PDFs](https://pdfrest.com/apitools/merge-pdfs/)** | **[Split PDF](https://pdfrest.com/apitools/split-pdf/)** |
-| **[Decrypt PDF](https://pdfrest.com/apitools/encrypt-pdf/)** | **[Unrestrict PDF](https://pdfrest.com/apitools/restrict-pdf/)** | **[Add to PDF](https://pdfrest.com/apitools/add-to-pdf/)** | **[PDF to Images](https://pdfrest.com/apitools/pdf-to-images/)** |
+| **[Decrypt PDF](https://pdfrest.com/apitools/encrypt-pdf/)** | **[Unrestrict PDF](https://pdfrest.com/apitools/unrestrict-pdf/)** | **[Add to PDF](https://pdfrest.com/apitools/add-to-pdf/)** | **[PDF to Images](https://pdfrest.com/apitools/pdf-to-images/)** |
 | **[Watermark PDF](https://pdfrest.com/apitools/watermark-pdf/)** | **[Flatten Transparencies](https://pdfrest.com/apitools/flatten-transparencies/)** | **[Flatten Annotations](https://pdfrest.com/apitools/flatten-annotations/)** | **[Flatten Layers](https://pdfrest.com/apitools/flatten-layers/)** |
 | **[Query PDF](https://pdfrest.com/apitools/query-pdf/)** | **[Linearize PDF](https://pdfrest.com/apitools/linearize-pdf/)** | **[Upload Files](https://pdfrest.com/apitools/upload-files/)** | **[Zip Files](https://pdfrest.com/apitools/zip-files/)** |
 | **[Flatten Forms](https://pdfrest.com/apitools/flatten-forms/)** | **[Import Form Data](https://pdfrest.com/apitools/import-form-data/)** | **[Export Form Data](https://pdfrest.com/apitools/export-form-data/)** | **[Extract Text](https://pdfrest.com/apitools/extract-text/)** |
 | **[PDF to Word](https://pdfrest.com/apitools/pdf-to-word/)** | **[PDF to Excel](https://pdfrest.com/apitools/pdf-to-excel/)** | **[PDF to PowerPoint](https://pdfrest.com/apitools/pdf-to-powerpoint/)** | **[Extract Images](https://pdfrest.com/apitools/extract-images/)** |
 | **[OCR to PDF](https://pdfrest.com/apitools/ocr-pdf/)** | **[API Polling](https://pdfrest.com/apitools/api-polling/)** | **[Rasterize PDF](https://pdfrest.com/apitools/rasterize-pdf/)** | **[Convert PDF Colors](https://pdfrest.com/apitools/convert-pdf-colors/)** |
-| **[Redact PDF](https://pdfrest.com/apitools/redact-pdf/)** | **[PDF to Markdown](https://pdfrest.com/apitools/pdf-to-markdown/)** |
-
+| **[Redact PDF](https://pdfrest.com/apitools/redact-pdf/)** | **[PDF to Markdown](https://pdfrest.com/apitools/pdf-to-markdown/)** | **[Sign PDF](https://pdfrest.com/apitools/sign-pdf/)** | |
 <br>
 
 Get started quickly with our [API Lab](https://pdfrest.com/apilab/) web app, trust in high quality Adobe® technology, and keep costs to a minimum with the best fit plan for every business application (including a generous free plan).
