@@ -1,7 +1,24 @@
-curl -X POST "https://api.pdfrest.com/watermarked-pdf" \
+WATERMARKED_OUTPUT=$(curl -X POST "https://api.pdfrest.com/watermarked-pdf" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -H "Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" \
   -F "file=@/path/to/file" \
   -F "watermark_text=watermark" \
-  -F "output=example_out"
+  -F "output=example_out")
+
+echo $WATERMARKED_OUTPUT
+
+# All files uploaded or generated are automatically deleted based on the 
+# File Retention Period as shown on https://pdfrest.com/pricing. 
+# For immediate deletion of files, particularly when sensitive data 
+# is involved, an explicit delete call can be made to the API.
+
+# The following code is an optional step to delete unwatermarked files from pdfRest servers.
+
+INPUT_PDF_ID=$(jq -r '.inputId' <<< $WATERMARKED_OUTPUT)
+curl -X POST "https://api.pdfrest.com/delete" \
+  -H "Accept: application/json" \
+  -H "Content-Type: multipart/form-data" \
+  -H "Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" \
+  -F "ids=$INPUT_PDF_ID"
+
