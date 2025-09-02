@@ -123,6 +123,16 @@ Notes:
     - Responses are printed to stdout (typically JSON). You may pipe or redirect to files:
         - ruby "<path to sample>.rb" input.pdf > response.json
 
+### EU/GDPR Endpoint (Optional)
+
+- Base URL
+    - By default, samples call `https://api.pdfrest.com`.
+    - For GDPR compliance and improved performance for European users, set in `.env`:
+        - `PDFREST_URL=https://eu-api.pdfrest.com/`
+    - If `PDFREST_URL` is not set, the default US endpoint is used.
+- More information
+    - Learn how EU GDPR API calls work: https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+
 ---
 
 ## Troubleshooting
