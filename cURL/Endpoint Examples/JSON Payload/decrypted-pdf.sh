@@ -8,7 +8,22 @@ UPLOAD_ID=$(curl --location 'https://api.pdfrest.com/upload' \
 
 echo "File successfully uploaded with an ID of: $UPLOAD_ID"
 
-curl 'https://api.pdfrest.com/decrypted-pdf' \
+DECRYPTED_OUTPUT=$(curl 'https://api.pdfrest.com/decrypted-pdf' \
 --header 'Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' \
 --header 'Content-Type: application/json' \
---data-raw "{ \"id\": \"$UPLOAD_ID\", \"current_open_password\": \"encrypted\"}" | jq -r '.'
+--data-raw "{ \"id\": \"$UPLOAD_ID\", \"current_open_password\": \"encrypted\"}")
+
+echo $DECRYPTED_OUTPUT | jq -r '.'
+
+# All files uploaded or generated are automatically deleted based on the 
+# File Retention Period as shown on https://pdfrest.com/pricing. 
+# For immediate deletion of files, particularly when sensitive data 
+# is involved, an explicit delete call can be made to the API.
+
+# The following code is an optional step to delete decrypted files from pdfRest servers.
+
+DECRYPTED_ID=$(jq -r 'outputId' <<< $DECRYPTED_OUTPUT)
+curl --request POST "https://api.pdfrest.com/delete" \
+--header 'Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' \
+--header 'Content-Type: application/json' \
+--data-raw "{ \"ids\": \"$DECRYPTED_ID\"}" | jq -r '.'
