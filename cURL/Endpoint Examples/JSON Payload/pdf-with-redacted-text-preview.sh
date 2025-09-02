@@ -10,7 +10,24 @@ echo "File successfully uploaded with an ID of: $UPLOAD_ID"
 
 REDACTIONS='[{\"type\":\"preset\",\"value\":\"email\"},{\"type\":\"regex\",\"value\":\"(\\\\+\\\\d{1,2}\\\\s)?\\\\(?\\\\d{3}\\\\)?[\\\\s.-]\\\\d{3}[\\\\s.-]\\\\d{4}\"},{\"type\":\"literal\",\"value\":\"word\"}]'
 
-curl 'https://api.pdfrest.com/pdf-with-redacted-text-preview' \
+PREVIEW_OUTPUT=$(curl 'https://api.pdfrest.com/pdf-with-redacted-text-preview' \
 --header 'Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' \
 --header 'Content-Type: application/json' \
---data-raw "{ \"id\": \"$UPLOAD_ID\", \"redactions\": \"$REDACTIONS\"}" | jq -r '.'
+--data-raw "{ \"id\": \"$UPLOAD_ID\", \"redactions\": \"$REDACTIONS\"}")
+
+echo $PREVIEW_OUTPUT | jq -r '.'
+
+# All files uploaded or generated are automatically deleted based on the 
+# File Retention Period as shown on https://pdfrest.com/pricing. 
+# For immediate deletion of files, particularly when sensitive data 
+# is involved, an explicit delete call can be made to the API.
+
+# The following code is an optional step to delete unredacted files from pdfRest servers.
+# IMPORTANT: Do not delete the PREVIEW_PDF_ID file until after the redaction is applied
+# with the /pdf-with-redacted-text-applied endpoint.
+
+PREVIEW_PDF_ID=$(jq -r '.outputId' <<< $PREVIEW_OUTPUT)
+curl --request POST "https://api.pdfrest.com/delete" \
+--header 'Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' \
+--header 'Content-Type: application/json' \
+--data-raw "{ \"ids\": \"$UPLOAD_ID, $PREVIEW_PDF_ID\"}" | jq -r '.'
