@@ -19,7 +19,7 @@
 - Ruby style: 2-space indentation, `snake_case` for files, methods, and variables.
 - Script naming: match pdfRest endpoint (e.g., `markdown.rb`, `rasterized-pdf.rb`).
 - Env config: load via `dotenv`; read `PDFREST_API_KEY` and abort with clear messages.
-- HTTP: use `Faraday` with `:retry` (short, limited retries). Prefer explicit headers and content types.
+- HTTP: use `Faraday` with `:retry` (short, limited retries). Prefer explicit headers and content types. Base URL from `ENV['PDFREST_URL']` (defaults to `https://api.pdfrest.com`).
 - Errors: `abort` on non-2xx with concise context; print API responses to stdout.
 
 ## Testing Guidelines
@@ -37,3 +37,4 @@
 - Keep secrets out of VCS: do not commit `.env`; use `.env.example` as a template.
 - Handle proxies via standard env vars (e.g., `HTTPS_PROXY`) when needed.
 - Never log API keys; prefer printing only response bodies and minimal diagnostics to `STDERR`.
+- API base override: set `PDFREST_URL` in `.env` to change regions. For EU GDPR compliance and improved performance in Europe, you may use `https://eu-api.pdfrest.com/`. More info: https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
