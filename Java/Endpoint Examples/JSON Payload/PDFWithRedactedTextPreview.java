@@ -60,7 +60,7 @@ public class PDFWithRedactedTextPreview {
       if (response.body() != null) {
         String respStr = response.body().string();
         System.out.println(prettyJson(respStr));
-        
+
         // All files uploaded or generated are automatically deleted based on the
 
         // All files uploaded or generated are automatically deleted based on the
@@ -70,12 +70,13 @@ public class PDFWithRedactedTextPreview {
         //
         // The following code is an optional step to delete sensitive files
         // (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
-        // IMPORTANT: Do not delete the previewId (the preview PDF) file until after the redaction is
-        // applied with the /pdf-with-redacted-text-applied endpoint.
+        // IMPORTANT: Do not delete the previewId (the preview PDF) file until after the redaction
+        // is applied with the /pdf-with-redacted-text-applied endpoint.
 
         String previewId = new JSONObject(respStr).getString("outputId");
         String deleteJson = String.format("{ \"ids\":\"%s, %s\" }", uploadedID, previewId);
-        RequestBody deleteBody = RequestBody.create(deleteJson, MediaType.parse("application/json"));
+        RequestBody deleteBody =
+            RequestBody.create(deleteJson, MediaType.parse("application/json"));
         Request deleteRequest =
             new Request.Builder()
                 .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
