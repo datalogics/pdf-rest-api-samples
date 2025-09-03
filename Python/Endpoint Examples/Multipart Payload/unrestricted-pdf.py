@@ -34,3 +34,19 @@ else:
     print(response.text)
 
 # If you would like to download the file instead of getting the JSON response, please see the 'get-resource-id-endpoint.py' sample.
+
+# All files uploaded or generated are automatically deleted based on the 
+# File Retention Period as shown on https://pdfrest.com/pricing. 
+# For immediate deletion of files, particularly when sensitive data 
+# is involved, an explicit delete call can be made to the API.
+#
+# The following code is an optional step to delete sensitive files
+# (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
+
+result_id = response_json['outputId']
+delete_data = { "ids": result_id }
+delete_response = requests.post(url='https://api.pdfrest.com/delete',
+                    data=json.dumps(delete_data),
+                    headers={'Content-Type': 'application/json', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
+print("Delete response status code: " + str(delete_response.status_code))
+print(json.dumps(delete_response.json(), indent = 2))

@@ -31,3 +31,21 @@ $encrypt_body = '{"id":"'.$uploaded_id.'", "new_open_password": "password"}';
 $encrypt_request = new Request('POST', 'https://api.pdfrest.com/encrypted-pdf', $encrypt_headers, $encrypt_body);
 $encrypt_res = $encrypt_client->sendAsync($encrypt_request)->wait();
 echo $encrypt_res->getBody() . PHP_EOL;
+
+// All files uploaded or generated are automatically deleted based on the 
+// File Retention Period as shown on https://pdfrest.com/pricing. 
+// For immediate deletion of files, particularly when sensitive data 
+// is involved, an explicit delete call can be made to the API.
+//
+// The following code is an optional step to delete sensitive files
+// (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
+
+$delete_client = new Client(['http_errors' => false]);
+$delete_headers = [
+  'api-key' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+  'Content-Type' => 'application/json'
+];
+$delete_body = '{"ids":"' . $uploaded_id . '"}';
+$delete_request = new Request('POST', 'https://api.pdfrest.com/delete', $delete_headers, $delete_body);
+$delete_res = $delete_client->sendAsync($delete_request)->wait();
+echo $delete_res->getBody() . PHP_EOL;

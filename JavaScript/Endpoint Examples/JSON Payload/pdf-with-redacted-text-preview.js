@@ -57,6 +57,36 @@ axios(upload_config)
     axios(redact_text_config)
       .then(function (redact_text_response) {
         console.log(JSON.stringify(redact_text_response.data));
+
+        // All files uploaded or generated are automatically deleted based on the 
+        // File Retention Period as shown on https://pdfrest.com/pricing. 
+        // For immediate deletion of files, particularly when sensitive data 
+        // is involved, an explicit delete call can be made to the API.
+        //
+        // The following code is an optional step to delete sensitive files
+        // (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
+        // IMPORTANT: Do not delete the preview_id (the preview PDF) file until after the redaction is applied
+        // with the /pdf-with-redacted-text-applied endpoint.
+
+        var preview_id = redact_text_response.data.outputId;
+        var delete_config = {
+          method: "post",
+          maxBodyLength: Infinity,
+          url: "https://api.pdfrest.com/delete",
+          headers: {
+            "Api-Key": "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "Content-Type": "application/json",
+          },
+          data: { ids: uploaded_id + ', ' + preview_id },
+        };
+
+        axios(delete_config)
+          .then(function (delete_response) {
+            console.log(JSON.stringify(delete_response.data));
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
       })
       .catch(function (error) {
         console.log(error);

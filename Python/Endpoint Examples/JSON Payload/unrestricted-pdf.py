@@ -34,6 +34,21 @@ if upload_response.ok:
         unrestrict_response_json = unrestrict_response.json()
         print(json.dumps(unrestrict_response_json, indent = 2))
 
+        # All files uploaded or generated are automatically deleted based on the 
+        # File Retention Period as shown on https://pdfrest.com/pricing. 
+        # For immediate deletion of files, particularly when sensitive data 
+        # is involved, an explicit delete call can be made to the API.
+        #
+        # The following code is an optional step to delete sensitive files
+        # (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
+
+        result_id = unrestrict_response_json['outputId']
+        delete_data = { "ids": result_id }
+        delete_response = requests.post(url='https://api.pdfrest.com/delete',
+                            data=json.dumps(delete_data),
+                            headers={'Content-Type': 'application/json', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
+        print(json.dumps(delete_response.json(), indent = 2))
+
     else:
         print(unrestrict_response.text)
 else:
