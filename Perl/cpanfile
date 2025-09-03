@@ -1,0 +1,10 @@
+requires 'LWP::UserAgent';
+requires 'HTTP::Request::Common';
+requires 'JSON::PP';
+requires 'Try::Tiny';
+requires 'LWP::Protocol::https';
+# Recommended for certificate bundle
+requires 'Mozilla::CA';
+requires 'IO::Socket::SSL';
+requires 'Net::SSLeay';
+requires 'URI';
