@@ -58,9 +58,9 @@ public class EncryptedPDF {
         System.out.println(prettyJson(response.body().string()));
       }
 
-      // All files uploaded or generated are automatically deleted based on the 
-      // File Retention Period as shown on https://pdfrest.com/pricing. 
-      // For immediate deletion of files, particularly when sensitive data 
+      // All files uploaded or generated are automatically deleted based on the
+      // File Retention Period as shown on https://pdfrest.com/pricing.
+      // For immediate deletion of files, particularly when sensitive data
       // is involved, an explicit delete call can be made to the API.
       //
       // The following code is an optional step to delete sensitive files
@@ -68,12 +68,19 @@ public class EncryptedPDF {
 
       String deleteJson = String.format("{ \"ids\":\"%s\" }", uploadedID);
       RequestBody deleteBody = RequestBody.create(deleteJson, MediaType.parse("application/json"));
-      Request deleteRequest = new Request.Builder()
-          .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
-          .url("https://api.pdfrest.com/delete")
-          .post(deleteBody)
-          .build();
-      try (Response deleteResp = new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS).build().newCall(deleteRequest).execute()) {
+      Request deleteRequest =
+          new Request.Builder()
+              .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
+              .url("https://api.pdfrest.com/delete")
+              .post(deleteBody)
+              .build();
+      try (Response deleteResp =
+          new OkHttpClient()
+              .newBuilder()
+              .readTimeout(60, TimeUnit.SECONDS)
+              .build()
+              .newCall(deleteRequest)
+              .execute()) {
         if (deleteResp.body() != null) {
           System.out.println(prettyJson(deleteResp.body().string()));
         }
