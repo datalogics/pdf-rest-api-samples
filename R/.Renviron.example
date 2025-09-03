@@ -7,4 +7,5 @@ PDFREST_API_KEY=your_api_key_here
 # Optional: override base URL
 # For EU/GDPR or regional routing you may use:
 # PDFREST_URL=https://eu-api.pdfrest.com/
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
 PDFREST_URL=https://api.pdfrest.com

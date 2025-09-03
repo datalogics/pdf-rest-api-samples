@@ -8,6 +8,7 @@
 # - Set PDFREST_API_KEY=your_api_key_here
 # - Optional: set PDFREST_URL to override the API region. For EU/GDPR compliance and proximity, use:
 #     PDFREST_URL=https://eu-api.pdfrest.com
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
 #
 # Usage:
 #   Rscript "Complex Flow Examples/merge-different-file-types.R" /path/to/file1 /path/to/file2 [/path/to/file3 ...]
