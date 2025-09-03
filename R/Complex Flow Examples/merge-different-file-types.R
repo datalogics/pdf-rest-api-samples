@@ -42,9 +42,11 @@ content_type_for <- function(path) {
   switch(ext,
     pdf = "application/pdf",
     png = "image/png",
-    jpg = "image/jpeg", jpeg = "image/jpeg",
+    jpg = "image/jpeg",
+    jpeg = "image/jpeg",
     gif = "image/gif",
-    tif = "image/tiff", tiff = "image/tiff",
+    tif = "image/tiff",
+    tiff = "image/tiff",
     bmp = "image/bmp",
     webp = "image/webp",
     doc = "application/msword",
@@ -55,77 +57,80 @@ content_type_for <- function(path) {
     xlsx = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     txt = "text/plain",
     rtf = "application/rtf",
-    html = "text/html", htm = "text/html",
+    html = "text/html",
+    htm = "text/html",
     "application/octet-stream"
   )
 }
 
-tryCatch({
-  collected_ids <- character(0)
+tryCatch(
+  {
+    collected_ids <- character(0)
 
-  for (i in seq_along(args)) {
-    p <- args[[i]]
-    ext <- tolower(tools::file_ext(p))
-    if (ext == "pdf") {
-      # Upload PDF to get id
-      upload_url <- paste0(api_base, "/upload")
-      upload_resp <- httr::POST(
-        upload_url,
-        httr::add_headers(
-          "api-key" = api_key,
-          "content-filename" = basename(p),
-          "Content-Type" = "application/octet-stream"
-        ),
-        body = readBin(p, what = "raw", n = file.info(p)$size)
-      )
-      txt <- httr::content(upload_resp, as = "text", encoding = "UTF-8")
-      message(txt)
-      if (httr::http_error(upload_resp)) {
-        stop(sprintf("Upload failed for input #%d with status %s", i, httr::status_code(upload_resp)))
+    for (i in seq_along(args)) {
+      p <- args[[i]]
+      ext <- tolower(tools::file_ext(p))
+      if (ext == "pdf") {
+        # Upload PDF to get id
+        upload_url <- paste0(api_base, "/upload")
+        upload_resp <- httr::POST(
+          upload_url,
+          httr::add_headers(
+            "api-key" = api_key,
+            "content-filename" = basename(p),
+            "Content-Type" = "application/octet-stream"
+          ),
+          body = readBin(p, what = "raw", n = file.info(p)$size)
+        )
+        txt <- httr::content(upload_resp, as = "text", encoding = "UTF-8")
+        message(txt)
+        if (httr::http_error(upload_resp)) {
+          stop(sprintf("Upload failed for input #%d with status %s", i, httr::status_code(upload_resp)))
+        }
+        up_json <- jsonlite::fromJSON(txt)
+        collected_ids <- c(collected_ids, if (is.data.frame(up_json$files)) up_json$files$id[[1]] else up_json$files[[1]]$id)
+        message(sprintf("Uploaded PDF (#%d); id=%s", i, tail(collected_ids, 1)))
+      } else {
+        # Convert to PDF via /pdf to get outputId
+        conv_url <- paste0(api_base, "/pdf")
+        body <- list(file = httr::upload_file(p, type = content_type_for(p)))
+        conv_resp <- httr::POST(conv_url, httr::add_headers("api-key" = api_key), body = body, encode = "multipart")
+        txt <- httr::content(conv_resp, as = "text", encoding = "UTF-8")
+        message(txt)
+        if (httr::http_error(conv_resp)) {
+          stop(sprintf("Conversion failed for input #%d with status %s", i, httr::status_code(conv_resp)))
+        }
+        cv_json <- jsonlite::fromJSON(txt)
+        collected_ids <- c(collected_ids, cv_json$outputId)
+        message(sprintf("Converted non-PDF (#%d); outputId=%s", i, tail(collected_ids, 1)))
       }
-      up_json <- jsonlite::fromJSON(txt)
-      collected_ids <- c(collected_ids, if (is.data.frame(up_json$files)) up_json$files$id[[1]] else up_json$files[[1]]$id)
-      message(sprintf("Uploaded PDF (#%d); id=%s", i, tail(collected_ids, 1)))
-    } else {
-      # Convert to PDF via /pdf to get outputId
-      conv_url <- paste0(api_base, "/pdf")
-      body <- list(file = httr::upload_file(p, type = content_type_for(p)))
-      conv_resp <- httr::POST(conv_url, httr::add_headers("api-key" = api_key), body = body, encode = "multipart")
-      txt <- httr::content(conv_resp, as = "text", encoding = "UTF-8")
-      message(txt)
-      if (httr::http_error(conv_resp)) {
-        stop(sprintf("Conversion failed for input #%d with status %s", i, httr::status_code(conv_resp)))
-      }
-      cv_json <- jsonlite::fromJSON(txt)
-      collected_ids <- c(collected_ids, cv_json$outputId)
-      message(sprintf("Converted non-PDF (#%d); outputId=%s", i, tail(collected_ids, 1)))
     }
+
+    # Build x-www-form-urlencoded merge body
+    enc <- function(x) utils::URLencode(x, reserved = TRUE)
+    parts <- character(0)
+    for (id in collected_ids) {
+      parts <- c(parts, paste0("id[]=", enc(id)))
+      parts <- c(parts, paste0("pages[]=", enc("1-last")))
+      parts <- c(parts, paste0("type[]=", enc("id")))
+    }
+    merge_body <- paste(parts, collapse = "&")
+
+    merge_url <- paste0(api_base, "/merged-pdf")
+    merge_resp <- httr::POST(
+      merge_url,
+      httr::add_headers("api-key" = api_key, "Content-Type" = "application/x-www-form-urlencoded"),
+      body = merge_body
+    )
+
+    merge_text <- httr::content(merge_resp, as = "text", encoding = "UTF-8")
+    cat(merge_text)
+    if (httr::http_error(merge_resp)) {
+      stop(sprintf("Merge failed with status %s", httr::status_code(merge_resp)))
+    }
+  },
+  error = function(e) {
+    stderrf("Error: %s: %s\n", class(e)[1], conditionMessage(e))
+    quit(status = 1)
   }
-
-  # Build x-www-form-urlencoded merge body
-  enc <- function(x) utils::URLencode(x, reserved = TRUE)
-  parts <- character(0)
-  for (id in collected_ids) {
-    parts <- c(parts, paste0("id[]=", enc(id)))
-    parts <- c(parts, paste0("pages[]=", enc("1-last")))
-    parts <- c(parts, paste0("type[]=", enc("id")))
-  }
-  merge_body <- paste(parts, collapse = "&")
-
-  merge_url <- paste0(api_base, "/merged-pdf")
-  merge_resp <- httr::POST(
-    merge_url,
-    httr::add_headers("api-key" = api_key, "Content-Type" = "application/x-www-form-urlencoded"),
-    body = merge_body
-  )
-
-  merge_text <- httr::content(merge_resp, as = "text", encoding = "UTF-8")
-  cat(merge_text)
-  if (httr::http_error(merge_resp)) {
-    stop(sprintf("Merge failed with status %s", httr::status_code(merge_resp)))
-  }
-
-}, error = function(e) {
-  stderrf("Error: %s: %s\n", class(e)[1], conditionMessage(e))
-  quit(status = 1)
-})
+)

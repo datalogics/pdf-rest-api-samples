@@ -37,33 +37,35 @@ if (is.null(pdf_path) || !file.exists(pdf_path)) {
   quit(status = 1)
 }
 
-tryCatch({
-  conn_url <- paste0(api_base, "/rasterized-pdf")
+tryCatch(
+  {
+    conn_url <- paste0(api_base, "/rasterized-pdf")
 
-  # Build multipart form body. httr sets multipart/form-data with boundary.
-  body <- list(
-    file = httr::upload_file(pdf_path, type = "application/pdf"),
-    output = "pdfrest_rasterize"
-    # Optional parameters you can include:
-    # dpi = "300",
-    # color_space = "rgb",
-    # page_range = "1-3"
-  )
+    # Build multipart form body. httr sets multipart/form-data with boundary.
+    body <- list(
+      file = httr::upload_file(pdf_path, type = "application/pdf"),
+      output = "pdfrest_rasterize"
+      # Optional parameters you can include:
+      # dpi = "300",
+      # color_space = "rgb",
+      # page_range = "1-3"
+    )
 
-  resp <- httr::POST(
-    conn_url,
-    httr::add_headers("api-key" = api_key),
-    body = body,
-    encode = "multipart"
-  )
+    resp <- httr::POST(
+      conn_url,
+      httr::add_headers("api-key" = api_key),
+      body = body,
+      encode = "multipart"
+    )
 
-  txt <- httr::content(resp, as = "text", encoding = "UTF-8")
-  cat(txt)
-  if (httr::http_error(resp)) {
-    stop(sprintf("Rasterization failed with status %s", httr::status_code(resp)))
+    txt <- httr::content(resp, as = "text", encoding = "UTF-8")
+    cat(txt)
+    if (httr::http_error(resp)) {
+      stop(sprintf("Rasterization failed with status %s", httr::status_code(resp)))
+    }
+  },
+  error = function(e) {
+    stderrf("Error: %s: %s\n", class(e)[1], conditionMessage(e))
+    quit(status = 1)
   }
-
-}, error = function(e) {
-  stderrf("Error: %s: %s\n", class(e)[1], conditionMessage(e))
-  quit(status = 1)
-})
+)

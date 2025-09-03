@@ -41,48 +41,50 @@ if (is.null(pdf_path) || !file.exists(pdf_path)) {
 filename <- basename(pdf_path)
 file_bytes <- readBin(pdf_path, what = "raw", n = file.info(pdf_path)$size)
 
-tryCatch({
-  # Step 1: Upload the file to receive a reusable id
-  upload_url <- paste0(api_base, "/upload")
-  upload_resp <- httr::POST(
-    upload_url,
-    httr::add_headers(
-      "api-key" = api_key,
-      "content-filename" = filename,
-      "Content-Type" = "application/octet-stream"
-    ),
-    body = file_bytes
-  )
+tryCatch(
+  {
+    # Step 1: Upload the file to receive a reusable id
+    upload_url <- paste0(api_base, "/upload")
+    upload_resp <- httr::POST(
+      upload_url,
+      httr::add_headers(
+        "api-key" = api_key,
+        "content-filename" = filename,
+        "Content-Type" = "application/octet-stream"
+      ),
+      body = file_bytes
+    )
 
-  upload_text <- httr::content(upload_resp, as = "text", encoding = "UTF-8")
-  message(upload_text)
-  if (httr::http_error(upload_resp)) {
-    stop(sprintf("Upload failed with status %s", httr::status_code(upload_resp)))
+    upload_text <- httr::content(upload_resp, as = "text", encoding = "UTF-8")
+    message(upload_text)
+    if (httr::http_error(upload_resp)) {
+      stop(sprintf("Upload failed with status %s", httr::status_code(upload_resp)))
+    }
+
+    upload_json <- jsonlite::fromJSON(upload_text)
+    uploaded_id <- if (is.data.frame(upload_json$files)) upload_json$files$id[[1]] else upload_json$files[[1]]$id
+    message(sprintf("Successfully uploaded with an id of: %s", uploaded_id))
+
+    # Step 2: Request a rasterized PDF using the uploaded id
+    rast_url <- paste0(api_base, "/rasterized-pdf")
+    body <- jsonlite::toJSON(list(id = uploaded_id), auto_unbox = TRUE)
+    rast_resp <- httr::POST(
+      rast_url,
+      httr::add_headers(
+        "api-key" = api_key,
+        "Content-Type" = "application/json"
+      ),
+      body = body
+    )
+
+    rast_text <- httr::content(rast_resp, as = "text", encoding = "UTF-8")
+    cat(rast_text)
+    if (httr::http_error(rast_resp)) {
+      stop(sprintf("Rasterization failed with status %s", httr::status_code(rast_resp)))
+    }
+  },
+  error = function(e) {
+    stderrf("Error: %s: %s\n", class(e)[1], conditionMessage(e))
+    quit(status = 1)
   }
-
-  upload_json <- jsonlite::fromJSON(upload_text)
-  uploaded_id <- if (is.data.frame(upload_json$files)) upload_json$files$id[[1]] else upload_json$files[[1]]$id
-  message(sprintf("Successfully uploaded with an id of: %s", uploaded_id))
-
-  # Step 2: Request a rasterized PDF using the uploaded id
-  rast_url <- paste0(api_base, "/rasterized-pdf")
-  body <- jsonlite::toJSON(list(id = uploaded_id), auto_unbox = TRUE)
-  rast_resp <- httr::POST(
-    rast_url,
-    httr::add_headers(
-      "api-key" = api_key,
-      "Content-Type" = "application/json"
-    ),
-    body = body
-  )
-
-  rast_text <- httr::content(rast_resp, as = "text", encoding = "UTF-8")
-  cat(rast_text)
-  if (httr::http_error(rast_resp)) {
-    stop(sprintf("Rasterization failed with status %s", httr::status_code(rast_resp)))
-  }
-
-}, error = function(e) {
-  stderrf("Error: %s: %s\n", class(e)[1], conditionMessage(e))
-  quit(status = 1)
-})
+)

@@ -39,32 +39,34 @@ if (is.null(pdf_path) || !file.exists(pdf_path)) {
 
 filename <- basename(pdf_path)
 
-tryCatch({
-  conn_url <- paste0(api_base, "/markdown")
+tryCatch(
+  {
+    conn_url <- paste0(api_base, "/markdown")
 
-  # Build multipart form body. httr sets multipart/form-data with boundary.
-  body <- list(
-    file = httr::upload_file(pdf_path, type = "application/pdf"),
-    output = "pdfrest_markdown",
-    page_break_comments = "on"
-    # Optional parameters:
-    # page_range = "1-3"
-  )
+    # Build multipart form body. httr sets multipart/form-data with boundary.
+    body <- list(
+      file = httr::upload_file(pdf_path, type = "application/pdf"),
+      output = "pdfrest_markdown",
+      page_break_comments = "on"
+      # Optional parameters:
+      # page_range = "1-3"
+    )
 
-  resp <- httr::POST(
-    conn_url,
-    httr::add_headers("api-key" = api_key),
-    body = body,
-    encode = "multipart"
-  )
+    resp <- httr::POST(
+      conn_url,
+      httr::add_headers("api-key" = api_key),
+      body = body,
+      encode = "multipart"
+    )
 
-  txt <- httr::content(resp, as = "text", encoding = "UTF-8")
-  cat(txt)
-  if (httr::http_error(resp)) {
-    stop(sprintf("Markdown conversion failed with status %s", httr::status_code(resp)))
+    txt <- httr::content(resp, as = "text", encoding = "UTF-8")
+    cat(txt)
+    if (httr::http_error(resp)) {
+      stop(sprintf("Markdown conversion failed with status %s", httr::status_code(resp)))
+    }
+  },
+  error = function(e) {
+    stderrf("Error: %s: %s\n", class(e)[1], conditionMessage(e))
+    quit(status = 1)
   }
-
-}, error = function(e) {
-  stderrf("Error: %s: %s\n", class(e)[1], conditionMessage(e))
-  quit(status = 1)
-})
+)

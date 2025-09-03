@@ -41,49 +41,51 @@ if (is.null(pdf_path) || !file.exists(pdf_path)) {
 filename <- basename(pdf_path)
 file_bytes <- readBin(pdf_path, what = "raw", n = file.info(pdf_path)$size)
 
-tryCatch({
-  # Step 1: Upload the file to receive a reusable id
-  upload_url <- paste0(api_base, "/upload")
-  upload_resp <- httr::POST(
-    upload_url,
-    httr::add_headers(
-      "api-key" = api_key,
-      "content-filename" = filename,
-      "Content-Type" = "application/octet-stream"
-    ),
-    body = file_bytes
-  )
+tryCatch(
+  {
+    # Step 1: Upload the file to receive a reusable id
+    upload_url <- paste0(api_base, "/upload")
+    upload_resp <- httr::POST(
+      upload_url,
+      httr::add_headers(
+        "api-key" = api_key,
+        "content-filename" = filename,
+        "Content-Type" = "application/octet-stream"
+      ),
+      body = file_bytes
+    )
 
-  upload_text <- httr::content(upload_resp, as = "text", encoding = "UTF-8")
-  message(upload_text)
-  if (httr::http_error(upload_resp)) {
-    stop(sprintf("Upload failed with status %s", httr::status_code(upload_resp)))
+    upload_text <- httr::content(upload_resp, as = "text", encoding = "UTF-8")
+    message(upload_text)
+    if (httr::http_error(upload_resp)) {
+      stop(sprintf("Upload failed with status %s", httr::status_code(upload_resp)))
+    }
+
+    upload_json <- jsonlite::fromJSON(upload_text)
+    # jsonlite parses arrays of objects as a data.frame; extract first id safely
+    uploaded_id <- if (is.data.frame(upload_json$files)) upload_json$files$id[[1]] else upload_json$files[[1]]$id
+    message(sprintf("Successfully uploaded with an id of: %s", uploaded_id))
+
+    # Step 2: Request Markdown output using the uploaded id
+    md_url <- paste0(api_base, "/markdown")
+    body <- jsonlite::toJSON(list(id = uploaded_id, page_break_comments = "on"), auto_unbox = TRUE)
+    md_resp <- httr::POST(
+      md_url,
+      httr::add_headers(
+        "api-key" = api_key,
+        "Content-Type" = "application/json"
+      ),
+      body = body
+    )
+
+    md_text <- httr::content(md_resp, as = "text", encoding = "UTF-8")
+    cat(md_text)
+    if (httr::http_error(md_resp)) {
+      stop(sprintf("Markdown conversion failed with status %s", httr::status_code(md_resp)))
+    }
+  },
+  error = function(e) {
+    stderrf("Error: %s: %s\n", class(e)[1], conditionMessage(e))
+    quit(status = 1)
   }
-
-  upload_json <- jsonlite::fromJSON(upload_text)
-  # jsonlite parses arrays of objects as a data.frame; extract first id safely
-  uploaded_id <- if (is.data.frame(upload_json$files)) upload_json$files$id[[1]] else upload_json$files[[1]]$id
-  message(sprintf("Successfully uploaded with an id of: %s", uploaded_id))
-
-  # Step 2: Request Markdown output using the uploaded id
-  md_url <- paste0(api_base, "/markdown")
-  body <- jsonlite::toJSON(list(id = uploaded_id, page_break_comments = "on"), auto_unbox = TRUE)
-  md_resp <- httr::POST(
-    md_url,
-    httr::add_headers(
-      "api-key" = api_key,
-      "Content-Type" = "application/json"
-    ),
-    body = body
-  )
-
-  md_text <- httr::content(md_resp, as = "text", encoding = "UTF-8")
-  cat(md_text)
-  if (httr::http_error(md_resp)) {
-    stop(sprintf("Markdown conversion failed with status %s", httr::status_code(md_resp)))
-  }
-
-}, error = function(e) {
-  stderrf("Error: %s: %s\n", class(e)[1], conditionMessage(e))
-  quit(status = 1)
-})
+)
