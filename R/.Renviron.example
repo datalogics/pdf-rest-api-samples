@@ -1,0 +1,10 @@
+# Copy this file to `.Renviron` in this folder (or to `~/.Renviron`).
+# Do NOT commit your real API key.
+
+# Required: your pdfRest API key
+PDFREST_API_KEY=your_api_key_here
+
+# Optional: override base URL
+# For EU/GDPR or regional routing you may use:
+# PDFREST_URL=https://eu-api.pdfrest.com/
+PDFREST_URL=https://api.pdfrest.com
