@@ -11,12 +11,12 @@
 
 ## Build, Test, and Development Commands
 - Install .NET SDK (8.0+): verify with `dotnet --version`.
-- Restore/build: `dotnet restore VBNetSamples.vbproj && dotnet build VBNetSamples.vbproj`.
-- Run a sample via dispatcher: `dotnet run --project VBNetSamples.vbproj -- <command> [args]`.
-  - Example: `dotnet run --project VBNetSamples.vbproj -- markdown /path/to/input.pdf`.
+- Restore/build (from VB.NET folder): `dotnet restore && dotnet build`.
+- Run a sample via dispatcher: `dotnet run -- <command> [args]`.
+  - Example: `dotnet run -- markdown /path/to/input.pdf`.
 - Dependencies:
   - `.env` loading is included via `DotNetEnv`.
-  - Optional JSON helper: `dotnet add VBNetSamples.vbproj package Newtonsoft.Json` (only if a sample uses it).
+  - Optional JSON helper: `dotnet add package Newtonsoft.Json` (only if a sample uses it).
 - File-focused testing: keep each sample self-contained (accept input path as first arg; minimal edits).
 
 ## Coding Style & Naming Conventions
@@ -80,11 +80,11 @@ Template:
 '   For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
 '
 ' Usage (via dispatcher):
-'   dotnet run --project VBNetSamples.vbproj -- <command-name> /path/to/input.pdf
+'   dotnet run -- <command-name> /path/to/input.pdf
 '
 ' Output:
 ' - Prints the API JSON response to stdout. Non-2xx responses write a concise message to stderr and exit non-zero.
-' - Tip: pipe output to a file: dotnet run --project VBNetSamples.vbproj -- <command-name> ... > response.json
+' - Tip: pipe output to a file: dotnet run -- <command-name> ... > response.json
 '''
 
 Notes:

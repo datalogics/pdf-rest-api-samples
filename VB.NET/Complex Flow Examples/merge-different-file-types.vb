@@ -11,11 +11,11 @@
 '   For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
 '
 ' Usage (via dispatcher):
-'   dotnet run --project VBNetSamples.vbproj -- merge-different-file-types /path/to/file1 /path/to/file2 [...]
+'   dotnet run -- merge-different-file-types /path/to/file1 /path/to/file2 [...]
 '
 ' Output:
 ' - Prints the API JSON response to stdout. Non-2xx responses write a concise message to stderr and exit non-zero.
-' - Tip: pipe output to a file: dotnet run --project VBNetSamples.vbproj -- merge-different-file-types ... > response.json
+' - Tip: pipe output to a file: dotnet run -- merge-different-file-types ... > response.json
 '''
 
 Option Strict On

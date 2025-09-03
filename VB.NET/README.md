@@ -16,12 +16,12 @@ These VB.NET samples demonstrate how to call pdfRest APIs using HttpClient. A si
 - In `.env`, set `PDFREST_URL=https://eu-api.pdfrest.com`
 - More info: https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
 
-3) Restore and build the project:
-- `dotnet restore VBNetSamples.vbproj`
-- `dotnet build VBNetSamples.vbproj`
+3) Restore and build the project (from this folder):
+- `dotnet restore`
+- `dotnet build`
 
 4) Run a sample (examples below). The dispatcher pattern is:
-- `dotnet run --project VBNetSamples.vbproj -- <command> [args]`
+- `dotnet run -- <command> [args]`
 
 ## How It’s Organized
 - `VBNetSamples.vbproj`: single console app that compiles all VB samples in this folder.
@@ -34,19 +34,19 @@ These VB.NET samples demonstrate how to call pdfRest APIs using HttpClient. A si
 ## Available Samples
 JSON two‑step (upload → operate via JSON):
 - `markdown` — Convert PDF to Markdown
-  - Run: `dotnet run --project VBNetSamples.vbproj -- markdown /path/to/input.pdf`
+  - Run: `dotnet run -- markdown /path/to/input.pdf`
 - `rasterized-pdf` — Rasterize a PDF
-  - Run: `dotnet run --project VBNetSamples.vbproj -- rasterized-pdf /path/to/input.pdf`
+  - Run: `dotnet run -- rasterized-pdf /path/to/input.pdf`
 
 Multipart single request (send file directly):
 - `markdown-multipart` — Convert PDF to Markdown
-  - Run: `dotnet run --project VBNetSamples.vbproj -- markdown-multipart /path/to/input.pdf`
+  - Run: `dotnet run -- markdown-multipart /path/to/input.pdf`
 - `rasterized-pdf-multipart` — Rasterize a PDF
-  - Run: `dotnet run --project VBNetSamples.vbproj -- rasterized-pdf-multipart /path/to/input.pdf`
+  - Run: `dotnet run -- rasterized-pdf-multipart /path/to/input.pdf`
 
 Complex flow:
 - `merge-different-file-types` — Merge multiple inputs (PDFs and non‑PDFs)
-  - Run: `dotnet run --project VBNetSamples.vbproj -- merge-different-file-types file1.pdf file2.docx image.png`
+  - Run: `dotnet run -- merge-different-file-types file1.pdf file2.docx image.png`
 
 ## Output & Error Handling
 - Successful calls print the API’s JSON response to stdout.
@@ -61,7 +61,7 @@ Complex flow:
 - .NET version:
   - Check with `dotnet --version`. Use .NET 8.0 or newer.
 - Clean build:
-  - `rm -rf bin obj && dotnet build VBNetSamples.vbproj`
+  - `rm -rf bin obj && dotnet build`
 - Proxy environments:
   - If your network requires a proxy, set standard environment variables like `HTTPS_PROXY`.
 

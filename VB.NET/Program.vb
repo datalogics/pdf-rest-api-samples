@@ -11,8 +11,8 @@
 '   For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
 '
 ' Usage:
-'   dotnet run --project VBNetSamples.vbproj -- <command> [args]
-'   e.g., dotnet run --project VBNetSamples.vbproj -- markdown /path/to/input.pdf
+'   dotnet run -- <command> [args]
+'   e.g., dotnet run -- markdown /path/to/input.pdf
 '
 ' Output:
 ' - Each command prints the API JSON response to stdout. Non-2xx responses write a concise message to stderr and exit non-zero.

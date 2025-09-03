@@ -11,11 +11,11 @@
 '   For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
 '
 ' Usage (via dispatcher):
-'   dotnet run --project VBNetSamples.vbproj -- markdown-multipart /path/to/input.pdf
+'   dotnet run -- markdown-multipart /path/to/input.pdf
 '
 ' Output:
 ' - Prints the API JSON response to stdout. Non-2xx responses write a concise message to stderr and exit non-zero.
-' - Tip: pipe output to a file: dotnet run --project VBNetSamples.vbproj -- markdown-multipart /path/to/input.pdf > response.json
+' - Tip: pipe output to a file: dotnet run -- markdown-multipart /path/to/input.pdf > response.json
 '''
 
 Option Strict On
