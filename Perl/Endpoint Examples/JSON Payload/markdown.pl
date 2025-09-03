@@ -10,20 +10,23 @@ use HTTP::Request;
 use HTTP::Request::Common qw(POST);
 use Encode qw(encode);
 
-# Tutorial: Convert a PDF to Markdown using the JSON-payload style
+#!
+# What this sample does:
+# - Converts a PDF to Markdown using pdfRest.
+# - Uses a JSON payload in two steps: upload to /upload, then call /markdown with the returned id.
 #
-# What this does
-# - Step 1: Upload the input PDF to /upload and capture the returned file id.
-# - Step 2: Call /markdown with a JSON body that references that id.
+# Setup (.env):
+# - Copy .env.example to .env (Perl folder root)
+# - Set PDFREST_API_KEY=your_api_key_here
+# - Optional: set PDFREST_URL to override the API region. For EU/GDPR compliance and proximity, use:
+#     PDFREST_URL=https://eu-api.pdfrest.com
 #
-# Setup
-# - Create .env at the Perl folder root with:
-#   PDFREST_API_KEY=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-#   # Optional EU endpoint (GDPR/compliance & proximity)
-#   # PDFREST_URL=https://eu-api.pdfrest.com/
-#
-# Usage
+# Usage:
 #   perl "Endpoint Examples/JSON Payload/markdown.pl" /path/to/input.pdf
+#
+# Output:
+# - Prints the API JSON response to stdout. Non-2xx responses exit with a concise message.
+# - Tip: pipe output to a file: perl ... > response.json
 
 binmode STDOUT, ':raw';
 binmode STDERR, ':encoding(UTF-8)';

@@ -10,25 +10,23 @@ use HTTP::Request;
 use HTTP::Request::Common qw(POST);
 use URI::Escape qw(uri_escape);
 
-# Tutorial: Merge different file types into one PDF (Complex Flow)
+#!
+# What this sample does:
+# - Merges multiple inputs (PDFs and non-PDFs) into a single PDF.
+# - Non-PDFs are converted to PDF; PDFs are uploaded. Collected IDs are merged via /merged-pdf.
 #
-# What this does
-# - For each input path:
-#   - If NOT a PDF: convert to PDF via /pdf and capture outputId.
-#   - If a PDF: upload to /upload and capture the returned id.
-# - Pass all collected IDs to /merged-pdf with matching arrays for id[], pages[]=1-last, and type[]=id.
+# Setup (.env):
+# - Copy .env.example to .env (Perl folder root)
+# - Set PDFREST_API_KEY=your_api_key_here
+# - Optional: set PDFREST_URL to override the API region. For EU/GDPR compliance and proximity, use:
+#     PDFREST_URL=https://eu-api.pdfrest.com
 #
-# Why this flow?
-# - Demonstrates how to chain endpoints for a real workflow (convert mixed types, then merge).
+# Usage:
+#   perl "Complex Flow Examples/merge-different-file-types.pl" /path/to/file1 /path/to/file2 [/path/to/file3 ...]
 #
-# Setup
-# - Put PDFREST_API_KEY in .env at the Perl folder root
-# - Optionally set PDFREST_URL (defaults to https://api.pdfrest.com)
-#   - EU/GDPR routing and proximity: https://eu-api.pdfrest.com/
-#     More info: https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
-#
-# Usage
-# - perl "Complex Flow Examples/merge-different-file-types.pl" file1.png file2.pptx file3.pdf
+# Output:
+# - Prints the API JSON response to stdout. Non-2xx responses exit with a concise message.
+# - Tip: pipe output to a file: perl ... > response.json
 
 binmode STDOUT, ':raw';
 binmode STDERR, ':encoding(UTF-8)';
