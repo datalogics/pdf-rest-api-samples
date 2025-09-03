@@ -38,3 +38,50 @@
 - Handle proxies via standard env vars (e.g., `HTTPS_PROXY`) when needed.
 - Never log API keys; prefer printing only response bodies and minimal diagnostics to `STDERR`.
 - API base override: set `PDFREST_URL` in `.env` to change regions. For EU GDPR compliance and improved performance in Europe, you may use `https://eu-api.pdfrest.com/`. More info: https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+
+---
+
+## Audience And Tone (Internal)
+
+These samples are customer‑facing and intended to help potential customers evaluate pdfRest quickly. Keep all code, comments, and documentation clear, minimal, and task‑focused. Avoid internal jargon and advanced implementation details in customer‑visible files. Do not surface internal process notes in `README.md` or the samples.
+
+Key points:
+- Clarity: explain what the sample does in 1–2 bullets.
+- Guidance: show how to set up `.env` and how to run the script.
+- Region: mention optional `PDFREST_URL` with the EU endpoint for GDPR and proximity.
+- Safety: never log secrets; print only response bodies and minimal diagnostics to `STDERR`.
+- Errors: abort on non‑2xx with a concise message; exit non‑zero.
+
+## Sample Header Convention (Internal)
+
+Add this standardized header comment at the top of every Ruby sample. This header is customer‑visible but the convention itself is for us to remember here (do not duplicate these instructions in README).
+
+Template:
+
+```
+#!
+# What this sample does:
+# - <One–two bullets describing purpose and request style>
+#
+# Setup (.env):
+# - Copy .env.example to .env
+# - Set PDFREST_API_KEY=your_api_key_here
+# - Optional: set PDFREST_URL to override the API region. For EU/GDPR compliance and proximity, use:
+#     PDFREST_URL=https://eu-api.pdfrest.com
+#
+# Usage:
+#   ruby "<relative path to this file>" /path/to/input.pdf
+#
+# Output:
+# - Prints the API JSON response to stdout. Non-2xx responses abort with a concise message.
+# - Tip: pipe output to a file: ruby ... > response.json
+```
+
+Notes:
+- Match the endpoint name and request style (JSON two‑step vs multipart single request) in the bullets.
+- Keep the header concise; avoid adding options unless they are essential.
+- If a sample accepts optional parameters, mention them inline in code near where they are used.
+
+## README Scope (Internal)
+
+Keep `README.md` focused on user setup, running samples, and high‑level background. Avoid internal conventions or meta‑process content that could confuse customers. Place internal notes and templates in `AGENTS.md` (this file).

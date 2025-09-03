@@ -1,23 +1,27 @@
+#!
+# What this sample does:
+# - Merges multiple inputs (PDFs and non-PDFs) into a single PDF.
+# - Non-PDF files are first converted to PDF; PDFs are uploaded as-is. All resulting IDs are then merged.
+#
+# Setup (.env):
+# - Copy .env.example to .env
+# - Set PDFREST_API_KEY=your_api_key_here
+# - Optional: set PDFREST_URL to override the API region. For EU/GDPR compliance and proximity, use:
+#     PDFREST_URL=https://eu-api.pdfrest.com
+#
+# Usage:
+#   ruby "Complex Flow Examples/merge-different-file-types.rb" /path/to/file1 /path/to/file2 [...]
+#
+# Output:
+# - Prints the API JSON response to stdout. Non-2xx responses abort with a concise message.
+# - Tip: pipe output to a file: ruby ... > response.json
+
 require "json"
 require "faraday"
 require "faraday/retry"
 require "faraday/multipart"
 require "dotenv"
 require "cgi"
-
-# In this sample, we demonstrate how to merge different file types together,
-# inspired by the PHP example at ../PHP/Complex Flow Examples/merge-different-file-types.php
-# and the solution described at https://pdfrest.com/solutions/merge-multiple-types-of-files-together/.
-#
-# Flow:
-# 1) For each input path provided on the command line:
-#    - If the input is NOT a PDF, convert it to PDF via the /pdf endpoint and capture its outputId.
-#    - If the input IS a PDF, do not reconvert; upload it to /upload and capture the returned file id.
-# 2) Pass all collected IDs to /merged-pdf with matching pages[]=1-last and type[]=id entries.
-#
-# Notes:
-# - Set PDFREST_API_KEY in .env (dotenv loads it). Optionally set PDFREST_URL to override the base URL
-#   (defaults to https://api.pdfrest.com). See README for EU/GDPR endpoint details.
 
 Dotenv.load
 

@@ -1,3 +1,21 @@
+#!
+# What this sample does:
+# - Creates a rasterized version of a PDF using pdfRest.
+# - Uses a JSON payload in two steps: first uploads, then calls /rasterized-pdf with the uploaded id.
+#
+# Setup (.env):
+# - Copy .env.example to .env
+# - Set PDFREST_API_KEY=your_api_key_here
+# - Optional: set PDFREST_URL to override the API region. For EU/GDPR compliance and proximity, use:
+#     PDFREST_URL=https://eu-api.pdfrest.com
+#
+# Usage:
+#   ruby "Endpoint Examples/JSON Payload/rasterized-pdf.rb" /path/to/input.pdf
+#
+# Output:
+# - Prints the API JSON response to stdout. Non-2xx responses abort with a concise message.
+# - Tip: pipe output to a file: ruby ... > response.json
+
 require "json"
 require "faraday"
 require "faraday/retry"
