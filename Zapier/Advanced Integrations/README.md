@@ -1,3 +1,5 @@
+![Solution-Integrate-pdfRest-with-Zapier-Automation.png](https://cms.pdfrest.com/content/images/size/w2000/2025/09/Solution-Integrate-pdfRest-with-Zapier-Automation.png)
+
 ## Seamless Automation with pdfRest and Zapier
 
 [Zapier](https://zapier.com/) is an automation platform that connects different apps and services so they can work together without coding. It lets users create workflows (“Zaps”) that automatically trigger actions across tools like Gmail, Slack, Google Sheets, and thousands more.
