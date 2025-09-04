@@ -10,17 +10,20 @@
 ## Build, Run, and Environment
 - Prereq: .NET 8 SDK (`dotnet --version`).
 - Included here:
-  - `DotNetSamples.csproj` and `PdfRestSamples.sln` wired to `Program.cs` (dispatcher).
+  - `DotNetSamples.csproj` wired to `Program.cs` (dispatcher).
   - `.env.example` template for local configuration.
 - Environment config (mirrors VB.NET):
   - Copy `.env.example` to `.env` and set `PDFREST_API_KEY=...`.
   - Optional: `PDFREST_URL=https://eu-api.pdfrest.com` for EU/GDPR; default is `https://api.pdfrest.com`.
 - Run commands from this folder:
-  - `dotnet build DotNetSamples.csproj` (or `dotnet build PdfRestSamples.sln`)
-  - `dotnet run --project DotNetSamples.csproj -- markdown-json /path/to/input.pdf`
+  - `dotnet build`
+  - `dotnet run -- markdown-json /path/to/input.pdf`
 - `.env` loading: uses `DotNetEnv` (`Env.Load()`), matching VB.NET.
 
 Note: The project currently compiles only `Program.cs` and `Endpoint Examples/JSON Payload/markdown.cs` to avoid top‑level statement conflicts. To enable more samples, add them explicitly to `DotNetSamples.csproj` under a `<Compile Include="..." />` item or refactor them into classes with `Execute(string[] args)`.
+
+Why no solution file?
+- This folder contains a single project; removing the `.sln` lets `dotnet build` and `dotnet run` infer the project automatically. If you later add multiple projects, reintroduce a solution or pass `--project` explicitly.
 
 ## Coding Style & Naming Conventions
 - C# 12 / .NET 8; 4‑space indentation; minimal, single‑responsibility methods.
