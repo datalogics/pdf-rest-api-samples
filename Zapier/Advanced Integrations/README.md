@@ -62,7 +62,7 @@ In the Setup step, select <code>POST</code> as the Action event.
 ![Webhook Setup.png](https://cms.pdfrest.com/content/images/2025/09/Webhook-Setup.png)
 
 In the Configure step:
-1. Set the URL to https://api.pdfrest.com/upload, or https://eu-api.pdfrest.com/upload if you want to make this automation GDPR-compliant. 
+1. Set the URL to <code>https://api.pdfrest.com/upload</code>, or <code>https://eu-api.pdfrest.com/upload</code> if you want to make this automation GDPR-compliant. 
 2. Under Data, set the key as <code>url</code> and the value as the "File"  from the Google Drive trigger
 
 ![Webhook Configure File.png](https://cms.pdfrest.com/content/images/2025/09/Webhook-Configure-File.png)
@@ -82,7 +82,7 @@ Add another step to the workflow with the + Add Step button, and select Webhooks
 ![Zapier Add Step.png](https://cms.pdfrest.com/content/images/2025/09/Zapier-Add-Step.png)
 
 In the Configure step:
-1. Set the URL to https://api.pdfrest.com/pdf, or https://eu-api.pdfrest.com/pdf if you want to make this automation GDPR-compliant. Follow the convention of the url you made the request to in the previous Webhook configuration.
+1. Set the URL to <code>https://api.pdfrest.com/pdf</code>, or <code>https://eu-api.pdfrest.com/pdf</code> if you want to make this automation GDPR-compliant. Follow the convention of the url you made the request to in the previous Webhook configuration.
 2. Under Data, set the key as <code>id</code> and the value as "Files ID".
 
 ![Webhook Configure PDF Endpoint Options.png](https://cms.pdfrest.com/content/images/2025/09/Webhook-Configure-PDF-Endpoint-Options.png)
