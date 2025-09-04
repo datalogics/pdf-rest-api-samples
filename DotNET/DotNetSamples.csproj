@@ -65,6 +65,24 @@
     <Compile Include="Endpoint Examples/JSON Payload/signed-pdf.cs" />
     <Compile Include="Endpoint Examples/JSON Payload/signed-pdf-non-pfx.cs" />
     <Compile Include="Endpoint Examples/Multipart Payload/pdf.cs" />
+    <Compile Include="Endpoint Examples/Multipart Payload/png.cs" />
+    <Compile Include="Endpoint Examples/Multipart Payload/jpg.cs" />
+    <Compile Include="Endpoint Examples/Multipart Payload/gif.cs" />
+    <Compile Include="Endpoint Examples/Multipart Payload/bmp.cs" />
+    <Compile Include="Endpoint Examples/Multipart Payload/tif.cs" />
+    <Compile Include="Endpoint Examples/Multipart Payload/upload.cs" />
+    <Compile Include="Endpoint Examples/Multipart Payload/get-resource.cs" />
+    <Compile Include="Endpoint Examples/Multipart Payload/delete-resource.cs" />
+    <Compile Include="Endpoint Examples/Multipart Payload/batch-delete.cs" />
+    <Compile Include="Endpoint Examples/Multipart Payload/merged-pdf.cs" />
+    <Compile Include="Endpoint Examples/Multipart Payload/zip.cs" />
+    <Compile Include="Endpoint Examples/Multipart Payload/unzip.cs" />
     <Compile Include="Complex Flow Examples/merge-different-file-types.cs" />
+    <Compile Include="Endpoint Examples/Multipart Payload/excel.cs" />
+    <Compile Include="Endpoint Examples/Multipart Payload/powerpoint.cs" />
+    <Compile Include="Endpoint Examples/Multipart Payload/word.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Complex Flow Examples\" />
   </ItemGroup>
 </Project>

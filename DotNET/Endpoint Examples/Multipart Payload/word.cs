@@ -1,28 +1,71 @@
+/*
+ * What this sample does:
+ * - Converts an input file to Word via multipart/form-data.
+ * - Routed from Program.cs as: `dotnet run -- word-multipart <inputFile>`.
+ *
+ * Setup (environment):
+ * - Copy .env.example to .env
+ * - Set PDFREST_API_KEY=your_api_key_here
+ * - Optional: set PDFREST_URL to override the API region. For EU/GDPR compliance and proximity, use:
+ *     PDFREST_URL=https://eu-api.pdfrest.com
+ *   For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ */
+
 using System.Text;
 
-using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfrest.com") })
+namespace Samples.EndpointExamples.MultipartPayload
 {
-    using (var request = new HttpRequestMessage(HttpMethod.Post, "word"))
+    public static class Word
     {
-        request.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
-        request.Headers.Accept.Add(new("application/json"));
-        var multipartContent = new MultipartFormDataContent();
+        public static async Task Execute(string[] args)
+        {
+            if (args == null || args.Length < 1)
+            {
+                Console.Error.WriteLine("word-multipart requires <inputFile>");
+                Environment.Exit(1);
+                return;
+            }
 
-        var byteArray = File.ReadAllBytes("/path/to/file");
-        var byteAryContent = new ByteArrayContent(byteArray);
-        multipartContent.Add(byteAryContent, "file", "file_name");
-        byteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/pdf");
+            var inputPath = args[0];
+            if (!File.Exists(inputPath))
+            {
+                Console.Error.WriteLine($"File not found: {inputPath}");
+                Environment.Exit(1);
+                return;
+            }
 
-        var byteArrayOption = new ByteArrayContent(Encoding.UTF8.GetBytes("converted"));
-        multipartContent.Add(byteArrayOption, "output");
+            var apiKey = Environment.GetEnvironmentVariable("PDFREST_API_KEY");
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                Console.Error.WriteLine("Missing required environment variable: PDFREST_API_KEY");
+                Environment.Exit(1);
+                return;
+            }
 
+            var baseUrl = Environment.GetEnvironmentVariable("PDFREST_URL") ?? "https://api.pdfrest.com";
 
-        request.Content = multipartContent;
-        var response = await httpClient.SendAsync(request);
+            using (var httpClient = new HttpClient { BaseAddress = new Uri(baseUrl) })
+            using (var request = new HttpRequestMessage(HttpMethod.Post, "word"))
+            {
+                request.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+                request.Headers.Accept.Add(new("application/json"));
+                var multipartContent = new MultipartFormDataContent();
 
-        var apiResult = await response.Content.ReadAsStringAsync();
+                var byteArray = File.ReadAllBytes(inputPath);
+                var byteAryContent = new ByteArrayContent(byteArray);
+                multipartContent.Add(byteAryContent, "file", Path.GetFileName(inputPath));
+                byteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/octet-stream");
 
-        Console.WriteLine("API response received.");
-        Console.WriteLine(apiResult);
+                var byteArrayOption = new ByteArrayContent(Encoding.UTF8.GetBytes("converted"));
+                multipartContent.Add(byteArrayOption, "output");
+
+                request.Content = multipartContent;
+                var response = await httpClient.SendAsync(request);
+                var apiResult = await response.Content.ReadAsStringAsync();
+
+                Console.WriteLine("API response received.");
+                Console.WriteLine(apiResult);
+            }
+        }
     }
 }

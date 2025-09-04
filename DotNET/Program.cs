@@ -12,6 +12,11 @@ static void PrintUsage()
     Console.Error.WriteLine("  markdown-json <inputFile>        Upload then convert to Markdown (JSON two-step)");
     Console.Error.WriteLine("  rasterized-pdf <inputFile>       Upload then rasterize PDF (JSON two-step)");
     Console.Error.WriteLine("  pdf-multipart <inputFile>        Convert to PDF via multipart");
+    Console.Error.WriteLine("  png-multipart <file>             Convert to PNG via multipart");
+    Console.Error.WriteLine("  jpg-multipart <file>             Convert to JPG via multipart");
+    Console.Error.WriteLine("  gif-multipart <file>             Convert to GIF via multipart");
+    Console.Error.WriteLine("  bmp-multipart <file>             Convert to BMP via multipart");
+    Console.Error.WriteLine("  tif-multipart <file>             Convert to TIFF via multipart");
     Console.Error.WriteLine("  merge-different-file-types <imageFile> <pptFile>  Convert then merge (complex flow)");
     Console.Error.WriteLine("  extracted-text <inputFile>       Upload then extract text (JSON two-step)");
     Console.Error.WriteLine("  extracted-images <inputFile>     Upload then extract images (JSON two-step)");
@@ -19,12 +24,19 @@ static void PrintUsage()
     Console.Error.WriteLine("  merged-pdf <file1> <file2>       Upload two files then merge by id");
     Console.Error.WriteLine("  split-pdf <inputFile>            Upload then split into ranges");
     Console.Error.WriteLine("  upload <inputFile>               Upload a file (resource id)");
+    Console.Error.WriteLine("  upload-multipart <inputFile>     Upload via multipart (resource id)");
     Console.Error.WriteLine("  get-resource <id> [out]          Download resource file by id");
+    Console.Error.WriteLine("  get-resource-multipart <id> [out] Download via multipart route");
     Console.Error.WriteLine("  delete-resource <id>             Delete a resource by id");
+    Console.Error.WriteLine("  delete-resource-multipart <id>   Delete via multipart route");
     Console.Error.WriteLine("  batch-delete <id1> [id2] [...]   Delete multiple resources by ids");
+    Console.Error.WriteLine("  batch-delete-multipart <id1> [id2] [...] Delete multiple via multipart route");
     Console.Error.WriteLine("  png|jpg|gif|bmp <inputFile>      Upload then convert to image format (JSON two-step)");
     Console.Error.WriteLine("  pdf|pdfa|pdfx <inputFile>        Upload then process to target PDF standard");
     Console.Error.WriteLine("  word|excel|powerpoint|tif <file> Upload then convert to Office/TIFF");
+    Console.Error.WriteLine("  excel-multipart <file>           Convert to Excel via multipart");
+    Console.Error.WriteLine("  powerpoint-multipart <file>      Convert to PowerPoint via multipart");
+    Console.Error.WriteLine("  word-multipart <file>            Convert to Word via multipart");
     Console.Error.WriteLine("  compressed-pdf <inputFile>       Upload then compress PDF");
     Console.Error.WriteLine("  linearized-pdf <inputFile>       Upload then linearize PDF");
     Console.Error.WriteLine("  encrypted-pdf <inputFile>        Upload then set open password");
@@ -47,7 +59,9 @@ static void PrintUsage()
     Console.Error.WriteLine("  pdf-with-redacted-text-applied <file>  Apply redactions");
     Console.Error.WriteLine("  watermarked-pdf <file>           Add text watermark");
     Console.Error.WriteLine("  zip <file1> <file2>              Zip two resources");
+    Console.Error.WriteLine("  zip-multipart <f1> <f2>          Zip two files via multipart");
     Console.Error.WriteLine("  unzip <zipFile>                  Unzip resource");
+    Console.Error.WriteLine("  unzip-multipart <zipFile>        Unzip via multipart");
     Console.Error.WriteLine("  up-toolkit                       Query toolkit status");
     Console.Error.WriteLine("  signed-pdf <pdf> <pfx> <pass> <logo>  Sign PDF with PFX");
     Console.Error.WriteLine("  signed-pdf-non-pfx <pdf> <cert> <key> Sign PDF with cert/key");
@@ -80,6 +94,30 @@ switch (cmd)
     case "pdf-multipart":
         await Samples.EndpointExamples.MultipartPayload.Pdf.Execute(rest);
         break;
+    case "png-multipart":
+        await Samples.EndpointExamples.MultipartPayload.Png.Execute(rest);
+        break;
+    case "jpg-multipart":
+        await Samples.EndpointExamples.MultipartPayload.Jpg.Execute(rest);
+        break;
+    case "gif-multipart":
+        await Samples.EndpointExamples.MultipartPayload.Gif.Execute(rest);
+        break;
+    case "bmp-multipart":
+        await Samples.EndpointExamples.MultipartPayload.Bmp.Execute(rest);
+        break;
+    case "tif-multipart":
+        await Samples.EndpointExamples.MultipartPayload.Tif.Execute(rest);
+        break;
+    case "excel-multipart":
+        await Samples.EndpointExamples.MultipartPayload.Excel.Execute(rest);
+        break;
+    case "powerpoint-multipart":
+        await Samples.EndpointExamples.MultipartPayload.Powerpoint.Execute(rest);
+        break;
+    case "word-multipart":
+        await Samples.EndpointExamples.MultipartPayload.Word.Execute(rest);
+        break;
     case "merge-different-file-types":
     case "merge":
         await Samples.ComplexFlowExamples.MergeDifferentFileTypes.Execute(rest);
@@ -102,14 +140,26 @@ switch (cmd)
     case "upload":
         await Samples.EndpointExamples.JsonPayload.Upload.Execute(rest);
         break;
+    case "upload-multipart":
+        await Samples.EndpointExamples.MultipartPayload.Upload.Execute(rest);
+        break;
     case "get-resource":
         await Samples.EndpointExamples.JsonPayload.GetResource.Execute(rest);
+        break;
+    case "get-resource-multipart":
+        await Samples.EndpointExamples.MultipartPayload.GetResource.Execute(rest);
         break;
     case "delete-resource":
         await Samples.EndpointExamples.JsonPayload.DeleteResource.Execute(rest);
         break;
+    case "delete-resource-multipart":
+        await Samples.EndpointExamples.MultipartPayload.DeleteResource.Execute(rest);
+        break;
     case "batch-delete":
         await Samples.EndpointExamples.JsonPayload.BatchDelete.Execute(rest);
+        break;
+    case "batch-delete-multipart":
+        await Samples.EndpointExamples.MultipartPayload.BatchDelete.Execute(rest);
         break;
     case "png":
         await Samples.EndpointExamples.JsonPayload.Png.Execute(rest);
@@ -210,8 +260,14 @@ switch (cmd)
     case "zip":
         await Samples.EndpointExamples.JsonPayload.Zip.Execute(rest);
         break;
+    case "zip-multipart":
+        await Samples.EndpointExamples.MultipartPayload.Zip.Execute(rest);
+        break;
     case "unzip":
         await Samples.EndpointExamples.JsonPayload.Unzip.Execute(rest);
+        break;
+    case "unzip-multipart":
+        await Samples.EndpointExamples.MultipartPayload.Unzip.Execute(rest);
         break;
     case "up-toolkit":
         await Samples.EndpointExamples.JsonPayload.UpToolkit.Execute(rest);
