@@ -47,7 +47,7 @@ For Folder, select the "pdfRest-Zapier Input" folder you created earlier. You ma
 
 ![Google Drive Trigger Configure.png](https://cms.pdfrest.com/content/images/2025/09/Google-Drive-Trigger-Configure.png)
 
-For the Test step, hit "Test trigger" to detect the new files uploaded. A newly detected uploaded file will appear, and clicking into it reveals the file metadata. Note that the <code>Title</code> matches the email that was labeled. After confirming things are correct, you can proceed to the next step by hitting "Continue with selected record".
+For the Test step, hit "Test trigger" to detect the new files uploaded. A newly detected uploaded file will appear, and clicking into it reveals the file metadata. Note that the <code>Title</code> matches the file that was uploaded. After confirming things are correct, you can proceed to the next step by hitting "Continue with selected record".
 
 ![Google Drive Test Input File.png](https://cms.pdfrest.com/content/images/2025/09/Google-Drive-Test-Input-File.png)
 
