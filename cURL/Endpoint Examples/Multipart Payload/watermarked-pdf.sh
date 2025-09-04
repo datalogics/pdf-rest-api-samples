@@ -15,7 +15,7 @@ echo $WATERMARKED_OUTPUT
 
 # The following code is an optional step to delete unwatermarked files from pdfRest servers.
 
-INPUT_PDF_ID=$(jq -r '.inputId' <<< $WATERMARKED_OUTPUT)
+INPUT_PDF_ID=$(jq -r '.inputId[0]' <<< $WATERMARKED_OUTPUT)
 curl -X POST "https://api.pdfrest.com/delete" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
