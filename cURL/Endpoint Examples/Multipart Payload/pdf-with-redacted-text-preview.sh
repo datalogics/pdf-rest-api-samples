@@ -24,5 +24,5 @@ PREVIEW_PDF_ID=$(jq -r '.outputId' <<< $PREVIEW_OUTPUT)
 curl -X POST "https://api.pdfrest.com/delete" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
-  -H "Api-Key: $API_KEY" \
+  -H "Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" \
   -F "ids=$INPUT_PDF_ID, $PREVIEW_PDF_ID"

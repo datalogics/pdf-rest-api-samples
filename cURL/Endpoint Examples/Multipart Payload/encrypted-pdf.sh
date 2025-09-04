@@ -13,7 +13,7 @@ echo $ENCRYPTED_OUTPUT
 # For immediate deletion of files, particularly when sensitive data 
 # is involved, an explicit delete call can be made to the API.
 
-# The following code is an optional step to delete decrypted files from pdfRest servers.
+# The following code is an optional step to delete unencrypted files from pdfRest servers.
 
 INPUT_PDF_ID=$(jq -r '.inputId' <<< $ENCRYPTED_OUTPUT)
 curl -X POST "https://api.pdfrest.com/delete" \

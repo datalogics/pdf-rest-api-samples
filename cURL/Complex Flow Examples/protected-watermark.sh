@@ -36,7 +36,7 @@ curl -X POST "https://api.pdfrest.com/restricted-pdf" \
 # is involved, an explicit delete call can be made to the API.
 
 # The following code is an optional step to delete unwatermarked and 
-# unrestricted files from pdfRest servers.
+# watermarked files from pdfRest servers.
 
 INPUT_PDF_ID=$(jq -r '.inputId' <<< $WATERMARKED_OUTPUT)
 curl -X POST "https://api.pdfrest.com/delete" \
@@ -44,4 +44,3 @@ curl -X POST "https://api.pdfrest.com/delete" \
   -H "Content-Type: multipart/form-data" \
   -H "Api-Key: $API_KEY" \
   -F "ids=$INPUT_PDF_ID, $WATERMARKED_ID"
-
