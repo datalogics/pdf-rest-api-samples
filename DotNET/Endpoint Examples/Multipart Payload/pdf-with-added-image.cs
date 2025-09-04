@@ -1,37 +1,71 @@
+/*
+ * What this sample does:
+ * - Adds an image to a PDF via multipart/form-data.
+ * - Routed from Program.cs as: `dotnet run -- pdf-with-added-image-multipart <pdf> <image>`.
+ */
+
 using System.Text;
 
-using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfrest.com") })
+namespace Samples.EndpointExamples.MultipartPayload
 {
-    using (var request = new HttpRequestMessage(HttpMethod.Post, "pdf-with-added-image"))
+    public static class PdfWithAddedImage
     {
-        request.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
-        request.Headers.Accept.Add(new("application/json"));
-        var multipartContent = new MultipartFormDataContent();
+        public static async Task Execute(string[] args)
+        {
+            if (args == null || args.Length < 2)
+            {
+                Console.Error.WriteLine("pdf-with-added-image-multipart requires <pdf> <image>");
+                Environment.Exit(1);
+                return;
+            }
+            var pdfPath = args[0];
+            var imgPath = args[1];
+            if (!File.Exists(pdfPath) || !File.Exists(imgPath))
+            {
+                Console.Error.WriteLine("One or more input files not found.");
+                Environment.Exit(1);
+                return;
+            }
+            var apiKey = Environment.GetEnvironmentVariable("PDFREST_API_KEY");
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                Console.Error.WriteLine("Missing required environment variable: PDFREST_API_KEY");
+                Environment.Exit(1);
+                return;
+            }
+            var baseUrl = Environment.GetEnvironmentVariable("PDFREST_URL") ?? "https://api.pdfrest.com";
 
-        var byteArray = File.ReadAllBytes("/path/to/file");
-        var byteAryContent = new ByteArrayContent(byteArray);
-        multipartContent.Add(byteAryContent, "file", "file_name");
-        byteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/pdf");
+            using (var httpClient = new HttpClient { BaseAddress = new Uri(baseUrl) })
+            using (var request = new HttpRequestMessage(HttpMethod.Post, "pdf-with-added-image"))
+            {
+                request.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+                request.Headers.Accept.Add(new("application/json"));
+                var multipartContent = new MultipartFormDataContent();
 
-        var byteArray2 = File.ReadAllBytes("/path/to/file");
-        var byteAryContent2 = new ByteArrayContent(byteArray2);
-        multipartContent.Add(byteAryContent2, "image_file", "file_name");
-        byteAryContent2.Headers.TryAddWithoutValidation("Content-Type", "image/png");
+                var byteArray = File.ReadAllBytes(pdfPath);
+                var byteAryContent = new ByteArrayContent(byteArray);
+                multipartContent.Add(byteAryContent, "file", Path.GetFileName(pdfPath));
+                byteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/octet-stream");
 
-        var byteArrayOption = new ByteArrayContent(Encoding.UTF8.GetBytes("1"));
-        multipartContent.Add(byteArrayOption, "page");
+                var byteArray2 = File.ReadAllBytes(imgPath);
+                var byteAryContent2 = new ByteArrayContent(byteArray2);
+                multipartContent.Add(byteAryContent2, "image_file", Path.GetFileName(imgPath));
+                byteAryContent2.Headers.TryAddWithoutValidation("Content-Type", "application/octet-stream");
 
-        var byteArrayOption2 = new ByteArrayContent(Encoding.UTF8.GetBytes("0"));
-        multipartContent.Add(byteArrayOption2, "x");
-        var byteArrayOption3 = new ByteArrayContent(Encoding.UTF8.GetBytes("0"));
-        multipartContent.Add(byteArrayOption3, "y");
+                var byteArrayOption = new ByteArrayContent(Encoding.UTF8.GetBytes("1"));
+                multipartContent.Add(byteArrayOption, "page");
+                var byteArrayOption2 = new ByteArrayContent(Encoding.UTF8.GetBytes("0"));
+                multipartContent.Add(byteArrayOption2, "x");
+                var byteArrayOption3 = new ByteArrayContent(Encoding.UTF8.GetBytes("0"));
+                multipartContent.Add(byteArrayOption3, "y");
 
-        request.Content = multipartContent;
-        var response = await httpClient.SendAsync(request);
+                request.Content = multipartContent;
+                var response = await httpClient.SendAsync(request);
+                var apiResult = await response.Content.ReadAsStringAsync();
 
-        var apiResult = await response.Content.ReadAsStringAsync();
-
-        Console.WriteLine("API response received.");
-        Console.WriteLine(apiResult);
+                Console.WriteLine("API response received.");
+                Console.WriteLine(apiResult);
+            }
+        }
     }
 }

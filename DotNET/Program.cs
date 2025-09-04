@@ -38,26 +38,60 @@ static void PrintUsage()
     Console.Error.WriteLine("  powerpoint-multipart <file>      Convert to PowerPoint via multipart");
     Console.Error.WriteLine("  word-multipart <file>            Convert to Word via multipart");
     Console.Error.WriteLine("  compressed-pdf <inputFile>       Upload then compress PDF");
+    Console.Error.WriteLine("  compressed-pdf-multipart <file>  Compress PDF via multipart");
     Console.Error.WriteLine("  linearized-pdf <inputFile>       Upload then linearize PDF");
+    Console.Error.WriteLine("  linearized-pdf-multipart <file>  Linearize PDF via multipart");
     Console.Error.WriteLine("  encrypted-pdf <inputFile>        Upload then set open password");
+    Console.Error.WriteLine("  encrypted-pdf-multipart <pdf> <password>  Encrypt via multipart");
     Console.Error.WriteLine("  decrypted-pdf <inputFile>        Upload then remove open password");
+    Console.Error.WriteLine("  decrypted-pdf-multipart <pdf> <password>  Decrypt via multipart");
     Console.Error.WriteLine("  restricted-pdf <inputFile>       Upload then set permissions restrictions");
+    Console.Error.WriteLine("  restricted-pdf-multipart <pdf> <permPass> Set restrictions via multipart");
     Console.Error.WriteLine("  unrestricted-pdf <inputFile>     Upload then remove permissions restrictions");
+    Console.Error.WriteLine("  unrestricted-pdf-multipart <pdf> <permPass> Remove restrictions via multipart");
     Console.Error.WriteLine("  flattened-forms-pdf <inputFile>  Upload then flatten forms");
+    Console.Error.WriteLine("  flattened-forms-pdf-multipart <file> Flatten forms via multipart");
     Console.Error.WriteLine("  flattened-annotations-pdf <file> Upload then flatten annotations");
+    Console.Error.WriteLine("  flattened-annotations-pdf-multipart <file> Flatten annotations via multipart");
     Console.Error.WriteLine("  flattened-layers-pdf <file>      Upload then flatten layers");
+    Console.Error.WriteLine("  flattened-layers-pdf-multipart <file> Flatten layers via multipart");
     Console.Error.WriteLine("  flattened-transparencies-pdf <file> Upload then flatten transparencies");
+    Console.Error.WriteLine("  flattened-transparencies-pdf-multipart <file> Flatten transparencies via multipart");
     Console.Error.WriteLine("  pdf-with-ocr-text <file>         Upload then add OCR text layer");
+    Console.Error.WriteLine("  pdf-with-ocr-text-multipart <file> Add OCR text via multipart");
     Console.Error.WriteLine("  pdf-with-imported-form-data <pdf> <xml/fdf>  Import form data");
+    Console.Error.WriteLine("  pdf-with-imported-form-data-multipart <pdf> <data> Import form data via multipart");
     Console.Error.WriteLine("  pdf-with-added-image <pdf> <image> Add image to PDF");
+    Console.Error.WriteLine("  pdf-with-added-image-multipart <pdf> <image> Add image via multipart");
     Console.Error.WriteLine("  pdf-with-added-attachment <pdf> <file> Attach file to PDF");
+    Console.Error.WriteLine("  pdf-with-added-attachment-multipart <pdf> <file> Attach via multipart");
     Console.Error.WriteLine("  pdf-with-converted-colors <file> Convert colors to a profile");
+    Console.Error.WriteLine("  pdf-with-converted-colors-multipart <file> Convert colors via multipart");
     Console.Error.WriteLine("  pdf-with-added-text <file>       Add text to PDF");
+    Console.Error.WriteLine("  pdf-with-added-text-multipart <file> Add text via multipart");
     Console.Error.WriteLine("  pdf-with-acroforms <file>        Add acroforms to PDF");
+    Console.Error.WriteLine("  pdf-with-acroforms-multipart <file> Add acroforms via multipart");
     Console.Error.WriteLine("  pdf-with-page-boxes-set <file>   Set page boxes");
+    Console.Error.WriteLine("  pdf-with-page-boxes-set-multipart <file> Set page boxes via multipart");
     Console.Error.WriteLine("  pdf-with-redacted-text-preview <file>  Preview redactions");
+    Console.Error.WriteLine("  pdf-with-redacted-text-preview-multipart <file> Preview redactions via multipart");
     Console.Error.WriteLine("  pdf-with-redacted-text-applied <file>  Apply redactions");
+    Console.Error.WriteLine("  pdf-with-redacted-text-applied-multipart <file> Apply redactions via multipart");
     Console.Error.WriteLine("  watermarked-pdf <file>           Add text watermark");
+    Console.Error.WriteLine("  watermarked-pdf-multipart <file> Add text watermark via multipart");
+    Console.Error.WriteLine("  pdf-info-multipart <file>        Query PDF info via multipart");
+    Console.Error.WriteLine("  extracted-text-multipart <file>  Extract text via multipart");
+    Console.Error.WriteLine("  extracted-images-multipart <file> Extract images via multipart");
+    Console.Error.WriteLine("  markdown-multipart <file>        Convert to Markdown via multipart");
+    Console.Error.WriteLine("  pdfa-multipart <file>            Convert to PDF/A via multipart");
+    Console.Error.WriteLine("  pdfx-multipart <file>            Convert to PDF/X via multipart");
+    Console.Error.WriteLine("  rasterized-pdf-multipart <file>  Rasterize via multipart");
+    Console.Error.WriteLine("  split-pdf-multipart <file>       Split via multipart");
+    Console.Error.WriteLine("  exported-form-data-multipart <file> Export form data via multipart");
+    Console.Error.WriteLine("  request-status-multipart <file>  Poll request status via multipart");
+    Console.Error.WriteLine("  up-toolkit-multipart             Query toolkit status (multipart section)");
+    Console.Error.WriteLine("  signed-pdf-multipart <pdf> <pfx> <pass> <logo>  Sign via PFX (multipart)");
+    Console.Error.WriteLine("  signed-pdf-non-pfx-multipart <pdf> <cert> <key> Sign via PEM (multipart)");
     Console.Error.WriteLine("  zip <file1> <file2>              Zip two resources");
     Console.Error.WriteLine("  zip-multipart <f1> <f2>          Zip two files via multipart");
     Console.Error.WriteLine("  unzip <zipFile>                  Unzip resource");
@@ -94,6 +128,9 @@ switch (cmd)
     case "pdf-multipart":
         await Samples.EndpointExamples.MultipartPayload.Pdf.Execute(rest);
         break;
+    case "markdown-multipart":
+        await Samples.EndpointExamples.MultipartPayload.Markdown.Execute(rest);
+        break;
     case "png-multipart":
         await Samples.EndpointExamples.MultipartPayload.Png.Execute(rest);
         break;
@@ -125,17 +162,32 @@ switch (cmd)
     case "extracted-text":
         await Samples.EndpointExamples.JsonPayload.ExtractedText.Execute(rest);
         break;
+    case "extracted-text-multipart":
+        await Samples.EndpointExamples.MultipartPayload.ExtractedText.Execute(rest);
+        break;
     case "extracted-images":
         await Samples.EndpointExamples.JsonPayload.ExtractedImages.Execute(rest);
+        break;
+    case "extracted-images-multipart":
+        await Samples.EndpointExamples.MultipartPayload.ExtractedImages.Execute(rest);
         break;
     case "pdf-info":
         await Samples.EndpointExamples.JsonPayload.PdfInfo.Execute(rest);
         break;
+    case "pdf-info-multipart":
+        await Samples.EndpointExamples.MultipartPayload.PdfInfo.Execute(rest);
+        break;
     case "merged-pdf":
         await Samples.EndpointExamples.JsonPayload.MergedPdf.Execute(rest);
         break;
+    case "merged-pdf-multipart":
+        await Samples.EndpointExamples.MultipartPayload.MergedPdf.Execute(rest);
+        break;
     case "split-pdf":
         await Samples.EndpointExamples.JsonPayload.SplitPdf.Execute(rest);
+        break;
+    case "split-pdf-multipart":
+        await Samples.EndpointExamples.MultipartPayload.SplitPdf.Execute(rest);
         break;
     case "upload":
         await Samples.EndpointExamples.JsonPayload.Upload.Execute(rest);
@@ -176,6 +228,12 @@ switch (cmd)
     case "pdf":
         await Samples.EndpointExamples.JsonPayload.Pdf.Execute(rest);
         break;
+    case "pdfa-multipart":
+        await Samples.EndpointExamples.MultipartPayload.Pdfa.Execute(rest);
+        break;
+    case "pdfx-multipart":
+        await Samples.EndpointExamples.MultipartPayload.Pdfx.Execute(rest);
+        break;
     case "pdfa":
         await Samples.EndpointExamples.JsonPayload.Pdfa.Execute(rest);
         break;
@@ -194,68 +252,134 @@ switch (cmd)
     case "tif":
         await Samples.EndpointExamples.JsonPayload.Tif.Execute(rest);
         break;
+    case "rasterized-pdf-multipart":
+        await Samples.EndpointExamples.MultipartPayload.RasterizedPdf.Execute(rest);
+        break;
     case "compressed-pdf":
         await Samples.EndpointExamples.JsonPayload.CompressedPdf.Execute(rest);
+        break;
+    case "compressed-pdf-multipart":
+        await Samples.EndpointExamples.MultipartPayload.CompressedPdf.Execute(rest);
         break;
     case "linearized-pdf":
         await Samples.EndpointExamples.JsonPayload.LinearizedPdf.Execute(rest);
         break;
+    case "linearized-pdf-multipart":
+        await Samples.EndpointExamples.MultipartPayload.LinearizedPdf.Execute(rest);
+        break;
     case "encrypted-pdf":
         await Samples.EndpointExamples.JsonPayload.EncryptedPdf.Execute(rest);
+        break;
+    case "encrypted-pdf-multipart":
+        await Samples.EndpointExamples.MultipartPayload.EncryptedPdf.Execute(rest);
         break;
     case "decrypted-pdf":
         await Samples.EndpointExamples.JsonPayload.DecryptedPdf.Execute(rest);
         break;
+    case "decrypted-pdf-multipart":
+        await Samples.EndpointExamples.MultipartPayload.DecryptedPdf.Execute(rest);
+        break;
     case "restricted-pdf":
         await Samples.EndpointExamples.JsonPayload.RestrictedPdf.Execute(rest);
+        break;
+    case "restricted-pdf-multipart":
+        await Samples.EndpointExamples.MultipartPayload.RestrictedPdf.Execute(rest);
         break;
     case "unrestricted-pdf":
         await Samples.EndpointExamples.JsonPayload.UnrestrictedPdf.Execute(rest);
         break;
+    case "unrestricted-pdf-multipart":
+        await Samples.EndpointExamples.MultipartPayload.UnrestrictedPdf.Execute(rest);
+        break;
     case "flattened-forms-pdf":
         await Samples.EndpointExamples.JsonPayload.FlattenedFormsPdf.Execute(rest);
+        break;
+    case "flattened-forms-pdf-multipart":
+        await Samples.EndpointExamples.MultipartPayload.FlattenedFormsPdf.Execute(rest);
         break;
     case "flattened-annotations-pdf":
         await Samples.EndpointExamples.JsonPayload.FlattenedAnnotationsPdf.Execute(rest);
         break;
+    case "flattened-annotations-pdf-multipart":
+        await Samples.EndpointExamples.MultipartPayload.FlattenedAnnotationsPdf.Execute(rest);
+        break;
     case "flattened-layers-pdf":
         await Samples.EndpointExamples.JsonPayload.FlattenedLayersPdf.Execute(rest);
+        break;
+    case "flattened-layers-pdf-multipart":
+        await Samples.EndpointExamples.MultipartPayload.FlattenedLayersPdf.Execute(rest);
         break;
     case "flattened-transparencies-pdf":
         await Samples.EndpointExamples.JsonPayload.FlattenedTransparenciesPdf.Execute(rest);
         break;
+    case "flattened-transparencies-pdf-multipart":
+        await Samples.EndpointExamples.MultipartPayload.FlattenedTransparenciesPdf.Execute(rest);
+        break;
     case "pdf-with-ocr-text":
         await Samples.EndpointExamples.JsonPayload.PdfWithOcrText.Execute(rest);
+        break;
+    case "pdf-with-ocr-text-multipart":
+        await Samples.EndpointExamples.MultipartPayload.PdfWithOcrText.Execute(rest);
         break;
     case "pdf-with-imported-form-data":
         await Samples.EndpointExamples.JsonPayload.PdfWithImportedFormData.Execute(rest);
         break;
+    case "pdf-with-imported-form-data-multipart":
+        await Samples.EndpointExamples.MultipartPayload.PdfWithImportedFormData.Execute(rest);
+        break;
     case "pdf-with-added-image":
         await Samples.EndpointExamples.JsonPayload.PdfWithAddedImage.Execute(rest);
+        break;
+    case "pdf-with-added-image-multipart":
+        await Samples.EndpointExamples.MultipartPayload.PdfWithAddedImage.Execute(rest);
         break;
     case "pdf-with-added-attachment":
         await Samples.EndpointExamples.JsonPayload.PdfWithAddedAttachment.Execute(rest);
         break;
+    case "pdf-with-added-attachment-multipart":
+        await Samples.EndpointExamples.MultipartPayload.PdfWithAddedAttachment.Execute(rest);
+        break;
     case "pdf-with-converted-colors":
         await Samples.EndpointExamples.JsonPayload.PdfWithConvertedColors.Execute(rest);
+        break;
+    case "pdf-with-converted-colors-multipart":
+        await Samples.EndpointExamples.MultipartPayload.PdfWithConvertedColors.Execute(rest);
         break;
     case "pdf-with-added-text":
         await Samples.EndpointExamples.JsonPayload.PdfWithAddedText.Execute(rest);
         break;
+    case "pdf-with-added-text-multipart":
+        await Samples.EndpointExamples.MultipartPayload.PdfWithAddedText.Execute(rest);
+        break;
     case "pdf-with-acroforms":
         await Samples.EndpointExamples.JsonPayload.PdfWithAcroforms.Execute(rest);
+        break;
+    case "pdf-with-acroforms-multipart":
+        await Samples.EndpointExamples.MultipartPayload.PdfWithAcroforms.Execute(rest);
         break;
     case "pdf-with-page-boxes-set":
         await Samples.EndpointExamples.JsonPayload.PdfWithPageBoxesSet.Execute(rest);
         break;
+    case "pdf-with-page-boxes-set-multipart":
+        await Samples.EndpointExamples.MultipartPayload.PdfWithPageBoxesSet.Execute(rest);
+        break;
     case "pdf-with-redacted-text-preview":
         await Samples.EndpointExamples.JsonPayload.PdfWithRedactedTextPreview.Execute(rest);
+        break;
+    case "pdf-with-redacted-text-preview-multipart":
+        await Samples.EndpointExamples.MultipartPayload.PdfWithRedactedTextPreview.Execute(rest);
         break;
     case "pdf-with-redacted-text-applied":
         await Samples.EndpointExamples.JsonPayload.PdfWithRedactedTextApplied.Execute(rest);
         break;
+    case "pdf-with-redacted-text-applied-multipart":
+        await Samples.EndpointExamples.MultipartPayload.PdfWithRedactedTextApplied.Execute(rest);
+        break;
     case "watermarked-pdf":
         await Samples.EndpointExamples.JsonPayload.WatermarkedPdf.Execute(rest);
+        break;
+    case "watermarked-pdf-multipart":
+        await Samples.EndpointExamples.MultipartPayload.WatermarkedPdf.Execute(rest);
         break;
     case "zip":
         await Samples.EndpointExamples.JsonPayload.Zip.Execute(rest);
@@ -272,11 +396,26 @@ switch (cmd)
     case "up-toolkit":
         await Samples.EndpointExamples.JsonPayload.UpToolkit.Execute(rest);
         break;
+    case "up-toolkit-multipart":
+        await Samples.EndpointExamples.MultipartPayload.UpToolkit.Execute(rest);
+        break;
     case "signed-pdf":
         await Samples.EndpointExamples.JsonPayload.SignedPdf.Execute(rest);
         break;
+    case "signed-pdf-multipart":
+        await Samples.EndpointExamples.MultipartPayload.SignedPdf.Execute(rest);
+        break;
     case "signed-pdf-non-pfx":
         await Samples.EndpointExamples.JsonPayload.SignedPdfNonPfx.Execute(rest);
+        break;
+    case "signed-pdf-non-pfx-multipart":
+        await Samples.EndpointExamples.MultipartPayload.SignedPdfNonPfx.Execute(rest);
+        break;
+    case "exported-form-data-multipart":
+        await Samples.EndpointExamples.MultipartPayload.ExportedFormData.Execute(rest);
+        break;
+    case "request-status-multipart":
+        await Samples.EndpointExamples.MultipartPayload.RequestStatus.Execute(rest);
         break;
 
     default:

@@ -1,93 +1,93 @@
-using System.Net.Http;
+/*
+ * What this sample does:
+ * - Demonstrates polling with response-type header and request-status.
+ * - Routed from Program.cs as: `dotnet run -- request-status-multipart <inputFile>`.
+ */
+
 using System.Text;
 using Newtonsoft.Json.Linq;
 
-/*
- * This sample demonstrates how to send a polling API request in order to obtain a request
- * status.
- */
-public class PollableApiExample
+namespace Samples.EndpointExamples.MultipartPayload
 {
-    private const string ApiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Your API key here
-    private const string BaseUri = "https://api.pdfrest.com";
-
-    public static async Task Main(String[] args)
+    public static class RequestStatus
     {
-        const string pathToFile = "/path/to/file.pdf"; // Path to the input file here
-        const string fileName = "file.pdf";            // Name of the file here
+        public static async Task Execute(string[] args)
+        {
+            if (args == null || args.Length < 1)
+            {
+                Console.Error.WriteLine("request-status-multipart requires <inputFile>");
+                Environment.Exit(1);
+                return;
+            }
+            var inputPath = args[0];
+            if (!File.Exists(inputPath))
+            {
+                Console.Error.WriteLine($"File not found: {inputPath}");
+                Environment.Exit(1);
+                return;
+            }
 
-        // Send a request with the 'response-type' header.
-        string bmpResponse = await GetBmpResponseAsync(pathToFile, fileName);
-        dynamic bmpResponseJson = JObject.Parse(bmpResponse);
-        if (bmpResponseJson.ContainsKey("error"))
-        {
-            Console.WriteLine($"Error from initial request: {bmpResponseJson.error}");
-        } else
-        {
-            // Get the request ID from the response.
-            string requestId = bmpResponseJson.requestId;
+            var apiKey = Environment.GetEnvironmentVariable("PDFREST_API_KEY");
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                Console.Error.WriteLine("Missing required environment variable: PDFREST_API_KEY");
+                Environment.Exit(1);
+                return;
+            }
+            var baseUrl = Environment.GetEnvironmentVariable("PDFREST_URL") ?? "https://api.pdfrest.com";
+
+            // Send initial request to an arbitrary route (bmp) with response-type header to get requestId
+            string bmpResponse = await GetBmpResponseAsync(baseUrl, apiKey, inputPath, Path.GetFileName(inputPath));
+            dynamic bmpJson = JObject.Parse(bmpResponse);
+            if (bmpJson.ContainsKey("error"))
+            {
+                Console.Error.WriteLine($"Error from initial request: {bmpJson.error}");
+                Environment.Exit(1);
+                return;
+            }
+            string requestId = bmpJson.requestId;
             Console.WriteLine($"Received request ID: {requestId}");
 
-            // Use the request ID to send a polling request.
-            string requestStatusResponse = await GetRequestStatusAsync(requestId);
-            dynamic requestStatusResponseJson = JObject.Parse(requestStatusResponse);
-
-            // If the request is still pending, send another call momentarily.
-            while (requestStatusResponseJson.status == "pending")
+            // Poll request-status until not pending
+            string statusResponse = await GetRequestStatusAsync(baseUrl, apiKey, requestId);
+            dynamic statusJson = JObject.Parse(statusResponse);
+            while (statusJson.status == "pending")
             {
-                const int delay = 5; // (seconds)
-                Console.WriteLine($"Response from /request-status for request {requestId}: {requestStatusResponseJson}");
+                const int delay = 5;
+                Console.WriteLine($"Response from /request-status for request {requestId}: {statusJson}");
                 Console.WriteLine($"Request status was \"pending\". Checking again in {delay} seconds...");
                 await Task.Delay(TimeSpan.FromSeconds(delay));
-                requestStatusResponse = await GetRequestStatusAsync(requestId);
-                requestStatusResponseJson = JObject.Parse(requestStatusResponse);
+                statusResponse = await GetRequestStatusAsync(baseUrl, apiKey, requestId);
+                statusJson = JObject.Parse(statusResponse);
             }
-            // The request status is no longer "pending".
-            Console.WriteLine($"Response from /request-status: {requestStatusResponseJson}");
+            Console.WriteLine($"Response from /request-status: {statusJson}");
             Console.WriteLine("Done!");
         }
-    }
 
-    /*
-     * Send a request with the 'response-type' header to get a request ID. /bmp is an arbitrary example.
-     */
-    public static async Task<string> GetBmpResponseAsync(string pathToFile, string fileName)
-    {
-        using var httpClient = new HttpClient { BaseAddress = new Uri(BaseUri) };
+        private static async Task<string> GetBmpResponseAsync(string baseUrl, string apiKey, string pathToFile, string fileName)
+        {
+            using var httpClient = new HttpClient { BaseAddress = new Uri(baseUrl) };
+            using var bmpRequest = new HttpRequestMessage(HttpMethod.Post, "bmp");
+            bmpRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+            bmpRequest.Headers.Accept.Add(new("application/json"));
+            var multipartContent = new MultipartFormDataContent();
+            var byteArray = File.ReadAllBytes(pathToFile);
+            var byteAryContent = new ByteArrayContent(byteArray);
+            multipartContent.Add(byteAryContent, "file", fileName);
+            byteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/octet-stream");
+            bmpRequest.Headers.Add("response-type", "requestId");
+            bmpRequest.Content = multipartContent;
+            var bmpResponse = await httpClient.SendAsync(bmpRequest);
+            return await bmpResponse.Content.ReadAsStringAsync();
+        }
 
-        using var bmpRequest = new HttpRequestMessage(HttpMethod.Post, "bmp");
-
-        bmpRequest.Headers.TryAddWithoutValidation("Api-Key", ApiKey);
-
-        bmpRequest.Headers.Accept.Add(new("application/json"));
-        var multipartContent = new MultipartFormDataContent();
-
-        var byteArray = File.ReadAllBytes(pathToFile);
-        var byteAryContent = new ByteArrayContent(byteArray);
-        multipartContent.Add(byteAryContent, "file", fileName);
-        byteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/pdf");
-
-        // By adding the 'response-type' header to the request, the response will include a 'status' key.
-        bmpRequest.Headers.Add("response-type", "requestId");
-
-        bmpRequest.Content = multipartContent;
-        Console.WriteLine("Sending request to /bmp...");
-        var bmpResponse = await httpClient.SendAsync(bmpRequest);
-
-        return await bmpResponse.Content.ReadAsStringAsync();
-    }
-
-    /*
-     * Get the request status from /request-status using the given request ID.
-     */
-    public static async Task<string> GetRequestStatusAsync(string requestId)
-    {
-        using var httpClient = new HttpClient { BaseAddress = new Uri(BaseUri) };
-        using var request = new HttpRequestMessage(HttpMethod.Get, $"request-status/{requestId}");
-        request.Headers.TryAddWithoutValidation("Api-Key", ApiKey);
-
-        var response = await httpClient.SendAsync(request);
-
-        return await response.Content.ReadAsStringAsync();
+        private static async Task<string> GetRequestStatusAsync(string baseUrl, string apiKey, string requestId)
+        {
+            using var httpClient = new HttpClient { BaseAddress = new Uri(baseUrl) };
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"request-status/{requestId}");
+            request.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+            var response = await httpClient.SendAsync(request);
+            return await response.Content.ReadAsStringAsync();
+        }
     }
 }
