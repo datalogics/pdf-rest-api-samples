@@ -18,6 +18,12 @@ static void PrintUsage()
     Console.Error.WriteLine("  bmp-multipart <file>             Convert to BMP via multipart");
     Console.Error.WriteLine("  tif-multipart <file>             Convert to TIFF via multipart");
     Console.Error.WriteLine("  merge-different-file-types <imageFile> <pptFile>  Convert then merge (complex flow)");
+    Console.Error.WriteLine("  decrypt-add-reencrypt <pdf> <image> [pass]  Decrypt, add image, re-encrypt");
+    Console.Error.WriteLine("  ocr-with-extract-text <pdf>      OCR then extract text (complex flow)");
+    Console.Error.WriteLine("  pdfa-3b-with-attachment <pdf> <xml>  Attach XML then PDF/A-3b");
+    Console.Error.WriteLine("  preserve-word-document <file>    Office -> PDF -> PDF/A-3b");
+    Console.Error.WriteLine("  protected-watermark <pdf>        Watermark then restrict permissions");
+    Console.Error.WriteLine("  redact-preview-and-finalize <pdf> Preview then apply redactions");
     Console.Error.WriteLine("  extracted-text <inputFile>       Upload then extract text (JSON two-step)");
     Console.Error.WriteLine("  extracted-images <inputFile>     Upload then extract images (JSON two-step)");
     Console.Error.WriteLine("  pdf-info <inputFile>             Upload then query document info (JSON two-step)");
@@ -158,6 +164,24 @@ switch (cmd)
     case "merge-different-file-types":
     case "merge":
         await Samples.ComplexFlowExamples.MergeDifferentFileTypes.Execute(rest);
+        break;
+    case "decrypt-add-reencrypt":
+        await Samples.ComplexFlowExamples.DecryptAddReencrypt.Execute(rest);
+        break;
+    case "ocr-with-extract-text":
+        await Samples.ComplexFlowExamples.OcrWithExtractText.Execute(rest);
+        break;
+    case "pdfa-3b-with-attachment":
+        await Samples.ComplexFlowExamples.Pdfa3bWithAttachment.Execute(rest);
+        break;
+    case "preserve-word-document":
+        await Samples.ComplexFlowExamples.PreserveWordDocument.Execute(rest);
+        break;
+    case "protected-watermark":
+        await Samples.ComplexFlowExamples.ProtectedWatermark.Execute(rest);
+        break;
+    case "redact-preview-and-finalize":
+        await Samples.ComplexFlowExamples.RedactPreviewAndFinalize.Execute(rest);
         break;
     case "extracted-text":
         await Samples.EndpointExamples.JsonPayload.ExtractedText.Execute(rest);
