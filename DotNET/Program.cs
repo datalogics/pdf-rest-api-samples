@@ -11,7 +11,7 @@ static void PrintUsage()
     Console.Error.WriteLine("Commands:");
     Console.Error.WriteLine("  markdown-json <inputFile>        Upload then convert to Markdown (JSON two-step)");
     Console.Error.WriteLine("  rasterized-pdf <inputFile>       Upload then rasterize PDF (JSON two-step)");
-    Console.Error.WriteLine("  pdf-multipart <inputFile> [ct]   Convert to PDF via multipart (optional content-type)");
+    Console.Error.WriteLine("  pdf-multipart <inputFile>        Convert to PDF via multipart");
     Console.Error.WriteLine("  merge-different-file-types <imageFile> <pptFile>  Convert then merge (complex flow)");
     Console.Error.WriteLine("  extracted-text <inputFile>       Upload then extract text (JSON two-step)");
     Console.Error.WriteLine("  extracted-images <inputFile>     Upload then extract images (JSON two-step)");
