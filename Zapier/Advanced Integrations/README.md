@@ -1,4 +1,4 @@
-![Solution-Integrate-pdfRest-with-Zapier-Automation.png](https://cms.pdfrest.com/content/images/size/w2000/2025/09/Solution-Integrate-pdfRest-with-Zapier-Automation.png)
+![Solution-Integrate-pdfRest-with-Zapier-Automation-1.png](https://cms.pdfrest.com/content/images/size/w2000/2025/09/Solution-Integrate-pdfRest-with-Zapier-Automation-1.png)
 
 ## Seamless Automation with pdfRest and Zapier
 
