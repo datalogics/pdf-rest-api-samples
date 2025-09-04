@@ -18,6 +18,18 @@
 - Run commands from this folder:
   - `dotnet build`
   - `dotnet run -- markdown-json /path/to/input.pdf`
+  - `dotnet run -- rasterized-pdf /path/to/input.pdf`
+  - `dotnet run -- pdf-multipart /path/to/input.html text/html`
+  - `dotnet run -- merge-different-file-types image.png slides.ppt`
+  - `dotnet run -- extracted-text /path/to/input.pdf`
+  - `dotnet run -- extracted-images /path/to/input.pdf`
+  - `dotnet run -- pdf-info /path/to/input.pdf`
+  - `dotnet run -- merged-pdf file1.pdf file2.pdf`
+  - `dotnet run -- split-pdf /path/to/input.pdf`
+  - `dotnet run -- upload /path/to/input.pdf`
+  - `dotnet run -- get-resource <id> [out]`
+  - `dotnet run -- delete-resource <id>`
+  - `dotnet run -- batch-delete <id1> [id2] [...]`
 - `.env` loading: uses `DotNetEnv` (`Env.Load()`), matching VB.NET.
 
 Note: The project currently compiles only `Program.cs` and `Endpoint Examples/JSON Payload/markdown.cs` to avoid top‑level statement conflicts. To enable more samples, add them explicitly to `DotNetSamples.csproj` under a `<Compile Include="..." />` item or refactor them into classes with `Execute(string[] args)`.
@@ -47,9 +59,10 @@ Why no solution file?
   - Base URL: `Environment.GetEnvironmentVariable("PDFREST_URL") ?? "https://api.pdfrest.com"`
   - Input path: take from `args[0]` and use for `Content-Filename`.
 - Opt the file into the project by adding `<Compile Include="…" />` to `DotNetSamples.csproj`.
+- Always insert the Sample Header Template at the very beginning of the file (before any `using` lines).
 
 ## Sample Header Template
-Use this comment block at the top of each sample file you adapt for dispatching (keep lines concise and include the GDPR info line):
+Use this comment block at the TOP of each sample file you adapt for dispatching — place it before any `using` directives or namespace (keep lines concise and include the GDPR info line):
 
 ```
 /*
