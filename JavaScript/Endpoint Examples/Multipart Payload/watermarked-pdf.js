@@ -45,7 +45,7 @@ axios(config)
   // (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
 
   var body = response.data;
-  var input_id = body.inputId;
+  var input_id = body.inputId[0];
   var delete_config = {
     method: 'post',
     maxBodyLength: Infinity,

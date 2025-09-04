@@ -57,7 +57,7 @@ public class WatermarkedPDF {
         // The following code is an optional step to delete sensitive files
         // (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
 
-        String inputId = new org.json.JSONObject(respStr).getString("inputId");
+        String inputId = new org.json.JSONObject(respStr).getJSONArray("inputId").getString(0);
         String deleteJson = String.format("{ \"ids\":\"%s\" }", inputId);
         RequestBody deleteBody =
             RequestBody.create(deleteJson, MediaType.parse("application/json"));

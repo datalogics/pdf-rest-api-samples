@@ -53,7 +53,7 @@ $delete_headers = [
   'Content-Type' => 'application/json'
 ];
 $parsed = json_decode($body_str, true);
-$input_id = isset($parsed['inputId']) ? $parsed['inputId'] : '';
+$input_id = $parsed['inputId'][0];
 $delete_body = json_encode([ 'ids' => $input_id ]);
 $delete_request = new Request('POST', 'https://api.pdfrest.com/delete', $delete_headers, $delete_body);
 $delete_res = $delete_client->sendAsync($delete_request)->wait();

@@ -37,7 +37,7 @@ else:
 # The following code is an optional step to delete sensitive files
 # (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
 
-delete_data = { "ids": response_json['inputId'] }
+delete_data = { "ids": response_json['inputId'][0] }
 delete_response = requests.post(url='https://api.pdfrest.com/delete',
                 data=json.dumps(delete_data),
                 headers={'Content-Type': 'application/json', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
