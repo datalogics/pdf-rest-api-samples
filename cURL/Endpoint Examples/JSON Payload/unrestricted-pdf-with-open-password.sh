@@ -22,7 +22,7 @@ echo $UNRESTRICTED_OUTPUT | jq -r '.'
 
 # The following code is an optional step to delete unrestricted files from pdfRest servers.
 
-URNESTRICTED_ID=$(jq -r 'outputId' <<< $UNRESTRICTED_OUTPUT)
+URNESTRICTED_ID=$(jq -r '.outputId' <<< $UNRESTRICTED_OUTPUT)
 curl --request POST "https://api.pdfrest.com/delete" \
 --header 'Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' \
 --header 'Content-Type: application/json' \

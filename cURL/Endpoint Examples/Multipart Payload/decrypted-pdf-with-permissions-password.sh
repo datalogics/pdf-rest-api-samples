@@ -16,7 +16,7 @@ echo $DECRYPTED_OUTPUT
 
 # The following code is an optional step to delete decrypted files from pdfRest servers.
 
-DECRYPTED_ID=$(jq -r 'outputId' <<< $DECRYPTED_OUTPUT)
+DECRYPTED_ID=$(jq -r '.outputId' <<< $DECRYPTED_OUTPUT)
 curl -X POST "https://api.pdfrest.com/delete" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
