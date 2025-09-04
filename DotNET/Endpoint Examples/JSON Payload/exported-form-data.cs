@@ -1,4 +1,21 @@
 
+/*
+ * What this sample does:
+ * - Top-level example: upload a PDF, then export form data via JSON flow.
+ *
+ * Setup (environment):
+ * - Copy .env.example to .env
+ * - Set PDFREST_API_KEY=your_api_key_here
+ * - Optional: set PDFREST_URL to override the API region. For EU/GDPR compliance and proximity, use:
+ *     PDFREST_URL=https://eu-api.pdfrest.com
+ *   For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ *
+ * Usage:
+ *   See Program.cs-wrapped command in this DotNET folder; this file is not compiled by default.
+ *
+ * Output:
+ * - Prints JSON responses if executed; non-2xx results exit non-zero.
+ */
 using Newtonsoft.Json.Linq;
 using System.Text;
 

@@ -1,3 +1,19 @@
+/*
+ * What this sample does:
+ * - Called from Program.cs to query the up-toolkit endpoint.
+ *
+ * Setup (environment):
+ * - Copy .env.example to .env
+ * - Optional: set PDFREST_URL to override the API region. For EU/GDPR compliance and proximity, use:
+ *     PDFREST_URL=https://eu-api.pdfrest.com
+ *   For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ *
+ * Usage:
+ *   dotnet run -- up-toolkit
+ *
+ * Output:
+ * - Prints JSON responses; non-2xx results exit non-zero.
+ */
 namespace Samples.EndpointExamples.JsonPayload
 {
     public static class UpToolkit

@@ -1,4 +1,21 @@
 
+/*
+ * What this sample does:
+ * - Called from Program.cs to digitally sign a PDF using X.509 cert + private key via JSON flow (uploads all inputs).
+ *
+ * Setup (environment):
+ * - Copy .env.example to .env
+ * - Set PDFREST_API_KEY=your_api_key_here
+ * - Optional: set PDFREST_URL to override the API region. For EU/GDPR compliance and proximity, use:
+ *     PDFREST_URL=https://eu-api.pdfrest.com
+ *   For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ *
+ * Usage:
+ *   dotnet run -- signed-pdf-non-pfx input.pdf certificate.pem private_key.pem
+ *
+ * Output:
+ * - Prints JSON responses; non-2xx results exit non-zero.
+ */
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text;

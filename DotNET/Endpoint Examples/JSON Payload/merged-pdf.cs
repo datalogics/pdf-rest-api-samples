@@ -1,4 +1,21 @@
 
+/*
+ * What this sample does:
+ * - Called from Program.cs to upload two files, then request merged-pdf.
+ *
+ * Setup (environment):
+ * - Copy .env.example to .env
+ * - Set PDFREST_API_KEY=your_api_key_here
+ * - Optional: set PDFREST_URL to override the API region. For EU/GDPR compliance and proximity, use:
+ *     PDFREST_URL=https://eu-api.pdfrest.com
+ *   For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ *
+ * Usage:
+ *   dotnet run -- merged-pdf /path/to/file1.pdf /path/to/file2.pdf
+ *
+ * Output:
+ * - Prints JSON responses; non-2xx results exit non-zero.
+ */
 using Newtonsoft.Json.Linq;
 using System.Text;
 
