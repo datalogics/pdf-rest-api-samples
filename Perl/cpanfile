@@ -8,3 +8,4 @@ requires 'Mozilla::CA';
 requires 'IO::Socket::SSL';
 requires 'Net::SSLeay';
 requires 'URI';
+requires 'Dotenv';

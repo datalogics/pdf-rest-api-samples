@@ -6,6 +6,7 @@ use FindBin qw($Bin);
 use File::Basename qw(basename);
 use LWP::UserAgent;
 use HTTP::Request::Common qw(POST);
+use Dotenv;
 
 #!
 # What this sample does:
@@ -31,20 +32,7 @@ binmode STDERR, ':encoding(UTF-8)';
 
 # Load .env from the Perl folder root
 my $env_path = "$Bin/../../.env";
-if (-f $env_path) {
-    open my $env_fh, '<:encoding(UTF-8)', $env_path or die "Cannot open $env_path: $!\n";
-    while (my $line = <$env_fh>) {
-        chomp $line;
-        next if $line =~ /^\s*#/;
-        next if $line !~ /\S/;
-        if ($line =~ /^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)\s*$/) {
-            my ($k, $v) = ($1, $2);
-            $v =~ s/^['"]|['"]$//g;
-            $ENV{$k} = $v if !exists $ENV{$k};
-        }
-    }
-    close $env_fh;
-}
+-e $env_path and Dotenv->load($env_path);
 
 my $api_key = $ENV{PDFREST_API_KEY} // '';
 if (!$api_key || $api_key =~ /^\s*$/) {

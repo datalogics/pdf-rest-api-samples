@@ -9,6 +9,7 @@ use LWP::UserAgent;
 use HTTP::Request;
 use HTTP::Request::Common qw(POST);
 use URI::Escape qw(uri_escape);
+use Dotenv;
 
 #!
 # What this sample does:
@@ -32,22 +33,9 @@ use URI::Escape qw(uri_escape);
 binmode STDOUT, ':raw';
 binmode STDERR, ':encoding(UTF-8)';
 
-# Load .env from the Perl folder root
-my $env_path = "$Bin/../.env"; # one level up from Complex Flow Examples
-if (-f $env_path) {
-    open my $env_fh, '<:encoding(UTF-8)', $env_path or die "Cannot open $env_path: $!\n";
-    while (my $line = <$env_fh>) {
-        chomp $line;
-        next if $line =~ /^\s*#/;
-        next if $line !~ /\S/;
-        if ($line =~ /^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)\s*$/) {
-            my ($k, $v) = ($1, $2);
-            $v =~ s/^['"]|['"]$//g;
-            $ENV{$k} = $v if !exists $ENV{$k};
-        }
-    }
-    close $env_fh;
-}
+# Load .env from the Perl folder root (one level up from this script)
+my $env_path = "$Bin/../.env";
+-e $env_path and Dotenv->load($env_path);
 
 my $api_key = $ENV{PDFREST_API_KEY} // '';
 if (!$api_key || $api_key =~ /^\s*$/) {

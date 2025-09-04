@@ -25,6 +25,14 @@
   - Base URL: `$ENV{PDFREST_URL} // 'https://api.pdfrest.com'`.
 - I/O: print API responses to STDOUT; send diagnostics to STDERR; exit non‑2xx with non‑zero status.
 
+### Environment Loading
+- Use `Dotenv` to read `.env` into `%ENV` (do not hand‑roll parsing).
+- Add dependency in `cpanfile`: `requires 'Dotenv';`.
+- Load with a guarded call so missing files are fine:
+  - JSON/Multipart examples: `my $env_path = "$Bin/../../.env"; -e $env_path and Dotenv->load($env_path);`
+  - Complex Flow examples: `my $env_path = "$Bin/../.env"; -e $env_path and Dotenv->load($env_path);`
+- Do not override pre‑existing environment variables; rely on library defaults (no explicit override).
+
 ## Testing Guidelines
 - No formal test suite required for samples. Validate by running against small, known inputs.
 - Success: non‑zero exit on failures; JSON body printed to STDOUT on success.
