@@ -26,6 +26,7 @@ static void PrintUsage()
     Console.Error.WriteLine("  redact-preview-and-finalize <pdf> Preview then apply redactions");
     Console.Error.WriteLine("  extracted-text <inputFile>       Upload then extract text (JSON two-step)");
     Console.Error.WriteLine("  extracted-images <inputFile>     Upload then extract images (JSON two-step)");
+    Console.Error.WriteLine("  exported-form-data <inputFile>   Upload then export form data (JSON two-step)");
     Console.Error.WriteLine("  pdf-info <inputFile>             Upload then query document info (JSON two-step)");
     Console.Error.WriteLine("  merged-pdf <file1> <file2>       Upload two files then merge by id");
     Console.Error.WriteLine("  split-pdf <inputFile>            Upload then split into ranges");
@@ -191,6 +192,9 @@ switch (cmd)
         break;
     case "extracted-images":
         await Samples.EndpointExamples.JsonPayload.ExtractedImages.Execute(rest);
+        break;
+    case "exported-form-data":
+        await Samples.EndpointExamples.JsonPayload.ExportedFormData.Execute(rest);
         break;
     case "extracted-images-multipart":
         await Samples.EndpointExamples.MultipartPayload.ExtractedImages.Execute(rest);

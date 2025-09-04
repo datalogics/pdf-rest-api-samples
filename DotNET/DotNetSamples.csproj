@@ -18,10 +18,6 @@
     <!-- Rely on default Compile globs; keep only non-code and packages here. -->
   </ItemGroup>
   <ItemGroup>
-    <!-- Exclude legacy top-level statement samples that aren't wrapped -->
-    <Compile Remove="Endpoint Examples/JSON Payload/exported-form-data.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Complex Flow Examples\" />
   </ItemGroup>
 </Project>
