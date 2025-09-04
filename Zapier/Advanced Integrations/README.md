@@ -63,9 +63,12 @@ In the Setup step, select <code>POST</code> as the Action event.
 
 In the Configure step:
 1. Set the URL to https://api.pdfrest.com/upload, or https://eu-api.pdfrest.com/upload if you want to make this automation GDPR-compliant. 
-2. Under Data, set the key as <code>url</code> and the value as "All Attachments"
+2. Under Data, set the key as <code>url</code> and the value as the "File"  from the Google Drive trigger
+
 ![Webhook Configure File.png](https://cms.pdfrest.com/content/images/2025/09/Webhook-Configure-File.png)
+
 3. Finally, under Headers, set your API Key as the value for Api-Key.
+
 ![Webhook Configure Api-Key.png](https://cms.pdfrest.com/content/images/2025/09/Webhook-Configure-Api-Key.png)
 
 In the Test step, you can test the upload step, and if this step succeeds, you will see a success with a return that looks similar to the following response:
@@ -81,7 +84,9 @@ Add another step to the workflow with the + Add Step button, and select Webhooks
 In the Configure step:
 1. Set the URL to https://api.pdfrest.com/pdf, or https://eu-api.pdfrest.com/pdf if you want to make this automation GDPR-compliant. Follow the convention of the url you made the request to in the previous Webhook configuration.
 2. Under Data, set the key as <code>id</code> and the value as "Files ID".
+
 ![Webhook Configure PDF Endpoint Options.png](https://cms.pdfrest.com/content/images/2025/09/Webhook-Configure-PDF-Endpoint-Options.png)
+
 3. Finally, under Headers, set your API Key as the value for Api-Key, as done in the previous webhook.
 
 In the Test step, you can test the conversion step, and if this step succeeds, you will see a success with a return that looks similar to the following response:
