@@ -2,6 +2,19 @@
  * What this sample does:
  * - Adds an open password to a PDF via multipart/form-data.
  * - Routed from Program.cs as: `dotnet run -- encrypted-pdf-multipart <inputFile> <password>`.
+ *
+ * Setup (environment):
+ * - Copy .env.example to .env
+ * - Set PDFREST_API_KEY=your_api_key_here
+ * - Optional: set PDFREST_URL to override the API region. For EU/GDPR compliance and proximity, use:
+ *     PDFREST_URL=https://eu-api.pdfrest.com
+ *   For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ *
+ * Usage:
+ *   dotnet run -- encrypted-pdf-multipart /path/to/input.pdf secret
+ *
+ * Output:
+ * - Prints the JSON response. Validation errors (args/env) exit non-zero.
  */
 
 using System.Text;

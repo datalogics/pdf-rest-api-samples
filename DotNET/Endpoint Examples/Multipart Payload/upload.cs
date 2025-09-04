@@ -9,6 +9,12 @@
  * - Optional: set PDFREST_URL to override the API region. For EU/GDPR compliance and proximity, use:
  *     PDFREST_URL=https://eu-api.pdfrest.com
  *   For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ *
+ * Usage:
+ *   dotnet run -- upload-multipart /path/to/input.pdf
+ *
+ * Output:
+ * - Prints the JSON response (resource metadata). Validation errors exit non-zero.
  */
 
 using System.Text;

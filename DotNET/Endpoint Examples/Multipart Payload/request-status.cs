@@ -2,6 +2,19 @@
  * What this sample does:
  * - Demonstrates polling with response-type header and request-status.
  * - Routed from Program.cs as: `dotnet run -- request-status-multipart <inputFile>`.
+ *
+ * Setup (environment):
+ * - Copy .env.example to .env
+ * - Set PDFREST_API_KEY=your_api_key_here
+ * - Optional: set PDFREST_URL to override the API region. For EU/GDPR compliance and proximity, use:
+ *     PDFREST_URL=https://eu-api.pdfrest.com
+ *   For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ *
+ * Usage:
+ *   dotnet run -- request-status-multipart /path/to/input.pdf
+ *
+ * Output:
+ * - Prints interim responses and final JSON; validation errors exit non-zero.
  */
 
 using System.Text;

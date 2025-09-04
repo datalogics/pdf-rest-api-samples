@@ -2,6 +2,19 @@
  * What this sample does:
  * - Signs a PDF via multipart/form-data using PEM certificate and key.
  * - Routed from Program.cs as: `dotnet run -- signed-pdf-non-pfx-multipart <pdf> <cert> <key>`.
+ *
+ * Setup (environment):
+ * - Copy .env.example to .env
+ * - Set PDFREST_API_KEY=your_api_key_here
+ * - Optional: set PDFREST_URL to override the API region. For EU/GDPR compliance and proximity, use:
+ *     PDFREST_URL=https://eu-api.pdfrest.com
+ *   For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ *
+ * Usage:
+ *   dotnet run -- signed-pdf-non-pfx-multipart input.pdf cert.pem key.pem
+ *
+ * Output:
+ * - Prints the JSON response. Validation errors (args/env) exit non-zero.
  */
 
 using Newtonsoft.Json;

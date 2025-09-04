@@ -2,6 +2,18 @@
  * What this sample does:
  * - Queries toolkit status (GET) using multipart folder style for parity.
  * - Routed from Program.cs as: `dotnet run -- up-toolkit-multipart`.
+ *
+ * Setup (environment):
+ * - Copy .env.example to .env
+ * - Optional: set PDFREST_URL to override the API region. For EU/GDPR compliance and proximity, use:
+ *     PDFREST_URL=https://eu-api.pdfrest.com
+ *   For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ *
+ * Usage:
+ *   dotnet run -- up-toolkit-multipart
+ *
+ * Output:
+ * - Prints JSON toolkit status.
  */
 
 namespace Samples.EndpointExamples.MultipartPayload
