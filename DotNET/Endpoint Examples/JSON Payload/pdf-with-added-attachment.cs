@@ -2,73 +2,65 @@
 using Newtonsoft.Json.Linq;
 using System.Text;
 
-using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfrest.com") })
+namespace Samples.EndpointExamples.JsonPayload
 {
-    using (var pdfUploadRequest = new HttpRequestMessage(HttpMethod.Post, "upload"))
+    public static class PdfWithAddedAttachment
     {
-        pdfUploadRequest.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
-        pdfUploadRequest.Headers.Accept.Add(new("application/json"));
-
-        var pdfUploadByteArray = File.ReadAllBytes("/path/to/pdf_file");
-        var pdfUploadByteAryContent = new ByteArrayContent(pdfUploadByteArray);
-        pdfUploadByteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/octet-stream");
-        pdfUploadByteAryContent.Headers.TryAddWithoutValidation("Content-Filename", "pdf_filename.pdf");
-
-
-        pdfUploadRequest.Content = pdfUploadByteAryContent;
-        var pdfUploadResponse = await httpClient.SendAsync(pdfUploadRequest);
-
-        var pdfUploadResult = await pdfUploadResponse.Content.ReadAsStringAsync();
-
-        Console.WriteLine("PDF upload response received.");
-        Console.WriteLine(pdfUploadResult);
-
-        JObject pdfUploadResultJson = JObject.Parse(pdfUploadResult);
-        var pdfUploadedID = pdfUploadResultJson["files"][0]["id"];
-
-        using (var attachmentUploadRequest = new HttpRequestMessage(HttpMethod.Post, "upload"))
+        public static async Task Execute(string[] args)
         {
-            attachmentUploadRequest.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
-            attachmentUploadRequest.Headers.Accept.Add(new("application/json"));
-
-            var attachmentUploadByteArray = File.ReadAllBytes("/path/to/attachment_file");
-            var attachmentUploadByteAryContent = new ByteArrayContent(attachmentUploadByteArray);
-            attachmentUploadByteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/octet-stream");
-            attachmentUploadByteAryContent.Headers.TryAddWithoutValidation("Content-Filename", "attachment_filename.pdf");
-
-
-            attachmentUploadRequest.Content = attachmentUploadByteAryContent;
-            var attachmentUploadResponse = await httpClient.SendAsync(attachmentUploadRequest);
-
-            var attachmentUploadResult = await attachmentUploadResponse.Content.ReadAsStringAsync();
-
-            Console.WriteLine("Attachment upload response received.");
-            Console.WriteLine(attachmentUploadResult);
-
-            JObject attachmentUploadResultJson = JObject.Parse(attachmentUploadResult);
-            var attachmentUploadedID = attachmentUploadResultJson["files"][0]["id"];
-            using (var attachRequest = new HttpRequestMessage(HttpMethod.Post, "pdf-with-added-attachment"))
+            if (args == null || args.Length < 2)
             {
-                attachRequest.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
-                attachRequest.Headers.Accept.Add(new("application/json"));
+                Console.Error.WriteLine("pdf-with-added-attachment requires <pdfFile> <attachmentFile>");
+                Environment.Exit(1);
+                return;
+            }
+            var pdfFile = args[0];
+            var attachmentFile = args[1];
+            if (!File.Exists(pdfFile) || !File.Exists(attachmentFile)) { Console.Error.WriteLine("One or more files not found."); Environment.Exit(1); return; }
+            var apiKey = Environment.GetEnvironmentVariable("PDFREST_API_KEY"); if (string.IsNullOrWhiteSpace(apiKey)) { Console.Error.WriteLine("Missing required environment variable: PDFREST_API_KEY"); Environment.Exit(1); return; }
+            var baseUrl = Environment.GetEnvironmentVariable("PDFREST_URL") ?? "https://api.pdfrest.com";
+            using (var httpClient = new HttpClient { BaseAddress = new Uri(baseUrl) })
+            {
+                // Upload PDF
+                var pdfUploadRequest = new HttpRequestMessage(HttpMethod.Post, "upload");
+                pdfUploadRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+                pdfUploadRequest.Headers.Accept.Add(new("application/json"));
+                var pdfBytes = File.ReadAllBytes(pdfFile);
+                var pdfContent = new ByteArrayContent(pdfBytes);
+                pdfContent.Headers.TryAddWithoutValidation("Content-Type", "application/octet-stream");
+                pdfContent.Headers.TryAddWithoutValidation("Content-Filename", Path.GetFileName(pdfFile));
+                pdfUploadRequest.Content = pdfContent;
+                var pdfUploadResponse = await httpClient.SendAsync(pdfUploadRequest);
+                var pdfUploadResult = await pdfUploadResponse.Content.ReadAsStringAsync();
+                JObject pdfJson = JObject.Parse(pdfUploadResult);
+                var pdfId = pdfJson["files"][0]["id"];
 
-                attachRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
+                // Upload attachment
+                var attUploadRequest = new HttpRequestMessage(HttpMethod.Post, "upload");
+                attUploadRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+                attUploadRequest.Headers.Accept.Add(new("application/json"));
+                var attBytes = File.ReadAllBytes(attachmentFile);
+                var attContent = new ByteArrayContent(attBytes);
+                attContent.Headers.TryAddWithoutValidation("Content-Type", "application/octet-stream");
+                attContent.Headers.TryAddWithoutValidation("Content-Filename", Path.GetFileName(attachmentFile));
+                attUploadRequest.Content = attContent;
+                var attUploadResponse = await httpClient.SendAsync(attUploadRequest);
+                var attUploadResult = await attUploadResponse.Content.ReadAsStringAsync();
+                JObject attJson = JObject.Parse(attUploadResult);
+                var attId = attJson["files"][0]["id"];
 
-
-                JObject parameterJson = new JObject
+                using (var attachRequest = new HttpRequestMessage(HttpMethod.Post, "pdf-with-added-attachment"))
                 {
-                    ["id"] = pdfUploadedID,
-                    ["id_to_attach"] = attachmentUploadedID,
-
-                };
-
-                attachRequest.Content = new StringContent(parameterJson.ToString(), Encoding.UTF8, "application/json"); ;
-                var attachResponse = await httpClient.SendAsync(attachRequest);
-
-                var attachResult = await attachResponse.Content.ReadAsStringAsync();
-
-                Console.WriteLine("Processing response received.");
-                Console.WriteLine(attachResult);
+                    attachRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+                    attachRequest.Headers.Accept.Add(new("application/json"));
+                    attachRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
+                    JObject parameterJson = new JObject { ["id"] = pdfId, ["id_to_attach"] = attId };
+                    attachRequest.Content = new StringContent(parameterJson.ToString(), Encoding.UTF8, "application/json");
+                    var attachResponse = await httpClient.SendAsync(attachRequest);
+                    var attachResult = await attachResponse.Content.ReadAsStringAsync();
+                    Console.WriteLine("Processing response received.");
+                    Console.WriteLine(attachResult);
+                }
             }
         }
     }

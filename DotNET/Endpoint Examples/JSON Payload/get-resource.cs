@@ -1,19 +1,39 @@
-using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfrest.com/resource/") } )
+namespace Samples.EndpointExamples.JsonPayload
 {
-    try
+    public static class GetResource
     {
-        string id = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";  // ID to retrieve
-
-        using (var stream = await httpClient.GetStreamAsync(id + "?format=file"))
+        public static async Task Execute(string[] args)
         {
-            using (var fs = new FileStream("/path/to/save/file", FileMode.CreateNew))
+            if (args == null || args.Length < 1)
             {
-                await stream.CopyToAsync(fs);
+                Console.Error.WriteLine("get-resource requires <resourceId> [outputFile]");
+                Environment.Exit(1);
+                return;
+            }
+
+            var id = args[0];
+            var outputPath = args.Length > 1 ? args[1] : "download.bin";
+
+            var baseUrl = Environment.GetEnvironmentVariable("PDFREST_URL") ?? "https://api.pdfrest.com";
+            var resourceBase = baseUrl.TrimEnd('/') + "/resource/";
+
+            using (var httpClient = new HttpClient { BaseAddress = new Uri(resourceBase) })
+            {
+                try
+                {
+                    using (var stream = await httpClient.GetStreamAsync(id + "?format=file"))
+                    using (var fs = new FileStream(outputPath, FileMode.Create))
+                    {
+                        await stream.CopyToAsync(fs);
+                    }
+                    Console.WriteLine($"Saved to {outputPath}");
+                }
+                catch (HttpRequestException e)
+                {
+                    Console.Error.WriteLine($"HTTP error: {e.Message}");
+                    Environment.Exit(1);
+                }
             }
         }
-    }
-    catch (HttpRequestException e)
-    {
-        Console.WriteLine("Message :{0} ", e.Message);
     }
 }

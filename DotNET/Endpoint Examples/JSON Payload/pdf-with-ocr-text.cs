@@ -2,49 +2,52 @@
 using Newtonsoft.Json.Linq;
 using System.Text;
 
-using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfrest.com") })
+namespace Samples.EndpointExamples.JsonPayload
 {
-    using (var uploadRequest = new HttpRequestMessage(HttpMethod.Post, "upload"))
+    public static class PdfWithOcrText
     {
-        uploadRequest.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
-        uploadRequest.Headers.Accept.Add(new("application/json"));
-
-        var uploadByteArray = File.ReadAllBytes("/path/to/file");
-        var uploadByteAryContent = new ByteArrayContent(uploadByteArray);
-        uploadByteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/octet-stream");
-        uploadByteAryContent.Headers.TryAddWithoutValidation("Content-Filename", "filename.pdf");
-
-
-        uploadRequest.Content = uploadByteAryContent;
-        var uploadResponse = await httpClient.SendAsync(uploadRequest);
-
-        var uploadResult = await uploadResponse.Content.ReadAsStringAsync();
-
-        Console.WriteLine("Upload response received.");
-        Console.WriteLine(uploadResult);
-
-        JObject uploadResultJson = JObject.Parse(uploadResult);
-        var uploadedID = uploadResultJson["files"][0]["id"];
-        using (var ocrTextRequest = new HttpRequestMessage(HttpMethod.Post, "pdf-with-ocr-text"))
+        public static async Task Execute(string[] args)
         {
-            ocrTextRequest.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
-            ocrTextRequest.Headers.Accept.Add(new("application/json"));
-
-            ocrTextRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
-
-
-            JObject parameterJson = new JObject
+            if (args == null || args.Length < 1)
             {
-                ["id"] = uploadedID,
-            };
-
-            ocrTextRequest.Content = new StringContent(parameterJson.ToString(), Encoding.UTF8, "application/json"); ;
-            var ocrTextResponse = await httpClient.SendAsync(ocrTextRequest);
-
-            var ocrTextResult = await ocrTextResponse.Content.ReadAsStringAsync();
-
-            Console.WriteLine("Processing response received.");
-            Console.WriteLine(ocrTextResult);
+                Console.Error.WriteLine("pdf-with-ocr-text requires <inputFile>");
+                Environment.Exit(1);
+                return;
+            }
+            var inputPath = args[0];
+            if (!File.Exists(inputPath)) { Console.Error.WriteLine($"File not found: {inputPath}"); Environment.Exit(1); return; }
+            var apiKey = Environment.GetEnvironmentVariable("PDFREST_API_KEY");
+            if (string.IsNullOrWhiteSpace(apiKey)) { Console.Error.WriteLine("Missing required environment variable: PDFREST_API_KEY"); Environment.Exit(1); return; }
+            var baseUrl = Environment.GetEnvironmentVariable("PDFREST_URL") ?? "https://api.pdfrest.com";
+            using (var httpClient = new HttpClient { BaseAddress = new Uri(baseUrl) })
+            using (var uploadRequest = new HttpRequestMessage(HttpMethod.Post, "upload"))
+            {
+                uploadRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+                uploadRequest.Headers.Accept.Add(new("application/json"));
+                var uploadByteArray = File.ReadAllBytes(inputPath);
+                var uploadByteAryContent = new ByteArrayContent(uploadByteArray);
+                uploadByteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/octet-stream");
+                uploadByteAryContent.Headers.TryAddWithoutValidation("Content-Filename", Path.GetFileName(inputPath));
+                uploadRequest.Content = uploadByteAryContent;
+                var uploadResponse = await httpClient.SendAsync(uploadRequest);
+                var uploadResult = await uploadResponse.Content.ReadAsStringAsync();
+                Console.WriteLine("Upload response received.");
+                Console.WriteLine(uploadResult);
+                JObject uploadResultJson = JObject.Parse(uploadResult);
+                var uploadedID = uploadResultJson["files"][0]["id"];
+                using (var ocrTextRequest = new HttpRequestMessage(HttpMethod.Post, "pdf-with-ocr-text"))
+                {
+                    ocrTextRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+                    ocrTextRequest.Headers.Accept.Add(new("application/json"));
+                    ocrTextRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
+                    JObject parameterJson = new JObject { ["id"] = uploadedID };
+                    ocrTextRequest.Content = new StringContent(parameterJson.ToString(), Encoding.UTF8, "application/json");
+                    var ocrTextResponse = await httpClient.SendAsync(ocrTextRequest);
+                    var ocrTextResult = await ocrTextResponse.Content.ReadAsStringAsync();
+                    Console.WriteLine("Processing response received.");
+                    Console.WriteLine(ocrTextResult);
+                }
+            }
         }
     }
 }
