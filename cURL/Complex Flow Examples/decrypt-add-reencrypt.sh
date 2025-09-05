@@ -50,8 +50,8 @@ curl -X POST "https://api.pdfrest.com/encrypted-pdf" \
 # Optional deletion step — OFF by default.
 # Deletes sensitive files (unredacted, unwatermarked, unencrypted, or unrestricted).
 # Enable by uncommenting the next line to delete sensitive files
-# PDFREST_DELETE_SENSITIVE_FILES=true
-if [ "$PDFREST_DELETE_SENSITIVE_FILES" = "true" ]; then
+# DELETE_SENSITIVE_FILES=true
+if [ "$DELETE_SENSITIVE_FILES" = "true" ]; then
   curl -X POST "https://api.pdfrest.com/delete" \
     -H "Accept: application/json" \
     -H "Content-Type: multipart/form-data" \

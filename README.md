@@ -75,6 +75,7 @@ Many language samples include an optional step to delete uploaded or generated f
 - PHP: `$DELETE_SENSITIVE_FILES = false;` → `true`
 - .NET (C#): `var deleteSensitiveFiles = false;` → `true`
 - Java: `final boolean DELETE_SENSITIVE_FILES = false;` → `true`
+- cURL: `# DELETE_SENSITIVE_FILES=true` → `DELETE_SENSITIVE_FILES=true`
 
 Refer to each language README for details.
 

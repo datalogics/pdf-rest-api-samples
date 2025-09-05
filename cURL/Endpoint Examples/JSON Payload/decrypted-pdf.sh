@@ -23,8 +23,8 @@ echo $DECRYPTED_OUTPUT | jq -r '.'
 # Optional deletion step — OFF by default.
 # Deletes sensitive files (unredacted, unwatermarked, unencrypted, or unrestricted).
 # Enable by uncommenting the next line to delete sensitive files
-# PDFREST_DELETE_SENSITIVE_FILES=true
-if [ "$PDFREST_DELETE_SENSITIVE_FILES" = "true" ]; then
+# DELETE_SENSITIVE_FILES=true
+if [ "$DELETE_SENSITIVE_FILES" = "true" ]; then
 DECRYPTED_ID=$(jq -r '.outputId' <<< $DECRYPTED_OUTPUT)
 curl --request POST "https://api.pdfrest.com/delete" \
 --header 'Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' \

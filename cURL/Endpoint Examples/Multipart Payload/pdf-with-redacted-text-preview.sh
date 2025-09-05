@@ -21,9 +21,9 @@ echo $PREVIEW_OUTPUT
 # Optional deletion step — OFF by default.
 # Deletes sensitive files (unredacted, unwatermarked, unencrypted, or unrestricted).
 # Enable by uncommenting the next line to delete sensitive files
-# PDFREST_DELETE_SENSITIVE_FILES=true
+# DELETE_SENSITIVE_FILES=true
 
-if [ "$PDFREST_DELETE_SENSITIVE_FILES" = "true" ]; then
+if [ "$DELETE_SENSITIVE_FILES" = "true" ]; then
   INPUT_PDF_ID=$(jq -r '.inputId' <<< $PREVIEW_OUTPUT)
   PREVIEW_PDF_ID=$(jq -r '.outputId' <<< $PREVIEW_OUTPUT)
   curl -X POST "https://api.pdfrest.com/delete" \
