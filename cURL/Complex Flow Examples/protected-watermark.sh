@@ -9,14 +9,15 @@
 
 API_KEY="xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" # place your api key here
 
-WATERMARKED_ID=$(curl -X POST "https://api.pdfrest.com/watermarked-pdf" \
+WATERMARKED_OUTPUT=$(curl -X POST "https://api.pdfrest.com/watermarked-pdf" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -H "Api-Key: $API_KEY" \
   -F "file=@/path/to/file.pdf" \
   -F "watermark_text=watermark" \
-  -F "output=example_out" \
-  | jq -r '.outputId')
+  -F "output=example_out")
+
+WATERMARKED_ID=$(jq -r '.outputId' <<< $WATERMARKED_OUTPUT)
 
 curl -X POST "https://api.pdfrest.com/restricted-pdf" \
   -H "Accept: application/json" \
@@ -28,3 +29,21 @@ curl -X POST "https://api.pdfrest.com/restricted-pdf" \
   -F "restrictions[]=edit_content" \
   -F "restrictions[]=copy_content" \
   -F "new_permissions_password=password"
+
+# All files uploaded or generated are automatically deleted based on the 
+# File Retention Period as shown on https://pdfrest.com/pricing. 
+# For immediate deletion of files, particularly when sensitive data 
+# is involved, an explicit delete call can be made to the API.
+
+# Optional deletion step — OFF by default.
+# Deletes sensitive files (unredacted, unwatermarked, unencrypted, or unrestricted).
+# Enable by uncommenting the next line to delete sensitive files
+# DELETE_SENSITIVE_FILES=true
+if [ "$DELETE_SENSITIVE_FILES" = "true" ]; then
+  INPUT_PDF_ID=$(jq -r '.inputId[0]' <<< $WATERMARKED_OUTPUT)
+  curl -X POST "https://api.pdfrest.com/delete" \
+    -H "Accept: application/json" \
+    -H "Content-Type: multipart/form-data" \
+    -H "Api-Key: $API_KEY" \
+    -F "ids=$INPUT_PDF_ID, $WATERMARKED_ID"
+fi

@@ -26,4 +26,7 @@ In this directory you will find sample calls to single endpoints, as well as mor
 
 ```bash
 php pdfrest_api_example.php
+
+Optional deletion toggle
+- Some samples include an optional delete step to remove uploaded/generated files from pdfRest servers. This is controlled by a local `$DELETE_SENSITIVE_FILES = false;` variable near the top of the file. Set it to `true` to enable deletion; it is off by default.
 ```
