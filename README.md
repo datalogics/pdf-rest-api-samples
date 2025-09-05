@@ -66,6 +66,14 @@ Before running this sample program, look for a comment that reads:
 
 and replace `xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` with the resource UUID you received back from a previous POST request. You may also wish to update the variable containing the output file name before sending your GET request.
 
+### Optional deletion of sensitive files (cURL)
+
+Some cURL samples include an optional step to delete uploaded or generated files from pdfRest servers (e.g., unredacted, unencrypted, unrestricted, or unwatermarked files). Deletion is off by default. To enable the deletion step, open the cURL script and uncomment the local toggle line:
+
+`# PDFREST_DELETE_SENSITIVE_FILES=true` → `PDFREST_DELETE_SENSITIVE_FILES=true`
+
+Leave it commented (or set to anything other than `true`) to keep the deletion step off.
+
 
 ## API Documentation
 

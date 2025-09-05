@@ -15,14 +15,20 @@ echo $PREVIEW_OUTPUT
 # For immediate deletion of files, particularly when sensitive data 
 # is involved, an explicit delete call can be made to the API.
 
-# The following code is an optional step to delete unredacted files from pdfRest servers.
 # IMPORTANT: Do not delete the PREVIEW_PDF_ID file until after the redaction is applied
 # with the /pdf-with-redacted-text-applied endpoint.
 
-INPUT_PDF_ID=$(jq -r '.inputId' <<< $PREVIEW_OUTPUT)
-PREVIEW_PDF_ID=$(jq -r '.outputId' <<< $PREVIEW_OUTPUT)
-curl -X POST "https://api.pdfrest.com/delete" \
-  -H "Accept: application/json" \
-  -H "Content-Type: multipart/form-data" \
-  -H "Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" \
-  -F "ids=$INPUT_PDF_ID, $PREVIEW_PDF_ID"
+# Optional deletion step — OFF by default.
+# Deletes sensitive files (unredacted, unwatermarked, unencrypted, or unrestricted).
+# Enable by uncommenting the next line to delete sensitive files
+# PDFREST_DELETE_SENSITIVE_FILES=true
+
+if [ "$PDFREST_DELETE_SENSITIVE_FILES" = "true" ]; then
+  INPUT_PDF_ID=$(jq -r '.inputId' <<< $PREVIEW_OUTPUT)
+  PREVIEW_PDF_ID=$(jq -r '.outputId' <<< $PREVIEW_OUTPUT)
+  curl -X POST "https://api.pdfrest.com/delete" \
+    -H "Accept: application/json" \
+    -H "Content-Type: multipart/form-data" \
+    -H "Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" \
+    -F "ids=$INPUT_PDF_ID, $PREVIEW_PDF_ID"
+fi

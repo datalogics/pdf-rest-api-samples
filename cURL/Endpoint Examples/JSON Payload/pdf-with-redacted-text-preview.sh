@@ -22,12 +22,17 @@ echo $PREVIEW_OUTPUT | jq -r '.'
 # For immediate deletion of files, particularly when sensitive data 
 # is involved, an explicit delete call can be made to the API.
 
-# The following code is an optional step to delete unredacted files from pdfRest servers.
 # IMPORTANT: Do not delete the PREVIEW_PDF_ID file until after the redaction is applied
 # with the /pdf-with-redacted-text-applied endpoint.
 
 PREVIEW_PDF_ID=$(jq -r '.outputId' <<< $PREVIEW_OUTPUT)
+# Optional deletion step — OFF by default.
+# Deletes sensitive files (unredacted, unwatermarked, unencrypted, or unrestricted).
+# Enable by uncommenting the next line to delete sensitive files
+# PDFREST_DELETE_SENSITIVE_FILES=true
+if [ "$PDFREST_DELETE_SENSITIVE_FILES" = "true" ]; then
 curl --request POST "https://api.pdfrest.com/delete" \
 --header 'Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' \
 --header 'Content-Type: application/json' \
 --data-raw "{ \"ids\": \"$UPLOAD_ID, $PREVIEW_PDF_ID\"}" | jq -r '.'
+fi

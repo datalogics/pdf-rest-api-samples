@@ -47,10 +47,14 @@ curl -X POST "https://api.pdfrest.com/encrypted-pdf" \
 # For immediate deletion of files, particularly when sensitive data 
 # is involved, an explicit delete call can be made to the API.
 
-# The following code is an optional step to delete decrypted files from pdfRest servers.
-
-curl -X POST "https://api.pdfrest.com/delete" \
-  -H "Accept: application/json" \
-  -H "Content-Type: multipart/form-data" \
-  -H "Api-Key: $API_KEY" \
-  -F "ids=$DECRYPTED_ID, $ADDED_IMAGE_ID"
+# Optional deletion step — OFF by default.
+# Deletes sensitive files (unredacted, unwatermarked, unencrypted, or unrestricted).
+# Enable by uncommenting the next line to delete sensitive files
+# PDFREST_DELETE_SENSITIVE_FILES=true
+if [ "$PDFREST_DELETE_SENSITIVE_FILES" = "true" ]; then
+  curl -X POST "https://api.pdfrest.com/delete" \
+    -H "Accept: application/json" \
+    -H "Content-Type: multipart/form-data" \
+    -H "Api-Key: $API_KEY" \
+    -F "ids=$DECRYPTED_ID, $ADDED_IMAGE_ID"
+fi

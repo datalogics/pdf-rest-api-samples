@@ -13,11 +13,15 @@ echo $ENCRYPTED_OUTPUT
 # For immediate deletion of files, particularly when sensitive data 
 # is involved, an explicit delete call can be made to the API.
 
-# The following code is an optional step to delete unencrypted files from pdfRest servers.
-
-INPUT_PDF_ID=$(jq -r '.inputId' <<< $ENCRYPTED_OUTPUT)
-curl -X POST "https://api.pdfrest.com/delete" \
-  -H "Accept: application/json" \
-  -H "Content-Type: multipart/form-data" \
-  -H "Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" \
-  -F "ids=$INPUT_PDF_ID"
+# Optional deletion step — OFF by default.
+# Deletes sensitive files (unredacted, unwatermarked, unencrypted, or unrestricted).
+# Enable by uncommenting the next line to delete sensitive files
+# PDFREST_DELETE_SENSITIVE_FILES=true
+if [ "$PDFREST_DELETE_SENSITIVE_FILES" = "true" ]; then
+  INPUT_PDF_ID=$(jq -r '.inputId' <<< $ENCRYPTED_OUTPUT)
+  curl -X POST "https://api.pdfrest.com/delete" \
+    -H "Accept: application/json" \
+    -H "Content-Type: multipart/form-data" \
+    -H "Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" \
+    -F "ids=$INPUT_PDF_ID"
+fi
