@@ -48,8 +48,12 @@ namespace Samples.EndpointExamples.JsonPayload
             }
 
             var baseUrl = Environment.GetEnvironmentVariable("PDFREST_URL") ?? "https://api.pdfrest.com";
-            // Toggle deletion of sensitive files (default: false)
-            var deleteSensitiveFiles = false;
+            // Optional immediate deletion of sensitive files
+            // Default: false; override with PDFREST_DELETE_SENSITIVE_FILES=true
+            var deleteSensitiveFiles = string.Equals(
+                Environment.GetEnvironmentVariable("PDFREST_DELETE_SENSITIVE_FILES"),
+                "true",
+                StringComparison.OrdinalIgnoreCase);
 
             using (var httpClient = new HttpClient { BaseAddress = new Uri(baseUrl) })
             {

@@ -30,8 +30,12 @@ namespace Samples.EndpointExamples.JsonPayload
             var apiKey = Environment.GetEnvironmentVariable("PDFREST_API_KEY"); if (string.IsNullOrWhiteSpace(apiKey)) { Console.Error.WriteLine("Missing required environment variable: PDFREST_API_KEY"); Environment.Exit(1); return; }
             var baseUrl = Environment.GetEnvironmentVariable("PDFREST_URL") ?? "https://api.pdfrest.com";
 
-            // Toggle deletion of sensitive files (default: false)
-            var deleteSensitiveFiles = false;
+            // Optional immediate deletion of sensitive files
+            // Default: false; override with PDFREST_DELETE_SENSITIVE_FILES=true
+            var deleteSensitiveFiles = string.Equals(
+                Environment.GetEnvironmentVariable("PDFREST_DELETE_SENSITIVE_FILES"),
+                "true",
+                StringComparison.OrdinalIgnoreCase);
 
             using (var httpClient = new HttpClient { BaseAddress = new Uri(baseUrl) })
             using (var uploadRequest = new HttpRequestMessage(HttpMethod.Post, "upload"))
@@ -104,4 +108,3 @@ namespace Samples.EndpointExamples.JsonPayload
         }
     }
 }
-

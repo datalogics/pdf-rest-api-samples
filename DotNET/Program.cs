@@ -117,6 +117,7 @@ static void PrintUsage()
     Console.Error.WriteLine("Environment (.env supported):");
     Console.Error.WriteLine("  PDFREST_API_KEY=...    Required API key");
     Console.Error.WriteLine("  PDFREST_URL=...        Optional base URL (e.g., https://eu-api.pdfrest.com for EU/GDPR)");
+    Console.Error.WriteLine("  PDFREST_DELETE_SENSITIVE_FILES  Optional immediate deletion (true|false; default false)\n");
 }
 
 // Entry point
