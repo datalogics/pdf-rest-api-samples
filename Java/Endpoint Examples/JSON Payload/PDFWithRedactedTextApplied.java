@@ -68,7 +68,8 @@ public class PDFWithRedactedTextApplied {
 
       if (DELETE_SENSITIVE_FILES) {
         String deleteJson = String.format("{ \"ids\":\"%s\" }", uploadedID);
-        RequestBody deleteBody = RequestBody.create(deleteJson, MediaType.parse("application/json"));
+        RequestBody deleteBody =
+            RequestBody.create(deleteJson, MediaType.parse("application/json"));
         Request deleteRequest =
             new Request.Builder()
                 .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))

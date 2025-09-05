@@ -63,9 +63,8 @@ public class PDFWithRedactedTextPreview {
         if (DELETE_SENSITIVE_FILES) {
           String inputId = new org.json.JSONObject(respStr).getString("inputId");
           String outputId = new org.json.JSONObject(respStr).getString("outputId");
-          // IMPORTANT: Do not delete the outputId (the preview PDF) file until after the redaction is
-          // applied
-          // with the /pdf-with-redacted-text-applied endpoint.
+          // IMPORTANT: Do not delete the outputId (the preview PDF) file until after the redaction
+          // is applied with the /pdf-with-redacted-text-applied endpoint.
           String deleteJson = String.format("{ \"ids\":\"%s, %s\" }", inputId, outputId);
           RequestBody deleteBody =
               RequestBody.create(deleteJson, MediaType.parse("application/json"));
