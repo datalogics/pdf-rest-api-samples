@@ -1,4 +1,3 @@
-
 /*
  * What this sample does:
  * - Called from Program.cs to set an open password on a PDF via JSON flow.
@@ -47,7 +46,11 @@ namespace Samples.EndpointExamples.JsonPayload
                 Environment.Exit(1);
                 return;
             }
+
             var baseUrl = Environment.GetEnvironmentVariable("PDFREST_URL") ?? "https://api.pdfrest.com";
+
+            // Toggle deletion of sensitive files (default: false)
+            var deleteSensitiveFiles = false;
 
             using (var httpClient = new HttpClient { BaseAddress = new Uri(baseUrl) })
             {
@@ -61,41 +64,60 @@ namespace Samples.EndpointExamples.JsonPayload
                     uploadByteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/octet-stream");
                     uploadByteAryContent.Headers.TryAddWithoutValidation("Content-Filename", Path.GetFileName(inputPath));
 
-
                     uploadRequest.Content = uploadByteAryContent;
                     var uploadResponse = await httpClient.SendAsync(uploadRequest);
-
                     var uploadResult = await uploadResponse.Content.ReadAsStringAsync();
 
                     Console.WriteLine("Upload response received.");
                     Console.WriteLine(uploadResult);
 
-                    JObject uploadResultJson = JObject.Parse(uploadResult);
-                    var uploadedID = uploadResultJson["files"][0]["id"];
+                    var uploadedID = JObject.Parse(uploadResult)["files"]![0]!["id"]!;
+
                     using (var encryptRequest = new HttpRequestMessage(HttpMethod.Post, "encrypted-pdf"))
                     {
                         encryptRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
                         encryptRequest.Headers.Accept.Add(new("application/json"));
-
                         encryptRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
 
-
-                        JObject parameterJson = new JObject
+                        var parameterJson = new JObject
                         {
                             ["id"] = uploadedID,
                             ["new_open_password"] = "password"
                         };
 
-                        encryptRequest.Content = new StringContent(parameterJson.ToString(), Encoding.UTF8, "application/json"); ;
+                        encryptRequest.Content = new StringContent(parameterJson.ToString(), Encoding.UTF8, "application/json");
                         var encryptResponse = await httpClient.SendAsync(encryptRequest);
-
                         var encryptResult = await encryptResponse.Content.ReadAsStringAsync();
 
                         Console.WriteLine("Processing response received.");
                         Console.WriteLine(encryptResult);
+
+                        // All files uploaded or generated are automatically deleted based on the
+                        // File Retention Period as shown on https://pdfrest.com/pricing.
+                        // For immediate deletion of files, particularly when sensitive data
+                        // is involved, an explicit delete call can be made to the API.
+                        //
+                        // The following code is an optional step to delete sensitive files
+                        // (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
+                        if (deleteSensitiveFiles)
+                        {
+                            using (var deleteRequest = new HttpRequestMessage(HttpMethod.Post, "delete"))
+                            {
+                                deleteRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+                                deleteRequest.Headers.Accept.Add(new("application/json"));
+                                deleteRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
+
+                                var deleteJson = new JObject { ["ids"] = uploadedID };
+                                deleteRequest.Content = new StringContent(deleteJson.ToString(), Encoding.UTF8, "application/json");
+                                var deleteResponse = await httpClient.SendAsync(deleteRequest);
+                                var deleteResult = await deleteResponse.Content.ReadAsStringAsync();
+                                Console.WriteLine(deleteResult);
+                            }
+                        }
                     }
                 }
             }
         }
     }
 }
+

@@ -46,6 +46,7 @@ namespace Samples.EndpointExamples.MultipartPayload
                 return;
             }
             var baseUrl = Environment.GetEnvironmentVariable("PDFREST_URL") ?? "https://api.pdfrest.com";
+            var deleteSensitiveFiles = false;
 
             using (var httpClient = new HttpClient { BaseAddress = new Uri(baseUrl) })
             using (var request = new HttpRequestMessage(HttpMethod.Post, "watermarked-pdf"))
@@ -68,7 +69,32 @@ namespace Samples.EndpointExamples.MultipartPayload
 
                 Console.WriteLine("API response received.");
                 Console.WriteLine(apiResult);
+
+                // All files uploaded or generated are automatically deleted based on the
+                // File Retention Period as shown on https://pdfrest.com/pricing.
+                // For immediate deletion of files, particularly when sensitive data
+                // is involved, an explicit delete call can be made to the API.
+                //
+                // The following code is an optional step to delete sensitive files
+                // (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
+                if (deleteSensitiveFiles)
+                {
+                    using (var deleteRequest = new HttpRequestMessage(HttpMethod.Post, "delete"))
+                    {
+                        deleteRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+                        deleteRequest.Headers.Accept.Add(new("application/json"));
+                        deleteRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
+
+                        string inId = (string)Newtonsoft.Json.Linq.JObject.Parse(apiResult)["inputId"][0]!;
+                        var deleteJson = new Newtonsoft.Json.Linq.JObject { ["ids"] = inId };
+                        deleteRequest.Content = new StringContent(deleteJson.ToString(), Encoding.UTF8, "application/json");
+                        var deleteResponse = await httpClient.SendAsync(deleteRequest);
+                        var deleteResult = await deleteResponse.Content.ReadAsStringAsync();
+                        Console.WriteLine(deleteResult);
+                    }
+                }
             }
         }
     }
 }
+

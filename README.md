@@ -66,6 +66,19 @@ Before running this sample program, look for a comment that reads:
 
 and replace `xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` with the resource UUID you received back from a previous POST request. You may also wish to update the variable containing the output file name before sending your GET request.
 
+### Optional deletion of sensitive files
+
+Many language samples include an optional step to delete uploaded or generated files from pdfRest servers (e.g., unredacted, unencrypted, unrestricted, or unwatermarked files). Deletion is off by default. To enable it, edit the sample file and set its local deletion flag to true for that language, for example:
+
+- JavaScript: `const DELETE_SENSITIVE_FILES = false;` → `true`
+- Python: `DELETE_SENSITIVE_FILES = False` → `True`
+- PHP: `$DELETE_SENSITIVE_FILES = false;` → `true`
+- .NET (C#): `var deleteSensitiveFiles = false;` → `true`
+- Java: `final boolean DELETE_SENSITIVE_FILES = false;` → `true`
+- cURL: `# DELETE_SENSITIVE_FILES=true` → `DELETE_SENSITIVE_FILES=true`
+
+Refer to each language README for details.
+
 
 ## API Documentation
 

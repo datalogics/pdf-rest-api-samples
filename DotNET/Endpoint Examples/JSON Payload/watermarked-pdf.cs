@@ -1,4 +1,3 @@
-
 /*
  * What this sample does:
  * - Called from Program.cs to add a text watermark to a PDF via JSON flow.
@@ -29,6 +28,8 @@ namespace Samples.EndpointExamples.JsonPayload
             var inputPath = args[0]; if (!File.Exists(inputPath)) { Console.Error.WriteLine($"File not found: {inputPath}"); Environment.Exit(1); return; }
             var apiKey = Environment.GetEnvironmentVariable("PDFREST_API_KEY"); if (string.IsNullOrWhiteSpace(apiKey)) { Console.Error.WriteLine("Missing required environment variable: PDFREST_API_KEY"); Environment.Exit(1); return; }
             var baseUrl = Environment.GetEnvironmentVariable("PDFREST_URL") ?? "https://api.pdfrest.com";
+            var deleteSensitiveFiles = false;
+
             using (var httpClient = new HttpClient { BaseAddress = new Uri(baseUrl) })
             using (var uploadRequest = new HttpRequestMessage(HttpMethod.Post, "upload"))
             {
@@ -43,21 +44,44 @@ namespace Samples.EndpointExamples.JsonPayload
                 var uploadResult = await uploadResponse.Content.ReadAsStringAsync();
                 Console.WriteLine("Upload response received.");
                 Console.WriteLine(uploadResult);
-                JObject uploadResultJson = JObject.Parse(uploadResult);
-                var uploadedID = uploadResultJson["files"][0]["id"];
+                var uploadedID = JObject.Parse(uploadResult)["files"]![0]!["id"]!;
                 using (var watermarkRequest = new HttpRequestMessage(HttpMethod.Post, "watermarked-pdf"))
                 {
                     watermarkRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
                     watermarkRequest.Headers.Accept.Add(new("application/json"));
                     watermarkRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
-                    JObject parameterJson = new JObject { ["id"] = uploadedID, ["watermark_text"] = "Watermarked" };
+                    var parameterJson = new JObject { ["id"] = uploadedID, ["watermark_text"] = "Watermarked" };
                     watermarkRequest.Content = new StringContent(parameterJson.ToString(), Encoding.UTF8, "application/json");
                     var watermarkResponse = await httpClient.SendAsync(watermarkRequest);
                     var watermarkResult = await watermarkResponse.Content.ReadAsStringAsync();
                     Console.WriteLine("Processing response received.");
                     Console.WriteLine(watermarkResult);
+
+                    // All files uploaded or generated are automatically deleted based on the
+                    // File Retention Period as shown on https://pdfrest.com/pricing.
+                    // For immediate deletion of files, particularly when sensitive data
+                    // is involved, an explicit delete call can be made to the API.
+                    //
+                    // The following code is an optional step to delete sensitive files
+                    // (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
+                    if (deleteSensitiveFiles)
+                    {
+                        using (var deleteRequest = new HttpRequestMessage(HttpMethod.Post, "delete"))
+                        {
+                            deleteRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+                            deleteRequest.Headers.Accept.Add(new("application/json"));
+                            deleteRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
+
+                            var deleteJson = new JObject { ["ids"] = uploadedID };
+                            deleteRequest.Content = new StringContent(deleteJson.ToString(), Encoding.UTF8, "application/json");
+                            var deleteResponse = await httpClient.SendAsync(deleteRequest);
+                            var deleteResult = await deleteResponse.Content.ReadAsStringAsync();
+                            Console.WriteLine(deleteResult);
+                        }
+                    }
                 }
             }
         }
     }
 }
+

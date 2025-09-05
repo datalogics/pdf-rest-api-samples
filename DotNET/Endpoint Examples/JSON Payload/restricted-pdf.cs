@@ -1,4 +1,3 @@
-
 /*
  * What this sample does:
  * - Called from Program.cs to set permissions restrictions on a PDF via JSON flow.
@@ -47,56 +46,75 @@ namespace Samples.EndpointExamples.JsonPayload
                 Environment.Exit(1);
                 return;
             }
+
             var baseUrl = Environment.GetEnvironmentVariable("PDFREST_URL") ?? "https://api.pdfrest.com";
+            var deleteSensitiveFiles = false;
 
             using (var httpClient = new HttpClient { BaseAddress = new Uri(baseUrl) })
+            using (var uploadRequest = new HttpRequestMessage(HttpMethod.Post, "upload"))
             {
-                using (var uploadRequest = new HttpRequestMessage(HttpMethod.Post, "upload"))
+                uploadRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+                uploadRequest.Headers.Accept.Add(new("application/json"));
+
+                var uploadByteArray = File.ReadAllBytes(inputPath);
+                var uploadByteAryContent = new ByteArrayContent(uploadByteArray);
+                uploadByteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/octet-stream");
+                uploadByteAryContent.Headers.TryAddWithoutValidation("Content-Filename", Path.GetFileName(inputPath));
+
+                uploadRequest.Content = uploadByteAryContent;
+                var uploadResponse = await httpClient.SendAsync(uploadRequest);
+                var uploadResult = await uploadResponse.Content.ReadAsStringAsync();
+
+                Console.WriteLine("Upload response received.");
+                Console.WriteLine(uploadResult);
+
+                var uploadedID = JObject.Parse(uploadResult)["files"]![0]!["id"]!;
+
+                using (var restrictRequest = new HttpRequestMessage(HttpMethod.Post, "restricted-pdf"))
                 {
-                    uploadRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
-                    uploadRequest.Headers.Accept.Add(new("application/json"));
+                    restrictRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+                    restrictRequest.Headers.Accept.Add(new("application/json"));
+                    restrictRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
 
-                    var uploadByteArray = File.ReadAllBytes(inputPath);
-                    var uploadByteAryContent = new ByteArrayContent(uploadByteArray);
-                    uploadByteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/octet-stream");
-                    uploadByteAryContent.Headers.TryAddWithoutValidation("Content-Filename", Path.GetFileName(inputPath));
-
-
-                    uploadRequest.Content = uploadByteAryContent;
-                    var uploadResponse = await httpClient.SendAsync(uploadRequest);
-
-                    var uploadResult = await uploadResponse.Content.ReadAsStringAsync();
-
-                    Console.WriteLine("Upload response received.");
-                    Console.WriteLine(uploadResult);
-
-                    JObject uploadResultJson = JObject.Parse(uploadResult);
-                    var uploadedID = uploadResultJson["files"][0]["id"];
-                    using (var restrictRequest = new HttpRequestMessage(HttpMethod.Post, "restricted-pdf"))
+                    var parameterJson = new JObject
                     {
-                        restrictRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
-                        restrictRequest.Headers.Accept.Add(new("application/json"));
+                        ["id"] = uploadedID,
+                        ["new_permissions_password"] = "password",
+                        ["restrictions"] = new JArray("copy_content", "edit_content"),
+                    };
 
-                        restrictRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
+                    restrictRequest.Content = new StringContent(parameterJson.ToString(), Encoding.UTF8, "application/json");
+                    var restrictResponse = await httpClient.SendAsync(restrictRequest);
+                    var restrictResult = await restrictResponse.Content.ReadAsStringAsync();
 
+                    Console.WriteLine("Processing response received.");
+                    Console.WriteLine(restrictResult);
 
-                        JObject parameterJson = new JObject
+                    // All files uploaded or generated are automatically deleted based on the
+                    // File Retention Period as shown on https://pdfrest.com/pricing.
+                    // For immediate deletion of files, particularly when sensitive data
+                    // is involved, an explicit delete call can be made to the API.
+                    //
+                    // The following code is an optional step to delete sensitive files
+                    // (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
+                    if (deleteSensitiveFiles)
+                    {
+                        using (var deleteRequest = new HttpRequestMessage(HttpMethod.Post, "delete"))
                         {
-                            ["id"] = uploadedID,
-                            ["new_permissions_password"] = "password",
-                            ["restrictions"] = new JArray("copy_content", "edit_content"),
-                        };
+                            deleteRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+                            deleteRequest.Headers.Accept.Add(new("application/json"));
+                            deleteRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
 
-                        restrictRequest.Content = new StringContent(parameterJson.ToString(), Encoding.UTF8, "application/json"); ;
-                        var restrictResponse = await httpClient.SendAsync(restrictRequest);
-
-                        var restrictResult = await restrictResponse.Content.ReadAsStringAsync();
-
-                        Console.WriteLine("Processing response received.");
-                        Console.WriteLine(restrictResult);
+                            var deleteJson = new JObject { ["ids"] = uploadedID };
+                            deleteRequest.Content = new StringContent(deleteJson.ToString(), Encoding.UTF8, "application/json");
+                            var deleteResponse = await httpClient.SendAsync(deleteRequest);
+                            var deleteResult = await deleteResponse.Content.ReadAsStringAsync();
+                            Console.WriteLine(deleteResult);
+                        }
                     }
                 }
             }
         }
     }
 }
+
