@@ -1,46 +1,94 @@
+/*
+ * What this sample does:
+ * - Implements a command callable from Program.cs that uploads a file and
+ *   then converts it to Markdown via the JSON two-step flow.
+ * - Routes `dotnet run -- markdown-json <inputFile>` to this module.
+ *
+ * Setup (environment):
+ * - Copy .env.example to .env
+ * - Set PDFREST_API_KEY=your_api_key_here
+ * - Optional: set PDFREST_URL to override the API region. For EU/GDPR compliance and proximity, use:
+ *     PDFREST_URL=https://eu-api.pdfrest.com
+ *   For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ */
+
 using Newtonsoft.Json.Linq;
 using System.Text;
 
-using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfrest.com") })
+namespace Samples.EndpointExamples.JsonPayload
 {
-    using (var uploadRequest = new HttpRequestMessage(HttpMethod.Post, "upload"))
+    public static class Markdown
     {
-        uploadRequest.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
-        uploadRequest.Headers.Accept.Add(new("application/json"));
-
-        var uploadByteArray = File.ReadAllBytes("/path/to/file");
-        var uploadByteAryContent = new ByteArrayContent(uploadByteArray);
-        uploadByteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/octet-stream");
-        uploadByteAryContent.Headers.TryAddWithoutValidation("Content-Filename", "filename.pdf");
-
-        uploadRequest.Content = uploadByteAryContent;
-        var uploadResponse = await httpClient.SendAsync(uploadRequest);
-
-        var uploadResult = await uploadResponse.Content.ReadAsStringAsync();
-
-        Console.WriteLine("Upload response received.");
-        Console.WriteLine(uploadResult);
-
-        JObject uploadResultJson = JObject.Parse(uploadResult);
-        var uploadedID = uploadResultJson["files"][0]["id"];
-        using (var markdownRequest = new HttpRequestMessage(HttpMethod.Post, "markdown"))
+        public static async Task Execute(string[] args)
         {
-            markdownRequest.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
-            markdownRequest.Headers.Accept.Add(new("application/json"));
-            markdownRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
-
-            JObject parameterJson = new JObject
+            if (args == null || args.Length < 1)
             {
-                ["id"] = uploadedID,
-            };
+                Console.Error.WriteLine("markdown-json requires <inputFile>");
+                Environment.Exit(1);
+                return;
+            }
 
-            markdownRequest.Content = new StringContent(parameterJson.ToString(), Encoding.UTF8, "application/json");
-            var markdownResponse = await httpClient.SendAsync(markdownRequest);
+            var inputPath = args[0];
+            if (!File.Exists(inputPath))
+            {
+                Console.Error.WriteLine($"File not found: {inputPath}");
+                Environment.Exit(1);
+                return;
+            }
 
-            var markdownResult = await markdownResponse.Content.ReadAsStringAsync();
+            var apiKey = Environment.GetEnvironmentVariable("PDFREST_API_KEY");
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                Console.Error.WriteLine("Missing required environment variable: PDFREST_API_KEY");
+                Environment.Exit(1);
+                return;
+            }
 
-            Console.WriteLine("Markdown response received.");
-            Console.WriteLine(markdownResult);
+            var baseUrl = Environment.GetEnvironmentVariable("PDFREST_URL") ?? "https://api.pdfrest.com";
+
+            using (var httpClient = new HttpClient { BaseAddress = new Uri(baseUrl) })
+            {
+                using (var uploadRequest = new HttpRequestMessage(HttpMethod.Post, "upload"))
+                {
+                    uploadRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+                    uploadRequest.Headers.Accept.Add(new("application/json"));
+
+                    var uploadByteArray = File.ReadAllBytes(inputPath);
+                    var uploadByteAryContent = new ByteArrayContent(uploadByteArray);
+                    uploadByteAryContent.Headers.TryAddWithoutValidation("Content-Type", "application/octet-stream");
+                    uploadByteAryContent.Headers.TryAddWithoutValidation("Content-Filename", Path.GetFileName(inputPath));
+
+                    uploadRequest.Content = uploadByteAryContent;
+                    var uploadResponse = await httpClient.SendAsync(uploadRequest);
+
+                    var uploadResult = await uploadResponse.Content.ReadAsStringAsync();
+
+                    Console.WriteLine("Upload response received.");
+                    Console.WriteLine(uploadResult);
+
+                    JObject uploadResultJson = JObject.Parse(uploadResult);
+                    var uploadedID = uploadResultJson["files"][0]["id"];
+                    using (var markdownRequest = new HttpRequestMessage(HttpMethod.Post, "markdown"))
+                    {
+                        markdownRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+                        markdownRequest.Headers.Accept.Add(new("application/json"));
+                        markdownRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
+
+                        JObject parameterJson = new JObject
+                        {
+                            ["id"] = uploadedID,
+                        };
+
+                        markdownRequest.Content = new StringContent(parameterJson.ToString(), Encoding.UTF8, "application/json");
+                        var markdownResponse = await httpClient.SendAsync(markdownRequest);
+
+                        var markdownResult = await markdownResponse.Content.ReadAsStringAsync();
+
+                        Console.WriteLine("Markdown response received.");
+                        Console.WriteLine(markdownResult);
+                    }
+                }
+            }
         }
     }
 }
