@@ -27,6 +27,8 @@
 #include <optional>
 #include <string>
 
+// Loads .env manually (no external dotenv dependency required)
+
 namespace fs = std::filesystem;
 using json = nlohmann::json;
 
@@ -47,7 +49,6 @@ static void load_dotenv_if_present(const fs::path &path) {
         if (pos == std::string::npos) continue;
         std::string key = line.substr(0, pos);
         std::string val = line.substr(pos + 1);
-        // Trim whitespace
         auto trim = [](std::string &s) {
             size_t start = s.find_first_not_of(" \t\r\n");
             size_t end = s.find_last_not_of(" \t\r\n");
@@ -57,7 +58,6 @@ static void load_dotenv_if_present(const fs::path &path) {
         trim(key);
         trim(val);
         if (key.empty()) continue;
-        // Do not override if already set
         if (std::getenv(key.c_str()) == nullptr) {
 #ifdef _WIN32
             _putenv_s(key.c_str(), val.c_str());
@@ -69,7 +69,6 @@ static void load_dotenv_if_present(const fs::path &path) {
 }
 
 static void load_env() {
-    // Try ./.env then ../.env
     const fs::path here = fs::current_path();
     load_dotenv_if_present(here / ".env");
     if (fs::exists(here.parent_path())) {
@@ -88,7 +87,7 @@ int main(int argc, char *argv[]) {
     load_env();
 
     if (argc < 2) {
-        std::cerr << "Usage: " << argv[0] << " <input.pdf>\n";
+        std::cerr << "Usage: markdown_json <input.pdf>\n";
         return 1;
     }
     fs::path input_path(argv[1]);
@@ -117,60 +116,56 @@ int main(int argc, char *argv[]) {
     std::string body = std::move(*maybe_data);
 
     // Upload
-    {
-        cpr::Header headers{
-            {"Api-Key", api_key},
-            {"Accept", "application/json"},
-            {"Content-Type", "application/octet-stream"},
-            {"Content-Filename", input_path.filename().string()}
-        };
+    cpr::Header headers{
+        {"Api-Key", api_key},
+        {"Accept", "application/json"},
+        {"Content-Type", "application/octet-stream"},
+        {"Content-Filename", input_path.filename().string()}
+    };
+    auto res = cpr::Post(
+        cpr::Url{base_url + "/upload"},
+        headers,
+        cpr::Body{body}
+    );
 
-        auto res = cpr::Post(
-            cpr::Url{base_url + "/upload"},
-            headers,
-            cpr::Body{body}
-        );
-
-        if (res.error || res.status_code < 200 || res.status_code >= 300) {
-            std::cerr << "Upload failed (status " << res.status_code << "): "
-                      << res.error.message << "\n" << res.text << "\n";
-            return 1;
-        }
-
-        std::cout << res.text << "\n"; // Upload response (JSON)
-
-        // Parse id
-        std::string uploaded_id;
-        try {
-            auto j = json::parse(res.text);
-            uploaded_id = j.at("files").at(0).at("id").get<std::string>();
-        } catch (const std::exception &e) {
-            std::cerr << "Failed to parse upload id: " << e.what() << "\n";
-            return 1;
-        }
-
-        // Markdown request
-        json payload = { {"id", uploaded_id} };
-
-        cpr::Header md_headers{
-            {"Api-Key", api_key},
-            {"Accept", "application/json"},
-            {"Content-Type", "application/json"}
-        };
-        auto md_res = cpr::Post(
-            cpr::Url{base_url + "/markdown"},
-            md_headers,
-            cpr::Body{payload.dump()}
-        );
-
-        if (md_res.error || md_res.status_code < 200 || md_res.status_code >= 300) {
-            std::cerr << "Markdown failed (status " << md_res.status_code << "): "
-                      << md_res.error.message << "\n" << md_res.text << "\n";
-            return 1;
-        }
-
-        std::cout << md_res.text << "\n"; // Markdown response (JSON)
+    if (res.error || res.status_code < 200 || res.status_code >= 300) {
+        std::cerr << "Upload failed (status " << res.status_code << "): "
+                  << res.error.message << "\n" << res.text << "\n";
+        return 1;
     }
 
+    std::cout << res.text << "\n"; // Upload response (JSON)
+
+    // Parse id
+    std::string uploaded_id;
+    try {
+        auto j = json::parse(res.text);
+        uploaded_id = j.at("files").at(0).at("id").get<std::string>();
+    } catch (const std::exception &e) {
+        std::cerr << "Failed to parse upload id: " << e.what() << "\n";
+        return 1;
+    }
+
+    // Markdown request
+    json payload = { {"id", uploaded_id} };
+
+    cpr::Header md_headers{
+        {"Api-Key", api_key},
+        {"Accept", "application/json"},
+        {"Content-Type", "application/json"}
+    };
+    auto md_res = cpr::Post(
+        cpr::Url{base_url + "/markdown"},
+        md_headers,
+        cpr::Body{payload.dump()}
+    );
+
+    if (md_res.error || md_res.status_code < 200 || md_res.status_code >= 300) {
+        std::cerr << "Markdown failed (status " << md_res.status_code << "): "
+                  << md_res.error.message << "\n" << md_res.text << "\n";
+        return 1;
+    }
+
+    std::cout << md_res.text << "\n"; // Markdown response (JSON)
     return 0;
 }
