@@ -3,8 +3,14 @@
 ## Project Structure & Module Organization
 - `CMakeLists.txt`: CMake config (C++20 target).
 - `main.cpp`: entry point and sample scaffold.
+- `Endpoint Examples/JSON Payload/markdown.cpp`: JSON two‑step upload → markdown.
+- `Endpoint Examples/JSON Payload/rasterized_pdf.cpp`: JSON two‑step upload → rasterized-pdf.
+- `Endpoint Examples/Multipart Payload/markdown.cpp`: Multipart markdown (file + options).
+- `Endpoint Examples/Multipart Payload/rasterized_pdf.cpp`: Multipart rasterized-pdf (file only).
+- `Complex Flow Examples/merge_different_file_types.cpp`: Convert different types to PDF, then merge.
+- `.env.example` → copy to `.env` (loaded automatically).
 - `build/` or `cmake-build-*`: local build output (untracked).
-- New samples: mirror repo layout when relevant (`Endpoint Examples/JSON Payload/` vs `Endpoint Examples/Multipart Payload/`). Name files after endpoints (e.g., `markdown.cpp`).
+- New samples: mirror repo layout (`Endpoint Examples/JSON Payload/`, `Endpoint Examples/Multipart Payload/`). Name files after endpoints.
 
 ## Build, Test, and Development Commands
 - Install deps via vcpkg (pick one HTTP client):
@@ -45,6 +51,9 @@ target_link_libraries(CPlusPlus PRIVATE nlohmann_json::nlohmann_json cpr::cpr)
 - Optional cleanup: respect `PDFREST_DELETE_SENSITIVE_FILES=true` when implemented.
 - Respect proxies via `HTTPS_PROXY`/`HTTP_PROXY`. Never print API keys.
 
+Note on `.env` loading
+- The C++ samples auto-load `.env` from this folder or the parent folder using a small manual parser — no extra packages required.
+
 ## Sample Header Template
 Place this at the top of each sample (before includes):
 ```
@@ -57,8 +66,7 @@ Place this at the top of each sample (before includes):
  * - Optional: set PDFREST_URL (EU/GDPR: https://eu-api.pdfrest.com)
  *   More info: https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
  *
- * Usage: ./CPlusPlus <args>
+ * Usage: ./markdown_json <input.pdf>
  * Output: JSON to stdout; non‑2xx exits with concise error.
  */
 ```
-
