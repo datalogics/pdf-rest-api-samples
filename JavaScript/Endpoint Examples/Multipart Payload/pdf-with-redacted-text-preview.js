@@ -6,6 +6,9 @@ var axios = require('axios');
 var FormData = require('form-data');
 var fs = require('fs');
 
+// Toggle deletion of sensitive files (default: false)
+const DELETE_SENSITIVE_FILES = false;
+
 // Create a new form data instance and append the PDF file and parameters to it
 var data = new FormData();
 data.append('file', fs.createReadStream('/path/to/file'));
@@ -69,9 +72,11 @@ axios(config)
     data: { ids: input_id + ', ' + preview_id }
   };
 
-  axios(delete_config)
-    .then(function (delete_response) { console.log(JSON.stringify(delete_response.data)); })
-    .catch(function (error) { console.log(error); });
+  if (DELETE_SENSITIVE_FILES) {
+    axios(delete_config)
+      .then(function (delete_response) { console.log(JSON.stringify(delete_response.data)); })
+      .catch(function (error) { console.log(error); });
+  }
 })
 .catch(function (error) {
   console.log(error); 

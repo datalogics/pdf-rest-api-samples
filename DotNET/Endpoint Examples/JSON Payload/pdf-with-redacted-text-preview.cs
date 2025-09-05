@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text;
 
+// Toggle deletion of sensitive files (default: false)
+var deleteSensitiveFiles = false;
+
 using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfrest.com") })
 {
     using (var uploadRequest = new HttpRequestMessage(HttpMethod.Post, "upload"))
@@ -71,18 +74,21 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
             // IMPORTANT: Do not delete the previewId (the preview PDF) file until after the redaction is applied
             // with the /pdf-with-redacted-text-applied endpoint.
 
-            using (var deleteRequest = new HttpRequestMessage(HttpMethod.Post, "delete"))
+            if (deleteSensitiveFiles)
             {
-                deleteRequest.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
-                deleteRequest.Headers.Accept.Add(new("application/json"));
-                deleteRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
+                using (var deleteRequest = new HttpRequestMessage(HttpMethod.Post, "delete"))
+                {
+                    deleteRequest.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
+                    deleteRequest.Headers.Accept.Add(new("application/json"));
+                    deleteRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
 
-                var previewId = JObject.Parse(redactedTextResult)["outputId"].ToString();
-                JObject deleteJson = new JObject { ["ids"] = uploadedID + ", " + previewId };
-                deleteRequest.Content = new StringContent(deleteJson.ToString(), Encoding.UTF8, "application/json");
-                var deleteResponse = await httpClient.SendAsync(deleteRequest);
-                var deleteResult = await deleteResponse.Content.ReadAsStringAsync();
-                Console.WriteLine(deleteResult);
+                    var previewId = JObject.Parse(redactedTextResult)["outputId"].ToString();
+                    JObject deleteJson = new JObject { ["ids"] = uploadedID + ", " + previewId };
+                    deleteRequest.Content = new StringContent(deleteJson.ToString(), Encoding.UTF8, "application/json");
+                    var deleteResponse = await httpClient.SendAsync(deleteRequest);
+                    var deleteResult = await deleteResponse.Content.ReadAsStringAsync();
+                    Console.WriteLine(deleteResult);
+                }
             }
         }
     }

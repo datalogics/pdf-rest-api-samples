@@ -1,6 +1,9 @@
 import requests
 import json
 
+# Toggle deletion of sensitive files (default: False)
+DELETE_SENSITIVE_FILES = False
+
 with open('/path/to/file', 'rb') as f:
     upload_data = f.read()
 
@@ -41,14 +44,15 @@ if upload_response.ok:
         # The following code is an optional step to delete sensitive files
         # (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
 
-        delete_data = { "ids": uploaded_id }
-        delete_response = requests.post(url='https://api.pdfrest.com/delete',
-                            data=json.dumps(delete_data),
-                            headers={'Content-Type': 'application/json', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
-        if delete_response.ok:
-            print(json.dumps(delete_response.json(), indent = 2))
-        else:
-            print(delete_response.text)
+        if DELETE_SENSITIVE_FILES:
+            delete_data = { "ids": uploaded_id }
+            delete_response = requests.post(url='https://api.pdfrest.com/delete',
+                                data=json.dumps(delete_data),
+                                headers={'Content-Type': 'application/json', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
+            if delete_response.ok:
+                print(json.dumps(delete_response.json(), indent = 2))
+            else:
+                print(delete_response.text)
 
     else:
         print(pdf_with_redacted_text_response.text)

@@ -2,6 +2,9 @@ var axios = require("axios");
 var FormData = require("form-data");
 var fs = require("fs");
 
+// Toggle deletion of sensitive files (default: false)
+const DELETE_SENSITIVE_FILES = false;
+
 var upload_data = fs.createReadStream("/path/to/file");
 
 var upload_config = {
@@ -48,25 +51,26 @@ axios(upload_config)
 
         var body = decrypt_response.data;
         var result_id = body.outputId;
-          var delete_config = {
-            method: "post",
-            maxBodyLength: Infinity,
-            url: "https://api.pdfrest.com/delete",
-            headers: {
-              "Api-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-              "Content-Type": "application/json",
-            },
-            data: { ids: result_id },
-          };
+        var delete_config = {
+          method: "post",
+          maxBodyLength: Infinity,
+          url: "https://api.pdfrest.com/delete",
+          headers: {
+            "Api-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "Content-Type": "application/json",
+          },
+          data: { ids: result_id },
+        };
 
-        axios(delete_config)
-          .then(function (delete_response) {
-            console.log(JSON.stringify(delete_response.data));
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-        
+        if (DELETE_SENSITIVE_FILES) {
+          axios(delete_config)
+            .then(function (delete_response) {
+              console.log(JSON.stringify(delete_response.data));
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
       })
       .catch(function (error) {
         console.log(error);

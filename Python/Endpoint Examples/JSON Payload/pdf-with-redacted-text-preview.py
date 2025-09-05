@@ -1,6 +1,9 @@
 import requests
 import json
 
+# Toggle deletion of sensitive files (default: False)
+DELETE_SENSITIVE_FILES = False
+
 with open('/path/to/file', 'rb') as f:
     upload_data = f.read()
 
@@ -57,14 +60,15 @@ if upload_response.ok:
         # with the /pdf-with-redacted-text-applied endpoint.
 
         preview_id = redact_text_response_json['outputId']
-        delete_data = { "ids": uploaded_id + ", " + preview_id }
-        delete_response = requests.post(url='https://api.pdfrest.com/delete',
-                            data=json.dumps(delete_data),
-                            headers={'Content-Type': 'application/json', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
-        if delete_response.ok:
-            print(json.dumps(delete_response.json(), indent = 2))
-        else:
-            print(delete_response.text)
+        if DELETE_SENSITIVE_FILES:
+            delete_data = { "ids": uploaded_id + ", " + preview_id }
+            delete_response = requests.post(url='https://api.pdfrest.com/delete',
+                                data=json.dumps(delete_data),
+                                headers={'Content-Type': 'application/json', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
+            if delete_response.ok:
+                print(json.dumps(delete_response.json(), indent = 2))
+            else:
+                print(delete_response.text)
 
     else:
         print(redact_text_response.text)

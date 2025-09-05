@@ -1,5 +1,8 @@
 using System.Text;
 
+// Toggle deletion of sensitive files (default: false)
+var deleteSensitiveFiles = false;
+
 using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfrest.com") })
 {
     using (var request = new HttpRequestMessage(HttpMethod.Post, "restricted-pdf"))
@@ -38,8 +41,10 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
         // The following code is an optional step to delete sensitive files
         // (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
 
-        using (var deleteRequest = new HttpRequestMessage(HttpMethod.Post, "delete"))
+        if (deleteSensitiveFiles)
         {
+            using (var deleteRequest = new HttpRequestMessage(HttpMethod.Post, "delete"))
+            {
             deleteRequest.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
             deleteRequest.Headers.Accept.Add(new("application/json"));
             deleteRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
@@ -47,9 +52,10 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
             var inId = Newtonsoft.Json.Linq.JObject.Parse(apiResult)["inputId"].ToString();
             var deleteJson = new Newtonsoft.Json.Linq.JObject { ["ids"] = inId };
             deleteRequest.Content = new StringContent(deleteJson.ToString(), Encoding.UTF8, "application/json");
-            var deleteResponse = await httpClient.SendAsync(deleteRequest);
-            var deleteResult = await deleteResponse.Content.ReadAsStringAsync();
-            Console.WriteLine(deleteResult);
+                var deleteResponse = await httpClient.SendAsync(deleteRequest);
+                var deleteResult = await deleteResponse.Content.ReadAsStringAsync();
+                Console.WriteLine(deleteResult);
+            }
         }
     }
 }

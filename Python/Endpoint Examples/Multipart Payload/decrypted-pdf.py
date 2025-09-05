@@ -2,6 +2,9 @@ from requests_toolbelt import MultipartEncoder
 import requests
 import json
 
+# Toggle deletion of sensitive files (default: False)
+DELETE_SENSITIVE_FILES = False
+
 decrypted_pdf_endpoint_url = 'https://api.pdfrest.com/decrypted-pdf'
 
 # The /decrypted-pdf endpoint can take a single PDF file or id as input.
@@ -43,10 +46,11 @@ else:
 # The following code is an optional step to delete sensitive files
 # (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
 
-result_id = response_json['outputId']
-delete_data = { "ids": result_id }
-delete_response = requests.post(url='https://api.pdfrest.com/delete',
-                    data=json.dumps(delete_data),
-                    headers={'Content-Type': 'application/json', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
-print("Delete response status code: " + str(delete_response.status_code))
-print(json.dumps(delete_response.json(), indent = 2))
+if DELETE_SENSITIVE_FILES and response.ok:
+    result_id = response_json['outputId']
+    delete_data = { "ids": result_id }
+    delete_response = requests.post(url='https://api.pdfrest.com/delete',
+                        data=json.dumps(delete_data),
+                        headers={'Content-Type': 'application/json', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
+    print("Delete response status code: " + str(delete_response.status_code))
+    print(json.dumps(delete_response.json(), indent = 2))

@@ -2,6 +2,9 @@ var axios = require("axios");
 var FormData = require("form-data");
 var fs = require("fs");
 
+// Toggle deletion of sensitive files (default: false)
+const DELETE_SENSITIVE_FILES = false;
+
 var upload_data = fs.createReadStream("/path/to/file");
 
 var upload_config = {
@@ -80,13 +83,15 @@ axios(upload_config)
           data: { ids: uploaded_id + ', ' + preview_id },
         };
 
-        axios(delete_config)
-          .then(function (delete_response) {
-            console.log(JSON.stringify(delete_response.data));
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+        if (DELETE_SENSITIVE_FILES) {
+          axios(delete_config)
+            .then(function (delete_response) {
+              console.log(JSON.stringify(delete_response.data));
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
       })
       .catch(function (error) {
         console.log(error);
