@@ -1,8 +1,8 @@
-### Tutorial
+![pdfrest-n8n-header-image](https://pdfrest.com/.netlify/images?fm=webp&url=https:%2F%2Fcms.pdfrest.com%2Fcontent%2Fimages%2F2025%2F09%2FSolution-Integrate-pdfRest-with-n8n-Automation.png)
 
-<br>
+## Tutorial: Getting Started with n8n, pdfRest, & Drobox Integration
 
-#### Objective
+### Objective
 
 In this post we'll cover how to:
 
@@ -12,13 +12,14 @@ In this post we'll cover how to:
 4. Upload the newly converted PDF file back into Dropbox
 6. Merge that PDF file with another
 
-#### Uploading the Image
+---
+### Step 1: Uploading the Image
 
-Files intended for the pdfRest API service will first need to be retrieved from somewhere. The file storage service Dropbox, used in this tutorial, is one of many options available within n8n. In the example below we download the file `image.jpeg` and stored that in the n8n workflow as `dropbox_jpeg`.
+Files intended for the pdfRest API service will first need to be retrieved from somewhere. The file storage service **Dropbox**, used in this tutorial, is one of many options available within n8n. In the example below we download the file `image.jpeg` and stored that in the n8n workflow as `dropbox_jpeg`.
 
 ![pdfrest-n8n-solution-1.png](https://cms.pdfrest.com/content/images/2025/09/pdfrest-n8n-solution-1.png)
 
-The next step is to create an **HTTP Request** that uploads the file to pdfRest using the /upload endpoint.
+The next step is to create an **HTTP Request** that uploads the file to pdfRest using the **/upload** endpoint.
 
 ![pdfrest-n8n-solution-2.png](https://cms.pdfrest.com/content/images/2025/09/pdfrest-n8n-solution-2.png)
 
@@ -38,7 +39,8 @@ When run, the steps above will output a JSON formatted response from pdfRest wit
 
 ![pdfrest-n8n-solution-6.png](https://cms.pdfrest.com/content/images/2025/09/pdfrest-n8n-solution-6.png)
 
-#### Converting the Image to PDF
+---
+### Step 2: Converting the Image to PDF
 
 Create another **HTTP Request** step, this time to convert the image to a PDF. This will be a **POST** to `https://api.pdfrest.com/pdf`.
 
@@ -51,21 +53,22 @@ This time we will have a **JSON Body Content Type**. Create a **Body Paramter** 
 ![pdfrest-n8n-solution-8.png](https://cms.pdfrest.com/content/images/2025/09/pdfrest-n8n-solution-8.png)
 
 The JSON output of this API call to /pdf will contain:
--	The `inputId` of our previously uploaded image file
--	The `outputId` of the newly converted PDF file
--	The `outputUrl` to download the converted PDF file
+- The `inputId` of our previously uploaded image file
+- The `outputId` of the newly converted PDF file
+- The `outputUrl` to download the converted PDF file
 
 ![pdfrest-n8n-solution-9.png](https://cms.pdfrest.com/content/images/2025/09/pdfrest-n8n-solution-9.png)
 
-#### Downloading the PDF
+---
+### Step 3: Downloading the PDF
 
 In order to retrieve the newly converted PDF you will create a GET **HTTP Request** using the value of the `outputUrl`. No body or header needed for this step. This will produce a binary file data object (in this case, a technical way of saying a .pdf file) to be sent wherever you wish. In this example, we are downloading the results back into Dropbox.
-
 
 ![pdfrest-n8n-solution-10.png](https://cms.pdfrest.com/content/images/2025/09/pdfrest-n8n-solution-10.png)
 ![pdfrest-n8n-solution-11.png](https://cms.pdfrest.com/content/images/2025/09/pdfrest-n8n-solution-11.png)
 
-#### Merging PDFs with n8n
+---
+### Step 4: Merging PDFs with n8n
 
 Next we will use the `/merged-pdf` endpoint to merge the converted PDF with another PDF.
 
@@ -74,6 +77,7 @@ The first step is to download the new PDF from Dropbox just like we did before w
 ![pdfrest-n8n-solution-12.png](https://cms.pdfrest.com/content/images/2025/09/pdfrest-n8n-solution-12.png)
 
 Make another **HTTP Request** to `https://api.pdfrest.com/upload` with the same `api-key` Header Parameter as before and the only difference being that we are uploading the PDF from Dropbox this time. The new **Input Data Field Name** will be `dropbox_pdf`.
+
 ![pdfrest-n8n-solution-13.png](https://cms.pdfrest.com/content/images/2025/09/pdfrest-n8n-solution-13.png)
 
 To merge the files we will make an **HTTP Request** to `https://api.pdfrest.com/merged-pdf`. This will use the POST **Method** with the `api-key` Header set as before.
@@ -85,6 +89,7 @@ For the **Body Parameters**, set the **Content Type** to `JSON` and set **Specif
 ![pdfrest-n8n-solution-15.png](https://cms.pdfrest.com/content/images/2025/09/pdfrest-n8n-solution-15.png)
 
 Since the `id` values are being pulled from existing steps, they will be dynamically generated every time the workflow runs. This is an example of our JSON:
+
 
 ```
 {
@@ -103,6 +108,11 @@ Since the `id` values are being pulled from existing steps, they will be dynamic
 }
 ```
 
-Just as when we called /pdf above, this **HTTP Request** will result in a JSON object with `inputId`s, an `outputId`, and an `outputUrl` that can be used to download the final, merged document.
+Just as when we called `/pdf` above, this **HTTP Request** will result in a JSON object with `inputId`s, an `outputId`, and an `outputUrl` that can be used to download the final, merged document.
 
 ![pdfrest-n8n-solution-16.png](https://cms.pdfrest.com/content/images/2025/09/pdfrest-n8n-solution-16.png)
+
+
+If you have any trouble getting this set up or would like more information about how pdfRest can solve your PDF processing challenges, please [let us know](https://pdfrest.com/support/) how we can help!
+
+---
