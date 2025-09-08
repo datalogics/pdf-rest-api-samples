@@ -10,17 +10,18 @@
 
 API_KEY="xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" # place your api key here
 
-DECRYPTED_ID=$(curl -X POST "https://api.pdfrest.com/decrypted-pdf" \
+DECRYPTED_OUTPUT=$(curl -X POST "https://api.pdfrest.com/decrypted-pdf" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -H "Api-Key: $API_KEY" \
   -F "file=@/path/to/file.pdf" \
   -F "output=example_out" \
-  -F "current_open_password=password" \
-  | jq -r '.outputId')
+  -F "current_open_password=password")
+
+DECRYPTED_ID=$(jq -r '.outputId' <<< $DECRYPTED_OUTPUT)
 
 
-ADDED_IMAGE_ID=$(curl -X POST "https://api.pdfrest.com/pdf-with-added-image" \
+ADDED_IMAGE_OUTPUT=$(curl -X POST "https://api.pdfrest.com/pdf-with-added-image" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -H "Api-Key: $API_KEY" \
@@ -29,8 +30,9 @@ ADDED_IMAGE_ID=$(curl -X POST "https://api.pdfrest.com/pdf-with-added-image" \
   -F "output=example_out" \
   -F "x=10" \
   -F "y=10" \
-  -F "page=1" \
-  | jq -r '.outputId')
+  -F "page=1")
+
+ADDED_IMAGE_ID=$(jq -r '.outputId' <<< $ADDED_IMAGE_OUTPUT)
 
 
 ENCRYPTED_OUTPUT=$(curl -X POST "https://api.pdfrest.com/encrypted-pdf" \
@@ -54,10 +56,12 @@ echo $ENCRYPTED_OUTPUT | jq -r '.'
 # Enable by uncommenting the next line to delete sensitive files
 # DELETE_SENSITIVE_FILES=true
 if [ "$DELETE_SENSITIVE_FILES" = "true" ]; then
+  INPUT_PDF_ID=$(jq -r '.inputId' <<< $DECRYPTED_OUTPUT)
+  ADDED_IMAGE_INPUTS=$(jq -r '.inputId | join(",")' <<< $ADDED_IMAGE_OUTPUT) # Includes the DECRYPTED_ID
   REENCRYPTED_ID=$(jq -r '.outputId' <<< $ENCRYPTED_OUTPUT)
   curl -X POST "https://api.pdfrest.com/delete" \
     -H "Accept: application/json" \
     -H "Content-Type: multipart/form-data" \
     -H "Api-Key: $API_KEY" \
-    -F "ids=$DECRYPTED_ID, $ADDED_IMAGE_ID, $REENCRYPTED_ID" | jq -r '.'
+    -F "ids=$INPUT_PDF_ID, $ADDED_IMAGE_INPUTS, $ADDED_IMAGE_ID, $REENCRYPTED_ID" | jq -r '.'
 fi
