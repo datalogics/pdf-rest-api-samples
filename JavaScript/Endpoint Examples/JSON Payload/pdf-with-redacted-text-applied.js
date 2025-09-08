@@ -40,14 +40,14 @@ axios(upload_config)
     axios(pdf_with_redacted_text_config)
       .then(function (pdf_with_redacted_text_response) {
         console.log(JSON.stringify(pdf_with_redacted_text_response.data));
+        var applied_output_id = pdf_with_redacted_text_response.data.outputId;
 
         // All files uploaded or generated are automatically deleted based on the 
         // File Retention Period as shown on https://pdfrest.com/pricing. 
         // For immediate deletion of files, particularly when sensitive data 
         // is involved, an explicit delete call can be made to the API.
         //
-        // The following code is an optional step to delete sensitive files
-        // (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
+        // Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
 
         var delete_config = {
           method: "post",
@@ -57,7 +57,7 @@ axios(upload_config)
             "Api-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
             "Content-Type": "application/json",
           },
-          data: { ids: uploaded_id },
+          data: { ids: `${uploaded_id}, ${applied_output_id}` },
         };
 
         if (DELETE_SENSITIVE_FILES) {

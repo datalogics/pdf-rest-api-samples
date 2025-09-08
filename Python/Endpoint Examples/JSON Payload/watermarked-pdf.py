@@ -42,11 +42,11 @@ if upload_response.ok:
         # For immediate deletion of files, particularly when sensitive data 
         # is involved, an explicit delete call can be made to the API.
         #
-        # The following code is an optional step to delete sensitive files
-        # (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
+        # Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
 
         if DELETE_SENSITIVE_FILES:
-            delete_data = { "ids": uploaded_id }
+            watermarked_output_id = watermark_response_json['outputId']
+            delete_data = { "ids": f"{uploaded_id}, {watermarked_output_id}" }
             delete_response = requests.post(url='https://api.pdfrest.com/delete',
                                 data=json.dumps(delete_data),
                                 headers={'Content-Type': 'application/json', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})

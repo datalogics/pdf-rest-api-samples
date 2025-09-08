@@ -49,14 +49,15 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
 
             Console.WriteLine("Processing response received.");
             Console.WriteLine(watermarkResult);
+            JObject watermarkResultJson = JObject.Parse(watermarkResult);
+            var outputID = watermarkResultJson["outputId"];
 
             // All files uploaded or generated are automatically deleted based on the 
             // File Retention Period as shown on https://pdfrest.com/pricing. 
             // For immediate deletion of files, particularly when sensitive data 
             // is involved, an explicit delete call can be made to the API.
             //
-            // The following code is an optional step to delete sensitive files 
-            // (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
+            // Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
 
             if (deleteSensitiveFiles)
             {
@@ -68,7 +69,7 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
 
                     JObject deleteJson = new JObject
                     {
-                        ["ids"] = uploadedID
+                        ["ids"] = $"{uploadedID}, {outputID}"
                     };
                     deleteRequest.Content = new StringContent(deleteJson.ToString(), Encoding.UTF8, "application/json");
                     var deleteResponse = await httpClient.SendAsync(deleteRequest);

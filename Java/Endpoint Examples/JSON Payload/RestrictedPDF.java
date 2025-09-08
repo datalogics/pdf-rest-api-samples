@@ -57,20 +57,20 @@ public class RestrictedPDF {
 
       Response response = client.newCall(request).execute();
       System.out.println("Processing Result code " + response.code());
-      if (response.body() != null) {
-        System.out.println(prettyJson(response.body().string()));
-      }
+      String respStr = response.body() != null ? response.body().string() : "{}";
+      System.out.println(prettyJson(respStr));
+      JSONObject restrictJSON = new JSONObject(respStr);
+      String outputID = restrictJSON.optString("outputId");
 
       // All files uploaded or generated are automatically deleted based on the
       // File Retention Period as shown on https://pdfrest.com/pricing.
       // For immediate deletion of files, particularly when sensitive data
       // is involved, an explicit delete call can be made to the API.
       //
-      // The following code is an optional step to delete sensitive files
-      // (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
+      // Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
 
       if (DELETE_SENSITIVE_FILES) {
-        String deleteJson = String.format("{ \"ids\":\"%s\" }", uploadedID);
+        String deleteJson = String.format("{ \"ids\":\"%s, %s\" }", uploadedID, outputID);
         RequestBody deleteBody =
             RequestBody.create(deleteJson, MediaType.parse("application/json"));
         Request deleteRequest =

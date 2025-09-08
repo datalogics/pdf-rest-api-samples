@@ -59,8 +59,7 @@ echo $body_str; // Output the response body, which contains the restricted PDF w
 // For immediate deletion of files, particularly when sensitive data 
 // is involved, an explicit delete call can be made to the API.
 //
-// The following code is an optional step to delete sensitive files
-// (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
+// Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
 
 if ($DELETE_SENSITIVE_FILES) {
   $delete_client = new Client(['http_errors' => false]);
@@ -70,7 +69,8 @@ if ($DELETE_SENSITIVE_FILES) {
   ];
   $parsed = json_decode($body_str, true);
   $input_id = isset($parsed['inputId']) ? $parsed['inputId'] : '';
-  $delete_body = json_encode([ 'ids' => $input_id ]);
+  $output_id = isset($parsed['outputId']) ? $parsed['outputId'] : '';
+  $delete_body = json_encode([ 'ids' => "$input_id, $output_id" ]);
   $delete_request = new Request('POST', 'https://api.pdfrest.com/delete', $delete_headers, $delete_body);
   $delete_res = $delete_client->sendAsync($delete_request)->wait();
   echo $delete_res->getBody() . PHP_EOL;

@@ -38,8 +38,7 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
         // For immediate deletion of files, particularly when sensitive data 
         // is involved, an explicit delete call can be made to the API.
         //
-        // The following code is an optional step to delete sensitive files
-        // (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
+        // Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
 
         if (deleteSensitiveFiles)
         {
@@ -49,8 +48,10 @@ using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfr
             deleteRequest.Headers.Accept.Add(new("application/json"));
             deleteRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
 
-            var inId = Newtonsoft.Json.Linq.JObject.Parse(apiResult)["inputId"].ToString();
-            var deleteJson = new Newtonsoft.Json.Linq.JObject { ["ids"] = inId };
+            var parsed = Newtonsoft.Json.Linq.JObject.Parse(apiResult);
+            var inId = parsed["inputId"].ToString();
+            var outId = parsed["outputId"].ToString();
+            var deleteJson = new Newtonsoft.Json.Linq.JObject { ["ids"] = $"{inId}, {outId}" };
             deleteRequest.Content = new StringContent(deleteJson.ToString(), Encoding.UTF8, "application/json");
                 var deleteResponse = await httpClient.SendAsync(deleteRequest);
                 var deleteResult = await deleteResponse.Content.ReadAsStringAsync();

@@ -28,14 +28,14 @@ maxBodyLength: Infinity, // set maximum length of the request body
 axios(config)
 .then(function (response) {
   console.log(JSON.stringify(response.data));
+  var output_id = response.data.outputId;
 
   // All files uploaded or generated are automatically deleted based on the 
   // File Retention Period as shown on https://pdfrest.com/pricing. 
   // For immediate deletion of files, particularly when sensitive data 
   // is involved, an explicit delete call can be made to the API.
   //
-  // The following code is an optional step to delete sensitive files
-  // (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
+  // Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
 
   var body = response.data;
   var input_id = body.inputId;
@@ -47,7 +47,7 @@ axios(config)
       'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
       'Content-Type': 'application/json'
     },
-    data: { ids: input_id }
+    data: { ids: `${input_id}, ${output_id}` }
   };
 
   if (DELETE_SENSITIVE_FILES) {

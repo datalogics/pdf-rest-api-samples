@@ -33,15 +33,17 @@ $watermark_headers = [
 $watermark_body = '{"id":"'.$uploaded_id.'", "watermark_text":"TEXT"}';
 $watermark_request = new Request('POST', 'https://api.pdfrest.com/watermarked-pdf', $watermark_headers, $watermark_body);
 $watermark_res = $watermark_client->sendAsync($watermark_request)->wait();
-echo $watermark_res->getBody() . PHP_EOL;
+$watermark_body_str = (string)$watermark_res->getBody();
+echo $watermark_body_str . PHP_EOL;
+$watermark_response_json = json_decode($watermark_body_str);
+$output_id = $watermark_response_json->{'outputId'} ?? '';
 
 // All files uploaded or generated are automatically deleted based on the 
 // File Retention Period as shown on https://pdfrest.com/pricing. 
 // For immediate deletion of files, particularly when sensitive data 
 // is involved, an explicit delete call can be made to the API.
 //
-// The following code is an optional step to delete sensitive files
-// (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
+// Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
 
 if ($DELETE_SENSITIVE_FILES) {
   $delete_client = new Client(['http_errors' => false]);
@@ -49,7 +51,7 @@ if ($DELETE_SENSITIVE_FILES) {
     'api-key' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
     'Content-Type' => 'application/json'
   ];
-  $delete_body = '{"ids":"' . $uploaded_id . '"}';
+  $delete_body = '{"ids":"' . $uploaded_id . ', ' . $output_id . '"}';
   $delete_request = new Request('POST', 'https://api.pdfrest.com/delete', $delete_headers, $delete_body);
   $delete_res = $delete_client->sendAsync($delete_request)->wait();
   echo $delete_res->getBody() . PHP_EOL;
