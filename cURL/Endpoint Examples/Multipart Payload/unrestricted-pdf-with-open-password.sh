@@ -7,7 +7,7 @@ UNRESTRICTED_OUTPUT=$(curl -X POST "https://api.pdfrest.com/unrestricted-pdf" \
   -F "current_permissions_password=restricted" \
   -F "current_open_password=encrypted")
 
-echo $UNRESTRICTED_OUTPUT
+echo $UNRESTRICTED_OUTPUT | jq -r '.'
 
 # All files uploaded or generated are automatically deleted based on the 
 # File Retention Period as shown on https://pdfrest.com/pricing. 
@@ -25,5 +25,5 @@ if [ "$DELETE_SENSITIVE_FILES" = "true" ]; then
     -H "Accept: application/json" \
     -H "Content-Type: multipart/form-data" \
     -H "Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" \
-    -F "ids=$INPUT_PDF_ID, $UNRESTRICTED_ID"
+    -F "ids=$INPUT_PDF_ID, $UNRESTRICTED_ID" | jq -r '.'
 fi

@@ -50,5 +50,5 @@ if [ "$DELETE_SENSITIVE_FILES" = "true" ]; then
     -H "Accept: application/json" \
     -H "Content-Type: multipart/form-data" \
     -H "Api-Key: $API_KEY" \
-    -F "ids=$INPUT_PDF_ID, $WATERMARKED_ID, $RESTRICTED_ID"
+    -F "ids=$INPUT_PDF_ID, $WATERMARKED_ID, $RESTRICTED_ID" | jq -r '.'
 fi

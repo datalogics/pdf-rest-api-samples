@@ -7,7 +7,7 @@ DECRYPTED_OUTPUT=$(curl -X POST "https://api.pdfrest.com/decrypted-pdf" \
   -F "current_open_password=encrypted" \
   -F "current_permissions_password=restricted")
 
-echo $DECRYPTED_OUTPUT
+echo $DECRYPTED_OUTPUT | jq -r '.'
 
 # All files uploaded or generated are automatically deleted based on the 
 # File Retention Period as shown on https://pdfrest.com/pricing. 
@@ -25,5 +25,5 @@ if [ "$DELETE_SENSITIVE_FILES" = "true" ]; then
     -H "Accept: application/json" \
     -H "Content-Type: multipart/form-data" \
     -H "Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" \
-    -F "ids=$INPUT_PDF_ID, $DECRYPTED_ID"
+    -F "ids=$INPUT_PDF_ID, $DECRYPTED_ID" | jq -r '.'
 fi
