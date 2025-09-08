@@ -69,7 +69,8 @@ public class PDFWithRedactedTextPreview {
         // For immediate deletion of files, particularly when sensitive data
         // is involved, an explicit delete call can be made to the API.
         //
-        // Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
+        // Deletes all files in the workflow, including outputs. Save all desired files before
+        // enabling this step.
         // IMPORTANT: Do not delete the previewId (the preview PDF) file until after the redaction
         // is applied with the /pdf-with-redacted-text-applied endpoint.
 

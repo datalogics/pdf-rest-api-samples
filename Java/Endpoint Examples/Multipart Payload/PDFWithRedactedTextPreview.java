@@ -57,7 +57,8 @@ public class PDFWithRedactedTextPreview {
         // For immediate deletion of files, particularly when sensitive data
         // is involved, an explicit delete call can be made to the API.
         //
-        // Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
+        // Deletes all files in the workflow, including outputs. Save all desired files before
+        // enabling this step.
 
         if (DELETE_SENSITIVE_FILES) {
           String inputId = new org.json.JSONObject(respStr).getString("inputId");
