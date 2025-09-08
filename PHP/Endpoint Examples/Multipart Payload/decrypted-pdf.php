@@ -47,8 +47,7 @@ echo $body; // Output the response body
 // For immediate deletion of files, particularly when sensitive data 
 // is involved, an explicit delete call can be made to the API.
 //
-// The following code is an optional step to delete sensitive files
-// (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
+// Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
 
 if ($DELETE_SENSITIVE_FILES) {
   $delete_client = new Client(['http_errors' => false]);
@@ -56,17 +55,10 @@ if ($DELETE_SENSITIVE_FILES) {
     'api-key' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
     'Content-Type' => 'application/json'
   ];
-  $delete_body = '{"ids":"xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"}';
-  $delete_request = new Request('POST', 'https://api.pdfrest.com/delete', $delete_headers, $delete_body);
-  $delete_res = $delete_client->sendAsync($delete_request)->wait();
-  echo $delete_res->getBody() . PHP_EOL;
-  $delete_client = new Client(['http_errors' => false]);
-  $delete_headers = [
-    'api-key' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
-    'Content-Type' => 'application/json'
-  ];
   $json = json_decode($body, true);
-  $delete_body = '{"ids":"' . $json['outputId'] . '"}';
+  $input_id = isset($json['inputId']) ? $json['inputId'] : '';
+  $output_id = isset($json['outputId']) ? $json['outputId'] : '';
+  $delete_body = json_encode([ 'ids' => $input_id . ', ' . $output_id ]);
   $delete_request = new Request('POST', 'https://api.pdfrest.com/delete', $delete_headers, $delete_body);
   $delete_res = $delete_client->sendAsync($delete_request)->wait();
   echo $delete_res->getBody() . PHP_EOL;

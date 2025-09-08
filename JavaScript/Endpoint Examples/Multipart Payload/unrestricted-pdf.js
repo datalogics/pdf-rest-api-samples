@@ -37,10 +37,10 @@ axios(config)
   // For immediate deletion of files, particularly when sensitive data 
   // is involved, an explicit delete call can be made to the API.
   //
-  // The following code is an optional step to delete sensitive files
-  // (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
+  // Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
 
   var body = response.data;
+  var input_id = body.inputId;
   var result_id = body.outputId;
     var delete_config = {
       method: 'post',
@@ -50,7 +50,7 @@ axios(config)
         'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
         'Content-Type': 'application/json'
       },
-      data: { ids: result_id }
+      data: { ids: input_id + ', ' + result_id }
     };
 
   if (DELETE_SENSITIVE_FILES) {

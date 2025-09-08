@@ -55,12 +55,13 @@ public class UnrestrictedPDF {
         // For immediate deletion of files, particularly when sensitive data
         // is involved, an explicit delete call can be made to the API.
         //
-        // The following code is an optional step to delete sensitive files
-        // (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
+        // Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
 
         if (DELETE_SENSITIVE_FILES) {
-          String outputId = new org.json.JSONObject(respStr).getString("outputId");
-          String deleteJson = String.format("{ \"ids\":\"%s\" }", outputId);
+          org.json.JSONObject parsed = new org.json.JSONObject(respStr);
+          String outputId = parsed.getString("outputId");
+          String inputId = parsed.getString("inputId");
+          String deleteJson = String.format("{ \"ids\":\"%s, %s\" }", inputId, outputId);
           RequestBody deleteBody =
               RequestBody.create(deleteJson, MediaType.parse("application/json"));
           Request deleteRequest =

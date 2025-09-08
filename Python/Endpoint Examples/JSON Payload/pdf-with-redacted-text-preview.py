@@ -54,8 +54,7 @@ if upload_response.ok:
         # For immediate deletion of files, particularly when sensitive data 
         # is involved, an explicit delete call can be made to the API.
         #
-        # The following code is an optional step to delete sensitive files
-        # (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
+# Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
         # IMPORTANT: Do not delete the preview_id (the preview PDF) file until after the redaction is applied
         # with the /pdf-with-redacted-text-applied endpoint.
 
