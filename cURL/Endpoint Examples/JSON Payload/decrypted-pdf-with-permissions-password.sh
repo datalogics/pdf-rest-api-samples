@@ -21,13 +21,14 @@ echo $DECRYPTED_OUTPUT | jq -r '.'
 # is involved, an explicit delete call can be made to the API.
 
 # Optional deletion step — OFF by default.
-# Deletes sensitive files (unredacted, unwatermarked, unencrypted, or unrestricted).
+# Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
 # Enable by uncommenting the next line to delete sensitive files
 # DELETE_SENSITIVE_FILES=true
 if [ "$DELETE_SENSITIVE_FILES" = "true" ]; then
 DECRYPTED_ID=$(jq -r '.outputId' <<< $DECRYPTED_OUTPUT)
+INPUT_PDF_ID=$(jq -r '.inputId' <<< $DECRYPTED_OUTPUT)
 curl --request POST "https://api.pdfrest.com/delete" \
 --header 'Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' \
 --header 'Content-Type: application/json' \
---data-raw "{ \"ids\": \"$DECRYPTED_ID\"}" | jq -r '.'
+--data-raw "{ \"ids\": \"$INPUT_PDF_ID, $DECRYPTED_ID\"}" | jq -r '.'
 fi

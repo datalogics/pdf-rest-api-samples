@@ -33,13 +33,15 @@ ADDED_IMAGE_ID=$(curl -X POST "https://api.pdfrest.com/pdf-with-added-image" \
   | jq -r '.outputId')
 
 
-curl -X POST "https://api.pdfrest.com/encrypted-pdf" \
+ENCRYPTED_OUTPUT=$(curl -X POST "https://api.pdfrest.com/encrypted-pdf" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -H "Api-Key: $API_KEY" \
   -F "id=$ADDED_IMAGE_ID" \
   -F "output=example_out" \
-  -F "new_open_password=password"
+  -F "new_open_password=password")
+
+echo $ENCRYPTED_OUTPUT | jq -r '.'
 
 
 # All files uploaded or generated are automatically deleted based on the 
@@ -48,13 +50,14 @@ curl -X POST "https://api.pdfrest.com/encrypted-pdf" \
 # is involved, an explicit delete call can be made to the API.
 
 # Optional deletion step — OFF by default.
-# Deletes sensitive files (unredacted, unwatermarked, unencrypted, or unrestricted).
+# Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
 # Enable by uncommenting the next line to delete sensitive files
 # DELETE_SENSITIVE_FILES=true
 if [ "$DELETE_SENSITIVE_FILES" = "true" ]; then
+  REENCRYPTED_ID=$(jq -r '.outputId' <<< $ENCRYPTED_OUTPUT)
   curl -X POST "https://api.pdfrest.com/delete" \
     -H "Accept: application/json" \
     -H "Content-Type: multipart/form-data" \
     -H "Api-Key: $API_KEY" \
-    -F "ids=$DECRYPTED_ID, $ADDED_IMAGE_ID"
+    -F "ids=$DECRYPTED_ID, $ADDED_IMAGE_ID, $REENCRYPTED_ID"
 fi

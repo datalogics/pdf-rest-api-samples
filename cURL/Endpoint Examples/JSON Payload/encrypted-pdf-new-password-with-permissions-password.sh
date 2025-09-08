@@ -8,10 +8,12 @@ UPLOAD_ID=$(curl --location 'https://api.pdfrest.com/upload' \
 
 echo "File successfully uploaded with an ID of: $UPLOAD_ID"
 
-curl 'https://api.pdfrest.com/encrypted-pdf' \
+ENCRYPTED_OUTPUT=$(curl 'https://api.pdfrest.com/encrypted-pdf' \
 --header 'Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' \
 --header 'Content-Type: application/json' \
---data-raw "{ \"id\": \"$UPLOAD_ID\", \"current_permissions_password\": \"password\", \"new_open_password\": \"new_password\"}" | jq -r '.'
+--data-raw "{ \"id\": \"$UPLOAD_ID\", \"current_permissions_password\": \"password\", \"new_open_password\": \"new_password\"}")
+
+echo $ENCRYPTED_OUTPUT | jq -r '.'
 
 # All files uploaded or generated are automatically deleted based on the 
 # File Retention Period as shown on https://pdfrest.com/pricing. 
@@ -19,12 +21,13 @@ curl 'https://api.pdfrest.com/encrypted-pdf' \
 # is involved, an explicit delete call can be made to the API.
 
 # Optional deletion step — OFF by default.
-# Deletes sensitive files (unredacted, unwatermarked, unencrypted, or unrestricted).
+# Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
 # Enable by uncommenting the next line to delete sensitive files
 # DELETE_SENSITIVE_FILES=true
 if [ "$DELETE_SENSITIVE_FILES" = "true" ]; then
+ENCRYPTED_OUTPUT_ID=$(jq -r '.outputId' <<< $ENCRYPTED_OUTPUT)
 curl --request POST "https://api.pdfrest.com/delete" \
 --header 'Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' \
 --header 'Content-Type: application/json' \
---data-raw "{ \"ids\": \"$UPLOAD_ID\"}" | jq -r '.'
+--data-raw "{ \"ids\": \"$UPLOAD_ID, $ENCRYPTED_OUTPUT_ID\"}" | jq -r '.'
 fi
