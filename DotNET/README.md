@@ -118,6 +118,16 @@ Each script builds the project once, discovers suitable inputs inside the direct
 - Some flows produce downloadable files; use `upload*`/`get-resource*` or JSON resource IDs to retrieve binary outputs when needed.
 - For binary verification, write bytes to disk and open the file (e.g., PDFs/images) in your preferred viewer.
 
+## Optional deletion toggle
+
+- Some samples include an optional delete step to remove uploaded/generated files from pdfRest servers. By default, this is OFF. To enable immediate deletion for supported samples, set the following environment variable:
+
+  ```
+  PDFREST_DELETE_SENSITIVE_FILES=true
+  ```
+
+  If unset or set to any value other than `true` (case-insensitive), deletion remains disabled. The default behavior retains files according to the File Retention Period shown on https://pdfrest.com/pricing.
+ 
 ## Project Structure & Build Notes
 
 - Single .NET 8 console app; `Program.cs` dispatches to all samples.

@@ -5,6 +5,9 @@ use GuzzleHttp\Client; // Import the Guzzle HTTP client namespace.
 use GuzzleHttp\Psr7\Request; // Import the PSR-7 Request class.
 use GuzzleHttp\Psr7\Utils; // Import the PSR-7 Utils class for working with streams.
 
+// Toggle deletion of sensitive files (default: false)
+$DELETE_SENSITIVE_FILES = false;
+
 $upload_client = new Client(['http_errors' => false]);
 $upload_headers = [
   'api-key' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
@@ -30,4 +33,27 @@ $unrestrict_headers = [
 $unrestrict_body = '{"id":"'.$uploaded_id.'", "current_permissions_password":"password"}';
 $unrestrict_request = new Request('POST', 'https://api.pdfrest.com/unrestricted-pdf', $unrestrict_headers, $unrestrict_body);
 $unrestrict_res = $unrestrict_client->sendAsync($unrestrict_request)->wait();
-echo $unrestrict_res->getBody() . PHP_EOL;
+$unrestrict_body = (string) $unrestrict_res->getBody();
+echo $unrestrict_body . PHP_EOL;
+
+// All files uploaded or generated are automatically deleted based on the 
+// File Retention Period as shown on https://pdfrest.com/pricing. 
+// For immediate deletion of files, particularly when sensitive data 
+// is involved, an explicit delete call can be made to the API.
+//
+// The following code is an optional step to delete sensitive files
+// (unredacted, unencrypted, unrestricted, or unwatermarked) from pdfRest servers.
+
+// Delete the unrestricted output using its outputId
+if ($DELETE_SENSITIVE_FILES) {
+  $delete_client = new Client(['http_errors' => false]);
+  $delete_headers = [
+    'api-key' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    'Content-Type' => 'application/json'
+  ];
+  $unrestrict_json = json_decode($unrestrict_body, true);
+  $delete_body = '{"ids":"'.$unrestrict_json['outputId'].'"}';
+  $delete_request = new Request('POST', 'https://api.pdfrest.com/delete', $delete_headers, $delete_body);
+  $delete_res = $delete_client->sendAsync($delete_request)->wait();
+  echo $delete_res->getBody() . PHP_EOL;
+}
