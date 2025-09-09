@@ -7,6 +7,13 @@ import org.json.JSONObject;
 
 public class RequestStatus {
 
+  // By default, we use the US-based API service. This is the primary endpoint for global use.
+  private static final String API_URL = "https://api.pdfrest.com";
+
+  // For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+  // For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+  //private static final String API_URL = "https://eu-api.pdfrest.com";
+
   // Specify your API key here, or in the environment variable PDFREST_API_KEY.
   // You can also put the environment variable in a .env file.
   private static final String DEFAULT_API_KEY = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -67,7 +74,7 @@ public class RequestStatus {
         new Request.Builder()
             .header("Api-Key", apiKey)
             .header("response-type", "requestId")
-            .url("https://api.pdfrest.com/pdfa")
+            .url(API_URL + "/pdfa")
             .post(requestBody)
             .build();
     try {
@@ -85,7 +92,7 @@ public class RequestStatus {
   }
 
   private static String getRequestStatusResponse(String requestId, String apiKey) {
-    String urlString = String.format("https://api.pdfrest.com/request-status/%s", requestId);
+    String urlString = String.format(API_URL + "/request-status/%s", requestId);
     Request request = new Request.Builder().header("Api-Key", apiKey).url(urlString).get().build();
     try {
       OkHttpClient client =
