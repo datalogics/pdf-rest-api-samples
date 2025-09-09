@@ -19,6 +19,8 @@
 
 using System.Text;
 
+
+
 namespace Samples.EndpointExamples.MultipartPayload
 {
     public static class EncryptedPdf
@@ -69,6 +71,35 @@ namespace Samples.EndpointExamples.MultipartPayload
 
                 Console.WriteLine("API response received.");
                 Console.WriteLine(apiResult);
+
+                // All files uploaded or generated are automatically deleted based on the 
+                // File Retention Period as shown on https://pdfrest.com/pricing. 
+                // For immediate deletion of files, particularly when sensitive data 
+                // is involved, an explicit delete call can be made to the API.
+                //
+                // Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
+
+                // Toggle deletion of sensitive files (default: false)
+                var deleteSensitiveFiles = false;
+
+                if (deleteSensitiveFiles)
+                {
+                    using (var deleteRequest = new HttpRequestMessage(HttpMethod.Post, "delete"))
+                    {
+                        deleteRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+                        deleteRequest.Headers.Accept.Add(new("application/json"));
+                        deleteRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
+
+                        var parsed = Newtonsoft.Json.Linq.JObject.Parse(apiResult);
+                        var inId = parsed["inputId"].ToString();
+                        var outId = parsed["outputId"].ToString();
+                        var deleteJson = new Newtonsoft.Json.Linq.JObject { ["ids"] = $"{inId}, {outId}" };
+                        deleteRequest.Content = new StringContent(deleteJson.ToString(), Encoding.UTF8, "application/json");
+                        var deleteResponse = await httpClient.SendAsync(deleteRequest);
+                        var deleteResult = await deleteResponse.Content.ReadAsStringAsync();
+                        Console.WriteLine(deleteResult);
+                    }
+                }
             }
         }
     }

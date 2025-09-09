@@ -6,6 +6,9 @@ var axios = require('axios');
 var FormData = require('form-data');
 var fs = require('fs');
 
+// Toggle deletion of sensitive files (default: false)
+const DELETE_SENSITIVE_FILES = false;
+
 // Create a new form data instance and append the PDF file and parameters to it
 var data = new FormData();
 data.append('file', fs.createReadStream('/path/to/file'));
@@ -28,6 +31,34 @@ var config = {
 axios(config)
 .then(function (response) {
   console.log(JSON.stringify(response.data));
+
+  // All files uploaded or generated are automatically deleted based on the 
+  // File Retention Period as shown on https://pdfrest.com/pricing. 
+  // For immediate deletion of files, particularly when sensitive data 
+  // is involved, an explicit delete call can be made to the API.
+  //
+  // Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
+
+  var body = response.data;
+  var input_id = body.inputId;
+  var result_id = body.outputId;
+    var delete_config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'https://api.pdfrest.com/delete',
+      headers: {
+        'Api-Key': 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+        'Content-Type': 'application/json'
+      },
+      data: { ids: input_id + ', ' + result_id }
+    };
+
+  if (DELETE_SENSITIVE_FILES) {
+    axios(delete_config)
+      .then(function (delete_response) { console.log(JSON.stringify(delete_response.data)); })
+      .catch(function (error) { console.log(error); });
+  }
+  
 })
 .catch(function (error) {
   console.log(error); 

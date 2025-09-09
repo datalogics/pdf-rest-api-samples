@@ -16,6 +16,7 @@ public class RestrictedPDF {
   private static final String DEFAULT_API_KEY = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
 
   public static void main(String[] args) {
+    final boolean DELETE_SENSITIVE_FILES = false; // toggle deletion (default: false)
     File inputFile;
     if (args.length > 0) {
       inputFile = new File(args[0]);
@@ -56,8 +57,40 @@ public class RestrictedPDF {
 
       Response response = client.newCall(request).execute();
       System.out.println("Processing Result code " + response.code());
-      if (response.body() != null) {
-        System.out.println(prettyJson(response.body().string()));
+      String respStr = response.body() != null ? response.body().string() : "{}";
+      System.out.println(prettyJson(respStr));
+      JSONObject restrictJSON = new JSONObject(respStr);
+      String outputID = restrictJSON.optString("outputId");
+
+      // All files uploaded or generated are automatically deleted based on the
+      // File Retention Period as shown on https://pdfrest.com/pricing.
+      // For immediate deletion of files, particularly when sensitive data
+      // is involved, an explicit delete call can be made to the API.
+      //
+      // Deletes all files in the workflow, including outputs. Save all desired files before
+      // enabling this step.
+
+      if (DELETE_SENSITIVE_FILES) {
+        String deleteJson = String.format("{ \"ids\":\"%s, %s\" }", uploadedID, outputID);
+        RequestBody deleteBody =
+            RequestBody.create(deleteJson, MediaType.parse("application/json"));
+        Request deleteRequest =
+            new Request.Builder()
+                .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
+                .url("https://api.pdfrest.com/delete")
+                .post(deleteBody)
+                .build();
+        try (Response deleteResp =
+            new OkHttpClient()
+                .newBuilder()
+                .readTimeout(60, TimeUnit.SECONDS)
+                .build()
+                .newCall(deleteRequest)
+                .execute()) {
+          if (deleteResp.body() != null) {
+            System.out.println(prettyJson(deleteResp.body().string()));
+          }
+        }
       }
     } catch (IOException e) {
       throw new RuntimeException(e);

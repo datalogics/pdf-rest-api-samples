@@ -8,19 +8,42 @@
 
 API_KEY="xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" # place your api key here
 REDACTIONS='[{"type":"regex","value":"[Tt]he"}]'
-PDF_ID=$(curl -X POST "https://api.pdfrest.com/pdf-with-redacted-text-preview" \
+PREVIEW_OUTPUT=$(curl -X POST "https://api.pdfrest.com/pdf-with-redacted-text-preview" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -H "Api-Key: $API_KEY" \
   -F "file=@/path/to/file" \
   -F "redactions=$REDACTIONS" \
-  -F "output=example_out" \
-  | jq -r '.outputId')
+  -F "output=example_out")
 
-curl -X POST "https://api.pdfrest.com/pdf-with-redacted-text-applied" \
+PREVIEW_PDF_ID=$(jq -r '.outputId' <<< $PREVIEW_OUTPUT)
+
+echo $PREVIEW_OUTPUT | jq -r '.'
+
+APPLIED_OUTPUT=$(curl -X POST "https://api.pdfrest.com/pdf-with-redacted-text-applied" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -H "Api-Key: $API_KEY" \
-  -F "id=$PDF_ID" \
-  -F "output=example_out"
+  -F "id=$PREVIEW_PDF_ID" \
+  -F "output=example_out")
 
+echo $APPLIED_OUTPUT | jq -r '.'
+
+# All files uploaded or generated are automatically deleted based on the 
+# File Retention Period as shown on https://pdfrest.com/pricing. 
+# For immediate deletion of files, particularly when sensitive data 
+# is involved, an explicit delete call can be made to the API.
+
+# Optional deletion step — OFF by default.
+# Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
+# Enable by uncommenting the next line to delete sensitive files
+# DELETE_SENSITIVE_FILES=true
+if [ "$DELETE_SENSITIVE_FILES" = "true" ]; then
+  INPUT_PDF_ID=$(jq -r '.inputId' <<< $PREVIEW_OUTPUT)
+  APPLIED_PDF_ID=$(jq -r '.outputId' <<< $APPLIED_OUTPUT)
+  curl -X POST "https://api.pdfrest.com/delete" \
+    -H "Accept: application/json" \
+    -H "Content-Type: multipart/form-data" \
+    -H "Api-Key: $API_KEY" \
+    -F "ids=$INPUT_PDF_ID, $PREVIEW_PDF_ID, $APPLIED_PDF_ID" | jq -r '.'
+fi

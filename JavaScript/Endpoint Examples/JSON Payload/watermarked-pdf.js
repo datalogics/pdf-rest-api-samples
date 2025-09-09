@@ -2,6 +2,9 @@ var axios = require("axios");
 var FormData = require("form-data");
 var fs = require("fs");
 
+// Toggle deletion of sensitive files (default: false)
+const DELETE_SENSITIVE_FILES = false;
+
 var upload_data = fs.createReadStream("/path/to/file");
 
 var upload_config = {
@@ -40,6 +43,35 @@ axios(upload_config)
     axios(watermark_config)
       .then(function (watermark_response) {
         console.log(JSON.stringify(watermark_response.data));
+        var watermarked_output_id = watermark_response.data.outputId;
+
+        // All files uploaded or generated are automatically deleted based on the 
+        // File Retention Period as shown on https://pdfrest.com/pricing. 
+        // For immediate deletion of files, particularly when sensitive data 
+        // is involved, an explicit delete call can be made to the API.
+        //
+        // Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
+
+        var delete_config = {
+          method: "post",
+          maxBodyLength: Infinity,
+          url: "https://api.pdfrest.com/delete",
+          headers: {
+            "Api-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "Content-Type": "application/json",
+          },
+          data: { ids: `${uploaded_id}, ${watermarked_output_id}` },
+        };
+
+        if (DELETE_SENSITIVE_FILES) {
+          axios(delete_config)
+            .then(function (delete_response) {
+              console.log(JSON.stringify(delete_response.data));
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
       })
       .catch(function (error) {
         console.log(error);

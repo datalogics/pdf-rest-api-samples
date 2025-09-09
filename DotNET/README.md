@@ -118,6 +118,10 @@ Each script builds the project once, discovers suitable inputs inside the direct
 - Some flows produce downloadable files; use `upload*`/`get-resource*` or JSON resource IDs to retrieve binary outputs when needed.
 - For binary verification, write bytes to disk and open the file (e.g., PDFs/images) in your preferred viewer.
 
+## Optional deletion toggle
+
+- Some samples include an optional delete step to remove uploaded/generated files from pdfRest servers. This is controlled by a local `var deleteSensitiveFiles = false;` variable near the top of the file. Set it to `true` to enable deletion; it is off by default.
+
 ## Project Structure & Build Notes
 
 - Single .NET 8 console app; `Program.cs` dispatches to all samples.
