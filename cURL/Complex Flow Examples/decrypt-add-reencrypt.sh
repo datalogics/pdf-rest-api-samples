@@ -8,9 +8,16 @@
 # and then sending the output with the new image through /encrypted-pdf to
 # lock it up again.
 
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+API_URL="https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+# API_URL = "https://eu-api.pdfrest.com"
+
 API_KEY="xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" # place your api key here
 
-DECRYPTED_OUTPUT=$(curl -X POST "https://api.pdfrest.com/decrypted-pdf" \
+DECRYPTED_OUTPUT=$(curl -X POST "$API_URL/decrypted-pdf" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -H "Api-Key: $API_KEY" \
@@ -21,12 +28,12 @@ DECRYPTED_OUTPUT=$(curl -X POST "https://api.pdfrest.com/decrypted-pdf" \
 DECRYPTED_ID=$(jq -r '.outputId' <<< $DECRYPTED_OUTPUT)
 
 
-ADDED_IMAGE_OUTPUT=$(curl -X POST "https://api.pdfrest.com/pdf-with-added-image" \
+ADDED_IMAGE_OUTPUT=$(curl -X POST "$API_URL/pdf-with-added-image" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -H "Api-Key: $API_KEY" \
   -F "id=$DECRYPTED_ID" \
-  -F "image_file=@/path/to/image.png" \
+  -F "image_file=@/path/to/file.png" \
   -F "output=example_out" \
   -F "x=10" \
   -F "y=10" \
@@ -35,7 +42,7 @@ ADDED_IMAGE_OUTPUT=$(curl -X POST "https://api.pdfrest.com/pdf-with-added-image"
 ADDED_IMAGE_ID=$(jq -r '.outputId' <<< $ADDED_IMAGE_OUTPUT)
 
 
-ENCRYPTED_OUTPUT=$(curl -X POST "https://api.pdfrest.com/encrypted-pdf" \
+ENCRYPTED_OUTPUT=$(curl -X POST "$API_URL/encrypted-pdf" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -H "Api-Key: $API_KEY" \
@@ -46,9 +53,9 @@ ENCRYPTED_OUTPUT=$(curl -X POST "https://api.pdfrest.com/encrypted-pdf" \
 echo $ENCRYPTED_OUTPUT | jq -r '.'
 
 
-# All files uploaded or generated are automatically deleted based on the 
-# File Retention Period as shown on https://pdfrest.com/pricing. 
-# For immediate deletion of files, particularly when sensitive data 
+# All files uploaded or generated are automatically deleted based on the
+# File Retention Period as shown on https://pdfrest.com/pricing.
+# For immediate deletion of files, particularly when sensitive data
 # is involved, an explicit delete call can be made to the API.
 
 # Optional deletion step — OFF by default.
@@ -59,7 +66,7 @@ if [ "$DELETE_SENSITIVE_FILES" = "true" ]; then
   INPUT_PDF_ID=$(jq -r '.inputId' <<< $DECRYPTED_OUTPUT)
   ADDED_IMAGE_INPUTS=$(jq -r '.inputId | join(",")' <<< $ADDED_IMAGE_OUTPUT) # Includes the DECRYPTED_ID
   REENCRYPTED_ID=$(jq -r '.outputId' <<< $ENCRYPTED_OUTPUT)
-  curl -X POST "https://api.pdfrest.com/delete" \
+  curl -X POST "$API_URL/delete" \
     -H "Accept: application/json" \
     -H "Content-Type: multipart/form-data" \
     -H "Api-Key: $API_KEY" \

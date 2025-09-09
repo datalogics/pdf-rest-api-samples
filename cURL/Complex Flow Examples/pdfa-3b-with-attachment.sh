@@ -9,9 +9,16 @@
 # Note that there is nothing special about attaching an xml file, and any appropriate
 # file may be attached and wrapped into the PDF/A conversion.
 
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+API_URL="https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+# API_URL = "https://eu-api.pdfrest.com"
+
 API_KEY="xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" # place your api key here
 
-ATTACHED_ID=$(curl -X POST "https://api.pdfrest.com/pdf-with-added-attachment" \
+ATTACHED_ID=$(curl -X POST "$API_URL/pdf-with-added-attachment" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -H "Api-Key: $API_KEY" \
@@ -20,7 +27,7 @@ ATTACHED_ID=$(curl -X POST "https://api.pdfrest.com/pdf-with-added-attachment" \
   -F "output=example_out" \
   | jq -r '.outputId')
 
-curl -X POST "https://api.pdfrest.com/pdfa" \
+curl -X POST "$API_URL/pdfa" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -H "Api-Key: $API_KEY" \

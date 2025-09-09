@@ -1,8 +1,15 @@
 #!/bin/sh
 
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+API_URL="https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+# API_URL = "https://eu-api.pdfrest.com"
+
 API_KEY=xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 
-PDF_ID=$(curl --location 'https://api.pdfrest.com/upload' \
+PDF_ID=$(curl --location "$API_URL/upload" \
 --header "Api-Key: $API_KEY" \
 --header 'content-filename: input.pdf' \
 --data-binary '@/path/to/input.pdf' \
@@ -10,7 +17,7 @@ PDF_ID=$(curl --location 'https://api.pdfrest.com/upload' \
 
 echo "PDF successfully uploaded with an ID of: $PDF_ID"
 
-CERT_ID=$(curl --location 'https://api.pdfrest.com/upload' \
+CERT_ID=$(curl --location "$API_URL/upload" \
 --header "Api-Key: $API_KEY" \
 --header 'content-filename: certificate.pem' \
 --data-binary '@/path/to/certificate.pem' \
@@ -18,7 +25,7 @@ CERT_ID=$(curl --location 'https://api.pdfrest.com/upload' \
 
 echo "Certificate file successfully uploaded with an ID of: $CREDS_ID"
 
-KEY_ID=$(curl --location 'https://api.pdfrest.com/upload' \
+KEY_ID=$(curl --location "$API_URL/upload" \
 --header "Api-Key: $API_KEY" \
 --header 'content-filename: private_key.pem' \
 --data-binary '@/path/to/private_key.pem' \
@@ -28,7 +35,7 @@ echo "Key file successfully uploaded with an ID of: $PASSPHRASE_ID"
 
 SIGNATURE_CONFIG='{\"type\": \"new\",\"name\": \"esignature\",\"location\": {\"bottom_left\": { \"x\": \"0\", \"y\": \"0\" },\"top_right\": { \"x\": \"216\", \"y\": \"72\" },\"page\": 1},\"display\": {\"include_datetime\": \"true\"}}'
 
-curl 'https://api.pdfrest.com/signed-pdf' \
+curl "$API_URL/signed-pdf" \
 --header "Api-Key: $API_KEY" \
 --header 'Content-Type: application/json' \
 --data-raw "{ \"id\": \"$PDF_ID\", \"certificate_id\": \"$CERT_ID\", \"private_key_id\": \"$KEY_ID\", \"signature_configuration\": \"$SIGNATURE_CONFIG\"}" | jq -r '.'

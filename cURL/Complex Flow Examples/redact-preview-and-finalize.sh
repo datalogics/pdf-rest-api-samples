@@ -6,9 +6,16 @@
 # the preview stage before utilizing this workflow to ensure that content is
 # redacted as intended.
 
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+API_URL="https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+# API_URL = "https://eu-api.pdfrest.com"
+
 API_KEY="xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" # place your api key here
 REDACTIONS='[{"type":"regex","value":"[Tt]he"}]'
-PREVIEW_OUTPUT=$(curl -X POST "https://api.pdfrest.com/pdf-with-redacted-text-preview" \
+PREVIEW_OUTPUT=$(curl -X POST "$API_URL/pdf-with-redacted-text-preview" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -H "Api-Key: $API_KEY" \
@@ -20,7 +27,7 @@ PREVIEW_PDF_ID=$(jq -r '.outputId' <<< $PREVIEW_OUTPUT)
 
 echo $PREVIEW_OUTPUT | jq -r '.'
 
-APPLIED_OUTPUT=$(curl -X POST "https://api.pdfrest.com/pdf-with-redacted-text-applied" \
+APPLIED_OUTPUT=$(curl -X POST "$API_URL/pdf-with-redacted-text-applied" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -H "Api-Key: $API_KEY" \
@@ -29,9 +36,9 @@ APPLIED_OUTPUT=$(curl -X POST "https://api.pdfrest.com/pdf-with-redacted-text-ap
 
 echo $APPLIED_OUTPUT | jq -r '.'
 
-# All files uploaded or generated are automatically deleted based on the 
-# File Retention Period as shown on https://pdfrest.com/pricing. 
-# For immediate deletion of files, particularly when sensitive data 
+# All files uploaded or generated are automatically deleted based on the
+# File Retention Period as shown on https://pdfrest.com/pricing.
+# For immediate deletion of files, particularly when sensitive data
 # is involved, an explicit delete call can be made to the API.
 
 # Optional deletion step — OFF by default.
@@ -41,7 +48,7 @@ echo $APPLIED_OUTPUT | jq -r '.'
 if [ "$DELETE_SENSITIVE_FILES" = "true" ]; then
   INPUT_PDF_ID=$(jq -r '.inputId' <<< $PREVIEW_OUTPUT)
   APPLIED_PDF_ID=$(jq -r '.outputId' <<< $APPLIED_OUTPUT)
-  curl -X POST "https://api.pdfrest.com/delete" \
+  curl -X POST "$API_URL/delete" \
     -H "Accept: application/json" \
     -H "Content-Type: multipart/form-data" \
     -H "Api-Key: $API_KEY" \
