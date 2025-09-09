@@ -85,7 +85,7 @@ namespace Samples.EndpointExamples.MultipartPayload
                 {
                     using (var deleteRequest = new HttpRequestMessage(HttpMethod.Post, "delete"))
                     {
-                        deleteRequest.Headers.TryAddWithoutValidation("Api-Key", "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
+                        deleteRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
                         deleteRequest.Headers.Accept.Add(new("application/json"));
                         deleteRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
 
