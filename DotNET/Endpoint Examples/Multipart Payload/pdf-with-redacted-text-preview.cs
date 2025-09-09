@@ -100,17 +100,17 @@ namespace Samples.EndpointExamples.MultipartPayload
                 {
                     using (var deleteRequest = new HttpRequestMessage(HttpMethod.Post, "delete"))
                     {
-                    deleteRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
-                    deleteRequest.Headers.Accept.Add(new("application/json"));
-                    deleteRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
+                        deleteRequest.Headers.TryAddWithoutValidation("Api-Key", apiKey);
+                        deleteRequest.Headers.Accept.Add(new("application/json"));
+                        deleteRequest.Headers.TryAddWithoutValidation("Content-Type", "application/json");
 
-                    var parsed = Newtonsoft.Json.Linq.JObject.Parse(apiResult);
-                    var inId = parsed["inputId"].ToString();
-                    var outId = parsed["outputId"].ToString();
-                    // IMPORTANT: Do not delete the outId (the preview PDF) file until after the redaction is applied
-                    // with the /pdf-with-redacted-text-applied endpoint.
-                    var deleteJson = new Newtonsoft.Json.Linq.JObject { ["ids"] = inId + ", " + outId };
-                    deleteRequest.Content = new StringContent(deleteJson.ToString(), Encoding.UTF8, "application/json");
+                        var parsed = Newtonsoft.Json.Linq.JObject.Parse(apiResult);
+                        var inId = parsed["inputId"].ToString();
+                        var outId = parsed["outputId"].ToString();
+                        // IMPORTANT: Do not delete the outId (the preview PDF) file until after the redaction is applied
+                        // with the /pdf-with-redacted-text-applied endpoint.
+                        var deleteJson = new Newtonsoft.Json.Linq.JObject { ["ids"] = inId + ", " + outId };
+                        deleteRequest.Content = new StringContent(deleteJson.ToString(), Encoding.UTF8, "application/json");
                         var deleteResponse = await httpClient.SendAsync(deleteRequest);
                         var deleteResult = await deleteResponse.Content.ReadAsStringAsync();
                         Console.WriteLine(deleteResult);

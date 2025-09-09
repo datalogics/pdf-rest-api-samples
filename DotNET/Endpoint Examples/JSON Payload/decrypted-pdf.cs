@@ -119,7 +119,7 @@ namespace Samples.EndpointExamples.JsonPayload
                                 var deleteResponse = await httpClient.SendAsync(deleteRequest);
                                 var deleteResult = await deleteResponse.Content.ReadAsStringAsync();
                                 Console.WriteLine(deleteResult);
-                                }
+                            }
                         }
                     }
                 }
