@@ -21,7 +21,7 @@ using System.Text;
 
 
 
-using (var httpClient = new HttpClient { BaseAddress = new Uri("https://api.pdfrest.com") })
+namespace Samples.EndpointExamples.MultipartPayload
 {
     public static class DecryptedPdf
     {
