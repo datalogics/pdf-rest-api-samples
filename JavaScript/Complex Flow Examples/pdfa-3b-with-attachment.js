@@ -12,6 +12,14 @@ var fs = require("fs");
 * file may be attached and wrapped into the PDF/A conversion.
 */
 
+// By default, we use the US-based API service. This is the primary endpoint for global use.
+var apiUrl = "https://api.pdfrest.com";
+
+/* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+ * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ */
+//var apiUrl "https://eu-api.pdfrest.com";
+
 var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Replace with your API key
 
 var attachData = new FormData();
@@ -25,7 +33,7 @@ attachData.append("output", "pdfrest_pdf_with_added_attachment");
 var attachConfig = {
   method: "post",
   maxBodyLength: Infinity,
-  url: "https://api.pdfrest.com/pdf-with-added-attachment",
+  url: apiUrl + "/pdf-with-added-attachment",
   headers: {
     "Api-Key": apiKey,
     ...attachData.getHeaders(),
@@ -45,7 +53,7 @@ axios(attachConfig)
     var pdfaConfig = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "https://api.pdfrest.com/pdfa",
+      url: apiUrl + "/pdfa",
       headers: {
         "Api-Key": apiKey,
         ...pdfaData.getHeaders(),

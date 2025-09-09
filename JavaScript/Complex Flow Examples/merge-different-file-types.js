@@ -14,6 +14,14 @@ First, we will upload an image file to the /pdf route and capture the output ID.
 * that the /pdf route takes as inputs.
 */
 
+// By default, we use the US-based API service. This is the primary endpoint for global use.
+var apiUrl = "https://api.pdfrest.com";
+
+/* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+ * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ */
+//var apiUrl "https://eu-api.pdfrest.com";
+
 var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Replace with your API key
 
 var imageData = new FormData();
@@ -22,7 +30,7 @@ imageData.append("file", fs.createReadStream("/path/to/image.png"));
 var imageConfig = {
   method: "post",
   maxBodyLength: Infinity,
-  url: "https://api.pdfrest.com/pdf",
+  url: apiUrl + "/pdf",
   headers: {
     "Api-Key": apiKey,
     ...imageData.getHeaders(),
@@ -40,7 +48,7 @@ axios(imageConfig)
     var pptConfig = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "https://api.pdfrest.com/pdf",
+      url: apiUrl + "/pdf",
       headers: {
         "Api-Key": apiKey,
         ...pptData.getHeaders(),
@@ -64,7 +72,7 @@ axios(imageConfig)
         var mergeConfig = {
           method: "post",
           maxBodyLength: Infinity,
-          url: "https://api.pdfrest.com/merged-pdf",
+          url: apiUrl + "/merged-pdf",
           headers: {
             "Api-Key": apiKey,
             ...mergeData.getHeaders(),

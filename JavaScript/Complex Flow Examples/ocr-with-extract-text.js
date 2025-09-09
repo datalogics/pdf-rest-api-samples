@@ -11,6 +11,14 @@ var fs = require("fs");
 * return the newly added text.
 */
 
+// By default, we use the US-based API service. This is the primary endpoint for global use.
+var apiUrl = "https://api.pdfrest.com";
+
+/* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+ * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ */
+//var apiUrl "https://eu-api.pdfrest.com";
+
 var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Replace with your API key
 
 var ocrData = new FormData();
@@ -20,7 +28,7 @@ ocrData.append("output", "example_pdf-with-ocr-text_out");
 var ocrConfig = {
   method: "post",
   maxBodyLength: Infinity,
-  url: "https://api.pdfrest.com/pdf-with-ocr-text",
+  url: apiUrl + "/pdf-with-ocr-text",
   headers: {
     "Api-Key": apiKey,
     ...ocrData.getHeaders(),
@@ -43,7 +51,7 @@ axios(ocrConfig)
       var extractConfig = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "https://api.pdfrest.com/extracted-text",
+        url: apiUrl + "/extracted-text",
         headers: {
           "Api-Key": apiKey,
           ...extractData.getHeaders(),

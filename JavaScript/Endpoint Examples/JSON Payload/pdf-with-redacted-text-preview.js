@@ -2,6 +2,14 @@ var axios = require("axios");
 var FormData = require("form-data");
 var fs = require("fs");
 
+// By default, we use the US-based API service. This is the primary endpoint for global use.
+var apiUrl = "https://api.pdfrest.com";
+
+/* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+ * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ */
+//var apiUrl "https://eu-api.pdfrest.com";
+
 // Toggle deletion of sensitive files (default: false)
 const DELETE_SENSITIVE_FILES = false;
 
@@ -10,7 +18,7 @@ var upload_data = fs.createReadStream("/path/to/file");
 var upload_config = {
   method: "post",
   maxBodyLength: Infinity,
-  url: "https://api.pdfrest.com/upload",
+  url: apiUrl + "/upload",
   headers: {
     "Api-Key": "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Replace with your API key
     "Content-Filename": "filename.pdf",
@@ -45,7 +53,7 @@ axios(upload_config)
     var redact_text_config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "https://api.pdfrest.com/pdf-with-redacted-text-preview",
+      url: apiUrl + "/pdf-with-redacted-text-preview",
       headers: {
         "Api-Key": "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Replace with your API key
         "Content-Type": "application/json",
@@ -61,9 +69,9 @@ axios(upload_config)
       .then(function (redact_text_response) {
         console.log(JSON.stringify(redact_text_response.data));
 
-        // All files uploaded or generated are automatically deleted based on the 
-        // File Retention Period as shown on https://pdfrest.com/pricing. 
-        // For immediate deletion of files, particularly when sensitive data 
+        // All files uploaded or generated are automatically deleted based on the
+        // File Retention Period as shown on https://pdfrest.com/pricing.
+        // For immediate deletion of files, particularly when sensitive data
         // is involved, an explicit delete call can be made to the API.
         //
         // Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
@@ -74,7 +82,7 @@ axios(upload_config)
         var delete_config = {
           method: "post",
           maxBodyLength: Infinity,
-          url: "https://api.pdfrest.com/delete",
+          url: apiUrl + "/delete",
           headers: {
             "Api-Key": "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
             "Content-Type": "application/json",

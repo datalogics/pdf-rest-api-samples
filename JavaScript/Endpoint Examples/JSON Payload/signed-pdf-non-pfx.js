@@ -1,12 +1,20 @@
 import axios from "axios";
 import fs from "fs";
 
+// By default, we use the US-based API service. This is the primary endpoint for global use.
+var apiUrl = "https://api.pdfrest.com";
+
+/* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+ * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ */
+//var apiUrl "https://eu-api.pdfrest.com";
+
 async function uploadFile(filePath, fileName) {
     var upload_data = fs.createReadStream(filePath);
     var upload_config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "https://api.pdfrest.com/upload",
+        url: apiUrl + "/upload",
         headers: {
             "Api-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Replace with your API key
             "Content-Filename": fileName,
@@ -40,7 +48,7 @@ function signPdf(input_id, certificate_id, private_key_id) {
     var signed_pdf_config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "https://api.pdfrest.com/signed-pdf",
+        url: apiUrl + "/signed-pdf",
         headers: {
             "Api-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Replace with your API key
             "Content-Type": "application/json",
