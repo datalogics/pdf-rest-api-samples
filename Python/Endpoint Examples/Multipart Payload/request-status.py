@@ -3,9 +3,16 @@ import requests
 import json
 import time
 
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+api_url = "https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+#api_url = "https://eu-api.pdfrest.com"
+
 api_key = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
 
-pdfa_endpoint_url = 'https://api.pdfrest.com/pdfa'
+pdfa_endpoint_url = api_url+'/pdfa'
 
 mp_encoder_pdfa = MultipartEncoder(
     fields={
@@ -29,9 +36,9 @@ print("Response status code: " + str(response.status_code))
 
 if response.ok:
 
-    response_json = response.json()   
+    response_json = response.json()
     request_id = response_json["requestId"]
-    api_polling_endpoint_url = f'https://api.pdfrest.com/request-status/{request_id}'
+    api_polling_endpoint_url = f'{api_url}/request-status/{request_id}'
 
     headers = {
         'Api-Key': api_key

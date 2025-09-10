@@ -2,10 +2,17 @@ from requests_toolbelt import MultipartEncoder
 import requests
 import json
 
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+api_url = "https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+#api_url = "https://eu-api.pdfrest.com"
+
 # Toggle deletion of sensitive files (default: False)
 DELETE_SENSITIVE_FILES = False
 
-decrypted_pdf_endpoint_url = 'https://api.pdfrest.com/decrypted-pdf'
+decrypted_pdf_endpoint_url = api_url+'/decrypted-pdf'
 
 # The /decrypted-pdf endpoint can take a single PDF file or id as input.
 # This sample demonstrates decryption of a PDF with the password 'password'.
@@ -38,9 +45,9 @@ else:
 
 # If you would like to download the file instead of getting the JSON response, please see the 'get-resource-id-endpoint.py' sample.
 
-# All files uploaded or generated are automatically deleted based on the 
-# File Retention Period as shown on https://pdfrest.com/pricing. 
-# For immediate deletion of files, particularly when sensitive data 
+# All files uploaded or generated are automatically deleted based on the
+# File Retention Period as shown on https://pdfrest.com/pricing.
+# For immediate deletion of files, particularly when sensitive data
 # is involved, an explicit delete call can be made to the API.
 #
 # Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
@@ -48,7 +55,7 @@ else:
 if DELETE_SENSITIVE_FILES and response.ok:
     result_id = response_json['outputId']
     delete_data = { "ids": f"{response_json['inputId']}, {result_id}" }
-    delete_response = requests.post(url='https://api.pdfrest.com/delete',
+    delete_response = requests.post(url=api_url+'/delete',
                         data=json.dumps(delete_data),
                         headers={'Content-Type': 'application/json', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
     print("Delete response status code: " + str(delete_response.status_code))

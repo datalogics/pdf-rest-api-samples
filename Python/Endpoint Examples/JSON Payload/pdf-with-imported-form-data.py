@@ -1,11 +1,18 @@
 import requests
 import json
 
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+api_url = "https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+#api_url = "https://eu-api.pdfrest.com"
+
 with open('/path/to/pdf_file', 'rb') as f:
     upload_pdf_data = f.read()
 
 print("Uploading PDF file...")
-upload_pdf_response = requests.post(url='https://api.pdfrest.com/upload',
+upload_pdf_response = requests.post(url=api_url+'/upload',
                     data=upload_pdf_data,
                     headers={'Content-Type': 'application/octet-stream', 'content-filename': 'pdf_file.pdf', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
 
@@ -16,7 +23,7 @@ with open('/path/to/data_file', 'rb') as f:
     upload_data_data = f.read()
 
 print("Uploading data file...")
-upload_data_response = requests.post(url='https://api.pdfrest.com/upload',
+upload_data_response = requests.post(url=api_url+'/upload',
                     data=upload_data_data,
                     headers={'Content-Type': 'application/octet-stream', 'Content-Filename': 'data_file.xml', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
 
@@ -37,7 +44,7 @@ if upload_pdf_response.ok and upload_data_response.ok:
 
 
     print("Processing file...")
-    added_image_response = requests.post(url='https://api.pdfrest.com/pdf-with-imported-form-data',
+    added_image_response = requests.post(url=api_url+'/pdf-with-imported-form-data',
                         data=json.dumps(added_image_data),
                         headers={'Content-Type': 'application/json', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
 

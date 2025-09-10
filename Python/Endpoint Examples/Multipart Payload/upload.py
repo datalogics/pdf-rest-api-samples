@@ -2,7 +2,14 @@ from requests_toolbelt import MultipartEncoder
 import requests
 import json
 
-upload_endpoint_url = 'https://api.pdfrest.com/upload'
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+api_url = "https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+#api_url = "https://eu-api.pdfrest.com"
+
+upload_endpoint_url = api_url+'/upload'
 
 # The /upload endpoint can take one or more files or urls as input and transfers them to the pdfRest server for processing.
 # This sample takes 3 files and uploads it to the pdfRest service.

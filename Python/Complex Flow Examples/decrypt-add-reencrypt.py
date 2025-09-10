@@ -10,9 +10,16 @@ import json
 # and then sending the output with the new image through /encrypted-pdf to
 # lock it up again.
 
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+api_url = "https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+#api_url = "https://eu-api.pdfrest.com"
+
 api_key = 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
 
-decrypted_pdf_endpoint_url = 'https://api.pdfrest.com/decrypted-pdf'
+decrypted_pdf_endpoint_url = api_url+'/decrypted-pdf'
 
 mp_encoder_decryptedPdf = MultipartEncoder(
     fields={
@@ -37,7 +44,7 @@ if response.ok:
 
     decrypted_id = response_json["outputId"]
 
-    pdf_with_added_image_endpoint_url = 'https://api.pdfrest.com/pdf-with-added-image'
+    pdf_with_added_image_endpoint_url = api_url+'/pdf-with-added-image'
 
     mp_encoder_pdfWithAddedImage = MultipartEncoder(
         fields={
@@ -64,7 +71,7 @@ if response.ok:
         response_json = response.json()
         added_image_id = response_json["outputId"]
 
-        encrypted_pdf_endpoint_url = 'https://api.pdfrest.com/encrypted-pdf'
+        encrypted_pdf_endpoint_url = api_url+'/encrypted-pdf'
 
         mp_encoder_encryptedPdf = MultipartEncoder(
             fields={

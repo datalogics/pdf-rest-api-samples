@@ -10,9 +10,16 @@ import requests
 # output ID. Then, we will send the output ID to the /extracted-text route, which will
 # return the newly added text.
 
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+api_url = "https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+#api_url = "https://eu-api.pdfrest.com"
+
 api_key = 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
 
-ocr_endpoint_url = 'https://api.pdfrest.com/pdf-with-ocr-text'
+ocr_endpoint_url = api_url+'/pdf-with-ocr-text'
 mp_encoder_pdf = MultipartEncoder(
     fields={
         'file': ('file_name.pdf', open('/path/to/file.pdf', 'rb'), 'application/pdf'),
@@ -36,7 +43,7 @@ if response.ok:
     ocr_pdf_id = response_json["outputId"]
     print("Got the output ID: " + ocr_pdf_id)
 
-    extract_endpoint_url = 'https://api.pdfrest.com/extracted-text'
+    extract_endpoint_url = api_url+'/extracted-text'
 
     mp_encoder_extract_text = MultipartEncoder(
         fields={

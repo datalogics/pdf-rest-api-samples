@@ -1,11 +1,18 @@
 import requests
 import json
 
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+api_url = "https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+#api_url = "https://eu-api.pdfrest.com"
+
 with open('/path/to/first_file', 'rb') as f:
     upload_first_file_data = f.read()
 
 print("Uploading first PDF file...")
-upload_first_file_response = requests.post(url='https://api.pdfrest.com/upload',
+upload_first_file_response = requests.post(url=api_url+'/upload',
                     data=upload_first_file_data,
                     headers={'Content-Type': 'application/octet-stream', 'Content-Filename': 'first_file.pdf', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
 
@@ -16,7 +23,7 @@ with open('/path/to/second_file', 'rb') as f:
     upload_second_file_data  = f.read()
 
 print("Uploading second PDF file...")
-upload_second_file_response = requests.post(url='https://api.pdfrest.com/upload',
+upload_second_file_response = requests.post(url=api_url+'/upload',
                     data=upload_second_file_data ,
                     headers={'Content-Type': 'application/octet-stream', 'content-filename': 'second_file.pdf', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
 
@@ -37,7 +44,7 @@ if upload_first_file_response.ok and upload_second_file_response.ok:
 
 
     print("Processing file...")
-    merge_response = requests.post(url='https://api.pdfrest.com/merged-pdf',
+    merge_response = requests.post(url=api_url+'/merged-pdf',
                         data=json.dumps(merge_data),
                         headers={'Content-Type': 'application/json', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
 
