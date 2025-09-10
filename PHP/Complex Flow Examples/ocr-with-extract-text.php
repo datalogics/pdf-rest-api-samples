@@ -15,6 +15,14 @@ use GuzzleHttp\Psr7\Utils;
  * return the newly added text.
  */
 
+ // By default, we use the US-based API service. This is the primary endpoint for global use.
+ $apiUrl = "https://api.pdfrest.com";
+
+ /* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+  * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+  */
+ //$apiUrl "https://eu-api.pdfrest.com";
+
 $client = new Client();
 
 $headers = [
@@ -39,7 +47,7 @@ $pdfToOCROptions = [
   ]
 ];
 
-$pdfToOCRRequest = new Request('POST', 'https://api.pdfrest.com/pdf-with-ocr-text', $headers);
+$pdfToOCRRequest = new Request('POST', $apiUrl.'/pdf-with-ocr-text', $headers);
 
 echo "Sending POST request to OCR endpoint...\n";
 $pdfToOCRResponse = $client->sendAsync($pdfToOCRRequest, $pdfToOCROptions)->wait();
@@ -59,7 +67,7 @@ $extractTextOptions = [
   ]
 ];
 
-$extractTextRequest = new Request('POST', 'https://api.pdfrest.com/extracted-text', $headers);
+$extractTextRequest = new Request('POST', $apiUrl.'/extracted-text', $headers);
 
 echo "Sending POST request to extract text endpoint...\n";
 $extractTextResponse = $client->sendAsync($extractTextRequest, $extractTextOptions)->wait();

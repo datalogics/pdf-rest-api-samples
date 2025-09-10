@@ -5,6 +5,14 @@ use GuzzleHttp\Client; // Import the Guzzle HTTP client namespace.
 use GuzzleHttp\Psr7\Request; // Import the PSR-7 Request class.
 use GuzzleHttp\Psr7\Utils; // Import the PSR-7 Utils class for working with streams.
 
+// By default, we use the US-based API service. This is the primary endpoint for global use.
+$apiUrl = "https://api.pdfrest.com";
+
+/* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+ * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ */
+//$apiUrl "https://eu-api.pdfrest.com";
+
 $upload_client = new Client(['http_errors' => false]);
 $input_upload_headers = [
   'api-key' => 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
@@ -12,7 +20,7 @@ $input_upload_headers = [
   'Content-Type' => 'application/octet-stream'
 ];
 $input_upload_body = file_get_contents('/path/to/file');
-$input_upload_request = new Request('POST', 'https://api.pdfrest.com/upload', $input_upload_headers, $input_upload_body);
+$input_upload_request = new Request('POST', $apiUrl.'/upload', $input_upload_headers, $input_upload_body);
 $input_upload_res = $upload_client->sendAsync($input_upload_request)->wait();
 echo $input_upload_res->getBody() . PHP_EOL;
 
@@ -28,7 +36,7 @@ $credentials_upload_headers = [
   'Content-Type' => 'application/octet-stream'
 ];
 $credentials_upload_body = file_get_contents('/path/to/file');
-$credentials_upload_request = new Request('POST', 'https://api.pdfrest.com/upload', $credentials_upload_headers, $credentials_upload_body);
+$credentials_upload_request = new Request('POST', $apiUrl.'/upload', $credentials_upload_headers, $credentials_upload_body);
 $credentials_upload_res = $upload_client->sendAsync($credentials_upload_request)->wait();
 echo $credentials_upload_res->getBody() . PHP_EOL;
 
@@ -44,7 +52,7 @@ $passphrase_upload_headers = [
   'Content-Type' => 'application/octet-stream'
 ];
 $passphrase_upload_body = file_get_contents('/path/to/file');
-$passphrase_upload_request = new Request('POST', 'https://api.pdfrest.com/upload', $passphrase_upload_headers, $passphrase_upload_body);
+$passphrase_upload_request = new Request('POST', $apiUrl.'/upload', $passphrase_upload_headers, $passphrase_upload_body);
 $passphrase_upload_res = $upload_client->sendAsync($passphrase_upload_request)->wait();
 echo $passphrase_upload_res->getBody() . PHP_EOL;
 
@@ -60,7 +68,7 @@ $logo_upload_headers = [
   'Content-Type' => 'application/octet-stream'
 ];
 $logo_upload_body = file_get_contents('/path/to/file');
-$logo_upload_request = new Request('POST', 'https://api.pdfrest.com/upload', $logo_upload_headers, $logo_upload_body);
+$logo_upload_request = new Request('POST', $apiUrl.'/upload', $logo_upload_headers, $logo_upload_body);
 $logo_upload_res = $upload_client->sendAsync($logo_upload_request)->wait();
 echo $logo_upload_res->getBody() . PHP_EOL;
 
@@ -77,6 +85,6 @@ $signing_headers = [
   'Content-Type' => 'application/json'
 ];
 $signing_body = '{"id":"'.$uploaded_input_id.'", "pfx_credential_id":"'.$uploaded_credentials_id.'", "pfx_passphrase_id":"'.$uploaded_passphrase_id.'", "logo_id":"'.$uploaded_logo_id.'", "signature_configuration":"'.$signature_config.'"}';
-$signing_request = new Request('POST', 'https://api.pdfrest.com/signed-pdf', $signing_headers, $signing_body);
+$signing_request = new Request('POST', $apiUrl.'/signed-pdf', $signing_headers, $signing_body);
 $signing_res = $signing_client->sendAsync($signing_request)->wait();
 echo $signing_res->getBody() . PHP_EOL;

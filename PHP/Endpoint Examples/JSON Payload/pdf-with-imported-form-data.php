@@ -5,6 +5,14 @@ use GuzzleHttp\Client; // Import the Guzzle HTTP client namespace.
 use GuzzleHttp\Psr7\Request; // Import the PSR-7 Request class.
 use GuzzleHttp\Psr7\Utils; // Import the PSR-7 Utils class for working with streams.
 
+// By default, we use the US-based API service. This is the primary endpoint for global use.
+$apiUrl = "https://api.pdfrest.com";
+
+/* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+ * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ */
+//$apiUrl "https://eu-api.pdfrest.com";
+
 $upload_pdf_client = new Client(['http_errors' => false]);
 $upload_pdf_headers = [
   'api-key' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
@@ -12,7 +20,7 @@ $upload_pdf_headers = [
   'Content-Type' => 'application/octet-stream'
 ];
 $upload_pdf_body = file_get_contents('/path/to/pdf_file');
-$upload_pdf_request = new Request('POST', 'https://api.pdfrest.com/upload', $upload_pdf_headers, $upload_pdf_body);
+$upload_pdf_request = new Request('POST', $apiUrl.'/upload', $upload_pdf_headers, $upload_pdf_body);
 $upload_pdf_res = $upload_pdf_client->sendAsync($upload_pdf_request)->wait();
 echo $upload_pdf_res->getBody() . PHP_EOL;
 
@@ -30,7 +38,7 @@ $upload_data_headers = [
   'Content-Type' => 'application/octet-stream'
 ];
 $upload_data_body = file_get_contents('/path/to/data_file');
-$upload_data_request = new Request('POST', 'https://api.pdfrest.com/upload', $upload_data_headers, $upload_data_body);
+$upload_data_request = new Request('POST', $apiUrl.'/upload', $upload_data_headers, $upload_data_body);
 $upload_data_res = $upload_data_client->sendAsync($upload_data_request)->wait();
 echo $upload_data_res->getBody() . PHP_EOL;
 
@@ -48,6 +56,6 @@ $import_data_headers = [
   'Content-Type' => 'application/json'
 ];
 $import_data_body = '{"id":"'.$uploaded_pdf_id.'", "data_file_id": "'.$uploaded_data_id.'"}';
-$import_data_request = new Request('POST', 'https://api.pdfrest.com/pdf-with-imported-form-data', $import_data_headers, $import_data_body);
+$import_data_request = new Request('POST', $apiUrl.'/pdf-with-imported-form-data', $import_data_headers, $import_data_body);
 $import_data_res = $import_data_client->sendAsync($import_data_request)->wait();
 echo $import_data_res->getBody() . PHP_EOL;

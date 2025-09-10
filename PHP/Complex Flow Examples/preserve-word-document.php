@@ -13,6 +13,14 @@ use GuzzleHttp\Psr7\Utils;
 * and convert it to the PDF/A format for long-term storage.
 */
 
+// By default, we use the US-based API service. This is the primary endpoint for global use.
+$apiUrl = "https://api.pdfrest.com";
+
+/* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+ * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ */
+//$apiUrl "https://eu-api.pdfrest.com";
+
 
 $client = new Client();
 
@@ -33,7 +41,7 @@ $wordToPDFOptions = [
   ]
 ];
 
-$wordToPDFRequest = new Request('POST', 'https://api.pdfrest.com/pdf', $headers);
+$wordToPDFRequest = new Request('POST', $apiUrl.'/pdf', $headers);
 
 $wordToPDFResponse = $client->sendAsync($wordToPDFRequest, $wordToPDFOptions)->wait();
 
@@ -58,7 +66,7 @@ $pdfaOptions = [
   ]
 ];
 
-$pdfaRequest = new Request('POST', 'https://api.pdfrest.com/pdfa', $headers);
+$pdfaRequest = new Request('POST', $apiUrl.'/pdfa', $headers);
 
 $pdfaResponse = $client->sendAsync($pdfaRequest, $pdfaOptions)->wait();
 

@@ -5,6 +5,14 @@ use GuzzleHttp\Client; // Import the Guzzle HTTP client namespace.
 use GuzzleHttp\Psr7\Request; // Import the PSR-7 Request class.
 use GuzzleHttp\Psr7\Utils; // Import the PSR-7 Utils class for working with streams.
 
+// By default, we use the US-based API service. This is the primary endpoint for global use.
+$apiUrl = "https://api.pdfrest.com";
+
+/* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+ * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ */
+//$apiUrl "https://eu-api.pdfrest.com";
+
 // Toggle deletion of sensitive files (default: false)
 $DELETE_SENSITIVE_FILES = false;
 
@@ -35,16 +43,16 @@ $options = [
   ]
 ];
 
-$request = new Request('POST', 'https://api.pdfrest.com/decrypted-pdf', $headers); // Create a new HTTP POST request with the API endpoint and headers.
+$request = new Request('POST', $apiUrl.'/decrypted-pdf', $headers); // Create a new HTTP POST request with the API endpoint and headers.
 
 $res = $client->sendAsync($request, $options)->wait(); // Send the asynchronous request and wait for the response.
 
 $body = (string) $res->getBody();
 echo $body; // Output the response body
 
-// All files uploaded or generated are automatically deleted based on the 
-// File Retention Period as shown on https://pdfrest.com/pricing. 
-// For immediate deletion of files, particularly when sensitive data 
+// All files uploaded or generated are automatically deleted based on the
+// File Retention Period as shown on https://pdfrest.com/pricing.
+// For immediate deletion of files, particularly when sensitive data
 // is involved, an explicit delete call can be made to the API.
 //
 // Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
@@ -59,7 +67,7 @@ if ($DELETE_SENSITIVE_FILES) {
   $input_id = isset($json['inputId']) ? $json['inputId'] : '';
   $output_id = isset($json['outputId']) ? $json['outputId'] : '';
   $delete_body = json_encode([ 'ids' => $input_id . ', ' . $output_id ]);
-  $delete_request = new Request('POST', 'https://api.pdfrest.com/delete', $delete_headers, $delete_body);
+  $delete_request = new Request('POST', $apiUrl.'/delete', $delete_headers, $delete_body);
   $delete_res = $delete_client->sendAsync($delete_request)->wait();
   echo $delete_res->getBody() . PHP_EOL;
 }
