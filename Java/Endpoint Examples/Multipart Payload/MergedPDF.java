@@ -14,9 +14,10 @@ public class MergedPDF {
   // By default, we use the US-based API service. This is the primary endpoint for global use.
   private static final String API_URL = "https://api.pdfrest.com";
 
-  // For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+  // For GDPR compliance and enhanced performance for European users, you can switch to the EU-based
+  // service by uncommenting the URL below.
   // For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
-  //private static final String API_URL = "https://eu-api.pdfrest.com";
+  // private static final String API_URL = "https://eu-api.pdfrest.com";
 
   // Specify the paths to your file here, or as the arguments when running the program.
   private static final String[] DEFAULT_FILE_PATHS =
