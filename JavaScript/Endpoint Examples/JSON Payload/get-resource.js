@@ -2,12 +2,12 @@
 const axios = require('axios');
 
 // By default, we use the US-based API service. This is the primary endpoint for global use.
-var apiUrl = apiUrl + "";
+var apiUrl = "https://api.pdfrest.com";
 
 /* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
  * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
  */
-//var apiUrl "https://eu-api.pdfrest.com";
+//var apiUrl = "https://eu-api.pdfrest.com";
 
 let config = {
   method: 'get',

@@ -8,7 +8,7 @@ var apiUrl = "https://api.pdfrest.com";
 /* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
  * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
  */
-//var apiUrl "https://eu-api.pdfrest.com";
+//var apiUrl = "https://eu-api.pdfrest.com";
 
 // Toggle deletion of sensitive files (default: false)
 const DELETE_SENSITIVE_FILES = false;

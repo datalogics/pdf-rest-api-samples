@@ -11,7 +11,7 @@ var apiUrl = "https://api.pdfrest.com";
 /* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
  * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
  */
-//var apiUrl "https://eu-api.pdfrest.com";
+//var apiUrl = "https://eu-api.pdfrest.com";
 
 
 // Create a new form data instance and append the PDF file and parameters to it
