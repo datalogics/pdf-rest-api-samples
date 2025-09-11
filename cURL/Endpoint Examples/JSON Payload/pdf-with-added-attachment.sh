@@ -1,6 +1,13 @@
 #!/bin/sh
 
-UPLOAD_PDF_FILE_ID=$(curl --location 'https://api.pdfrest.com/upload' \
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+API_URL="https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+# API_URL="https://eu-api.pdfrest.com"
+
+UPLOAD_PDF_FILE_ID=$(curl --location "$API_URL/upload" \
 --header 'Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' \
 --header 'content-filename: filename.pdf' \
 --data-binary '@/path/to/pdf_file' \
@@ -8,7 +15,7 @@ UPLOAD_PDF_FILE_ID=$(curl --location 'https://api.pdfrest.com/upload' \
 
 echo "PDF file successfully uploaded with an ID of: $UPLOAD_PDF_FILE_ID"
 
-UPLOAD_ATTACHMENT_FILE_ID=$(curl --location 'https://api.pdfrest.com/upload' \
+UPLOAD_ATTACHMENT_FILE_ID=$(curl --location "$API_URL/upload" \
 --header 'Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' \
 --header 'content-filename: filename.xml' \
 --data-binary '@/path/to/attachment_file' \
@@ -16,7 +23,7 @@ UPLOAD_ATTACHMENT_FILE_ID=$(curl --location 'https://api.pdfrest.com/upload' \
 
 echo "Attachment file successfully uploaded with an ID of: $UPLOAD_ATTACHMENT_FILE_ID"
 
-curl 'https://api.pdfrest.com/pdf-with-added-attachment' \
+curl "$API_URL/pdf-with-added-attachment" \
 --header 'Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' \
 --header 'Content-Type: application/json' \
 --data-raw "{ \"id\": \"$UPLOAD_PDF_FILE_ID\", \"id_to_attach\": \"$UPLOAD_ATTACHMENT_FILE_ID\"}" | jq -r '.'

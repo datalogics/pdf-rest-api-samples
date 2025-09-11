@@ -8,10 +8,17 @@
 # output ID. Then, we will send the output ID to the /extracted-text route, which will
 # return the newly added text.
 
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+API_URL="https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+# API_URL="https://eu-api.pdfrest.com"
+
 API_KEY="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" # Replace with your API key
 
 # Upload PDF for OCR
-OCR_PDF_ID=$(curl -s -X POST "https://api.pdfrest.com/pdf-with-ocr-text" \
+OCR_PDF_ID=$(curl -s -X POST "$API_URL/pdf-with-ocr-text" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -H "Api-Key: $API_KEY" \
@@ -21,7 +28,7 @@ OCR_PDF_ID=$(curl -s -X POST "https://api.pdfrest.com/pdf-with-ocr-text" \
 
 
 # Extract text from OCR'd PDF
-EXTRACT_TEXT_RESPONSE=$(curl -s -X POST "https://api.pdfrest.com/extracted-text" \
+EXTRACT_TEXT_RESPONSE=$(curl -s -X POST "$API_URL/extracted-text" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -H "Api-Key: $API_KEY" \

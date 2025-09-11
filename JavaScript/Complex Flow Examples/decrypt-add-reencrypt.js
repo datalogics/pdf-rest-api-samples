@@ -11,6 +11,14 @@ var fs = require("fs");
  * lock it up again.
  */
 
+// By default, we use the US-based API service. This is the primary endpoint for global use.
+var apiUrl = "https://api.pdfrest.com";
+
+/* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+ * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ */
+//var apiUrl = "https://eu-api.pdfrest.com";
+
 var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Replace with your API key
 
 var decryptRequestData = new FormData();
@@ -20,7 +28,7 @@ decryptRequestData.append("current_open_password", "current_example_pw");
 var decryptConfig = {
   method: "post",
   maxBodyLength: Infinity,
-  url: "https://api.pdfrest.com/decrypted-pdf",
+  url: apiUrl + "/decrypted-pdf",
   headers: {
     "Api-Key": apiKey,
     ...decryptRequestData.getHeaders(),
@@ -41,7 +49,7 @@ axios(decryptConfig)
     var addImageConfig = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "https://api.pdfrest.com/pdf-with-added-image",
+      url: apiUrl + "/pdf-with-added-image",
       headers: {
         "Api-Key": apiKey,
         ...data.getHeaders(),
@@ -58,7 +66,7 @@ axios(decryptConfig)
         var encryptConfig = {
           method: "post",
           maxBodyLength: Infinity,
-          url: "https://api.pdfrest.com/encrypted-pdf",
+          url: apiUrl + "/encrypted-pdf",
           headers: {
             "Api-Key": apiKey,
             ...data.getHeaders(),

@@ -14,9 +14,16 @@ import json
 # this sample could be easily used to convert and combine any two file types
 # that the /pdf route takes as inputs.
 
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+api_url = "https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+#api_url = "https://eu-api.pdfrest.com"
+
 api_key = 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
 
-pdf_endpoint_url = 'https://api.pdfrest.com/pdf'
+pdf_endpoint_url = api_url+'/pdf'
 mp_encoder_image_pdf = MultipartEncoder(
     fields={
         'file': ('file_name.png', open('/path/to/file.png', 'rb'), 'image/png'),
@@ -65,7 +72,7 @@ if response.ok:
         ppt_id = response_json["outputId"]
         print("Got the second output ID: " + image_id)
 
-        merged_pdf_endpoint_url = 'https://api.pdfrest.com/merged-pdf'
+        merged_pdf_endpoint_url = api_url+'/merged-pdf'
 
         merge_request_data = [('id', image_id), ('pages', '1-last'), ('type', 'id'), ('id', ppt_id), ('pages', '1-last'), ('type', 'id'), ('output', 'multiple_file_types')]
         mp_encoder_merge = MultipartEncoder(

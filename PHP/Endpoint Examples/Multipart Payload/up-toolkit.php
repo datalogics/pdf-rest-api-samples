@@ -1,7 +1,16 @@
 <?php
 
-// This request demonstrates how to check the status of the API servers
+
+// By default, we use the US-based API service. This is the primary endpoint for global use.
 $up_url = "https://api.pdfrest.com/up-toolkit";
+
+/* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+ * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ */
+//$up_url = "https://eu-api.pdfrest.com/up-toolkit";
+
+
+// This request demonstrates how to check the status of the API servers
 
 // Initialize a cURL session.
 $ch = curl_init();

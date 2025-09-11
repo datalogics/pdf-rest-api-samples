@@ -1,12 +1,20 @@
 var axios = require("axios");
 var fs = require("fs");
 
+// By default, we use the US-based API service. This is the primary endpoint for global use.
+var apiUrl = "https://api.pdfrest.com";
+
+/* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+ * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ */
+//var apiUrl = "https://eu-api.pdfrest.com";
+
 var upload_data = fs.createReadStream("/path/to/file.pdf");
 
 var upload_config = {
   method: "post",
   maxBodyLength: Infinity,
-  url: "https://api.pdfrest.com/upload",
+  url: apiUrl + "/upload",
   headers: {
     "Api-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Replace with your API key
     "Content-Filename": "filename.pdf",
@@ -26,7 +34,7 @@ axios(upload_config)
     var markdown_config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "https://api.pdfrest.com/markdown",
+      url: apiUrl + "/markdown",
       headers: {
         "Api-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Replace with your API key
         "Content-Type": "application/json",

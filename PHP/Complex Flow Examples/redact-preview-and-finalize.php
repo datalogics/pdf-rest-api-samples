@@ -14,6 +14,14 @@ use GuzzleHttp\Psr7\Utils;
 * redacted as intended.
 */
 
+// By default, we use the US-based API service. This is the primary endpoint for global use.
+$apiUrl = "https://api.pdfrest.com";
+
+/* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+ * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ */
+//$apiUrl = "https://eu-api.pdfrest.com";
+
 
 $client = new Client();
 
@@ -38,7 +46,7 @@ $redactionPreviewOptions = [
   ]
 ];
 
-$redactionPreviewRequest = new Request('POST', 'https://api.pdfrest.com/pdf-with-redacted-text-preview', $headers);
+$redactionPreviewRequest = new Request('POST', $apiUrl.'/pdf-with-redacted-text-preview', $headers);
 
 $redactionPreviewResponse = $client->sendAsync($redactionPreviewRequest, $redactionPreviewOptions)->wait();
 
@@ -59,7 +67,7 @@ $redactionAppliedOptions = [
   ]
 ];
 
-$redactionAppliedRequest = new Request('POST', 'https://api.pdfrest.com/pdf-with-redacted-text-applied', $headers);
+$redactionAppliedRequest = new Request('POST', $apiUrl.'/pdf-with-redacted-text-applied', $headers);
 
 $redactionAppliedResponse = $client->sendAsync($redactionAppliedRequest, $redactionAppliedOptions)->wait();
 

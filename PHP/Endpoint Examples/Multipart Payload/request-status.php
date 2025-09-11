@@ -5,6 +5,14 @@ use GuzzleHttp\Client; // Import the Guzzle HTTP client namespace.
 use GuzzleHttp\Psr7\Request; // Import the PSR-7 Request class.
 use GuzzleHttp\Psr7\Utils; // Import the PSR-7 Utils class for working with streams.
 
+// By default, we use the US-based API service. This is the primary endpoint for global use.
+$apiUrl = "https://api.pdfrest.com";
+
+/* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+ * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ */
+//$apiUrl = "https://eu-api.pdfrest.com";
+
 $client = new Client(); // Create a new instance of the Guzzle HTTP client
 
 $apiKey = 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'; // Your API key goes here.
@@ -28,7 +36,7 @@ $pngOptions = [
 ];
 
 // Using /png as an arbitrary example, send a request with the Request-Type header.
-$pngRequest = new Request('POST', 'https://api.pdfrest.com/png', $headers);
+$pngRequest = new Request('POST', $apiUrl.'/png', $headers);
 
 $pngResponse = $client->sendAsync($pngRequest, $pngOptions)->wait();
 
@@ -39,7 +47,7 @@ echo "\r\n";
 $requestId = json_decode($pngResponse->getBody())->{'requestId'};
 
 // Get the status of the PNG request by its ID.
-$request_status_endpoint_url = 'https://api.pdfrest.com/request-status/'.$requestId;
+$request_status_endpoint_url = $apiUrl.'/request-status/'.$requestId;
 
 $headers = [
   'Api-Key' => $apiKey

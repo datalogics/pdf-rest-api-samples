@@ -1,6 +1,13 @@
 import requests
 import json
 
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+api_url = "https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+#api_url = "https://eu-api.pdfrest.com"
+
 # Toggle deletion of sensitive files (default: False)
 DELETE_SENSITIVE_FILES = False
 
@@ -8,7 +15,7 @@ with open('/path/to/file', 'rb') as f:
     upload_data = f.read()
 
 print("Uploading file...")
-upload_response = requests.post(url='https://api.pdfrest.com/upload',
+upload_response = requests.post(url=api_url+'/upload',
                     data=upload_data,
                     headers={'Content-Type': 'application/octet-stream', 'Content-Filename': 'file.pdf', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
 
@@ -26,7 +33,7 @@ if upload_response.ok:
 
 
     print("Processing file...")
-    watermark_response = requests.post(url='https://api.pdfrest.com/watermarked-pdf',
+    watermark_response = requests.post(url=api_url+'/watermarked-pdf',
                         data=json.dumps(watermark_data),
                         headers={'Content-Type': 'application/json', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
 
@@ -37,9 +44,9 @@ if upload_response.ok:
         watermark_response_json = watermark_response.json()
         print(json.dumps(watermark_response_json, indent = 2))
 
-        # All files uploaded or generated are automatically deleted based on the 
-        # File Retention Period as shown on https://pdfrest.com/pricing. 
-        # For immediate deletion of files, particularly when sensitive data 
+        # All files uploaded or generated are automatically deleted based on the
+        # File Retention Period as shown on https://pdfrest.com/pricing.
+        # For immediate deletion of files, particularly when sensitive data
         # is involved, an explicit delete call can be made to the API.
         #
         # Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
@@ -47,7 +54,7 @@ if upload_response.ok:
         if DELETE_SENSITIVE_FILES:
             watermarked_output_id = watermark_response_json['outputId']
             delete_data = { "ids": f"{uploaded_id}, {watermarked_output_id}" }
-            delete_response = requests.post(url='https://api.pdfrest.com/delete',
+            delete_response = requests.post(url=api_url+'/delete',
                                 data=json.dumps(delete_data),
                                 headers={'Content-Type': 'application/json', "API-Key": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"})
             if delete_response.ok:

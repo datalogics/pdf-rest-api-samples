@@ -5,6 +5,14 @@ import org.json.JSONObject;
 
 public class DeleteResource {
 
+  // By default, we use the US-based API service. This is the primary endpoint for global use.
+  private static final String API_URL = "https://api.pdfrest.com";
+
+  // For GDPR compliance and enhanced performance for European users, you can switch to the EU-based
+  // service by commenting out the URL above and uncommenting the URL below.
+  // For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+  // private static final String API_URL = "https://eu-api.pdfrest.com";
+
   // Resource UUIDs can be found in the JSON response of POST requests as "outputId".
   // Resource UUIDs usually look like this: '0950b9bdf-0465-4d3f-8ea3-d2894f1ae839'.
   private static final String FILE_ID =
@@ -22,7 +30,7 @@ public class DeleteResource {
       Request request =
           new Request.Builder()
               .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
-              .url("https://api.pdfrest.com/resource/" + FILE_ID)
+              .url(API_URL + "/resource/" + FILE_ID)
               .method("DELETE", requestBody)
               .build();
       Response response = client.newCall(request).execute();

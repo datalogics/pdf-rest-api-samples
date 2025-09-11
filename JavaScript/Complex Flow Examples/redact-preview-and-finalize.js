@@ -10,6 +10,14 @@ var fs = require("fs");
 * redacted as intended.
 */
 
+// By default, we use the US-based API service. This is the primary endpoint for global use.
+var apiUrl = "https://api.pdfrest.com";
+
+/* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+ * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ */
+//var apiUrl = "https://eu-api.pdfrest.com";
+
 var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Replace with your API key
 
 var previewData = new FormData();
@@ -26,7 +34,7 @@ previewData.append('redactions', JSON.stringify(redaction_option_array));
 var previewConfig = {
   method: "post",
   maxBodyLength: Infinity,
-  url: "https://api.pdfrest.com/pdf-with-redacted-text-preview",
+  url: apiUrl + "/pdf-with-redacted-text-preview",
   headers: {
     "Api-Key": apiKey,
     ...previewData.getHeaders(),
@@ -45,7 +53,7 @@ axios(previewConfig)
     var appliedConfig = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "https://api.pdfrest.com/pdf-with-redacted-text-applied",
+      url: apiUrl + "/pdf-with-redacted-text-applied",
       headers: {
         "Api-Key": apiKey,
         ...appliedData.getHeaders(),

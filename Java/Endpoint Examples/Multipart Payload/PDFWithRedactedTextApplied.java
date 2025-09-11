@@ -12,6 +12,14 @@ import org.json.JSONObject;
 
 public class PDFWithRedactedTextApplied {
 
+  // By default, we use the US-based API service. This is the primary endpoint for global use.
+  private static final String API_URL = "https://api.pdfrest.com";
+
+  // For GDPR compliance and enhanced performance for European users, you can switch to the EU-based
+  // service by commenting out the URL above and uncommenting the URL below.
+  // For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+  // private static final String API_URL = "https://eu-api.pdfrest.com";
+
   // Specify the path to your file here, or as the first argument when running the program.
   private static final String DEFAULT_FILE_PATH = "/path/to/file.pdf";
 
@@ -41,7 +49,7 @@ public class PDFWithRedactedTextApplied {
     Request request =
         new Request.Builder()
             .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
-            .url("https://api.pdfrest.com/pdf-with-redacted-text-applied")
+            .url(API_URL + "/pdf-with-redacted-text-applied")
             .post(requestBody)
             .build();
     try {
@@ -71,7 +79,7 @@ public class PDFWithRedactedTextApplied {
           Request deleteRequest =
               new Request.Builder()
                   .header("Api-Key", dotenv.get("PDFREST_API_KEY", DEFAULT_API_KEY))
-                  .url("https://api.pdfrest.com/delete")
+                  .url(API_URL + "/delete")
                   .post(deleteBody)
                   .build();
           try (Response deleteResp =

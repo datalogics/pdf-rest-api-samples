@@ -1,6 +1,13 @@
 #!/bin/sh
 
-UPLOAD_ID=$(curl --location 'https://api.pdfrest.com/upload' \
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+API_URL="https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+# API_URL="https://eu-api.pdfrest.com"
+
+UPLOAD_ID=$(curl --location "$API_URL/upload" \
 --header 'Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' \
 --header 'content-filename: filename.pdf' \
 --data-binary '@/path/to/file' \
@@ -10,7 +17,7 @@ echo "File successfully uploaded with an ID of: $UPLOAD_ID"
 
 TEXT_OPTIONS='[{\"font\":\"Times New Roman\",\"max_width\":\"175\",\"opacity\":\"1\",\"page\":\"1\",\"rotation\":\"0\",\"text\":\"sample text in PDF\",\"text_color_rgb\":\"0,0,0\",\"text_size\":\"30\",\"x\":\"72\",\"y\":\"144\"}]'
 
-curl 'https://api.pdfrest.com/pdf-with-added-text' \
+curl "$API_URL/pdf-with-added-text" \
 --header 'Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' \
 --header 'Content-Type: application/json' \
 --data-raw "{ \"id\": \"$UPLOAD_ID\", \"text_objects\": \"$TEXT_OPTIONS\"}" | jq -r '.'

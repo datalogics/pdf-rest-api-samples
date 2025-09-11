@@ -11,9 +11,16 @@
 # this sample could be easily used to convert and combine any two file types
 # that the /pdf route takes as inputs.
 
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+API_URL="https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+# API_URL="https://eu-api.pdfrest.com"
+
 API_KEY="xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" # place your api key here
 
-IMAGE_ID=$(curl -X POST "https://api.pdfrest.com/pdf" \
+IMAGE_ID=$(curl -X POST "$API_URL/pdf" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -H "Api-Key: $API_KEY" \
@@ -22,7 +29,7 @@ IMAGE_ID=$(curl -X POST "https://api.pdfrest.com/pdf" \
   | jq -r '.outputId')
 
 
-PPT_ID=$(curl -X POST "https://api.pdfrest.com/pdf" \
+PPT_ID=$(curl -X POST "$API_URL/pdf" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -H "Api-Key: $API_KEY" \
@@ -31,7 +38,7 @@ PPT_ID=$(curl -X POST "https://api.pdfrest.com/pdf" \
   | jq -r '.outputId')
 
 
-curl -X POST "https://api.pdfrest.com/merged-pdf" \
+curl -X POST "$API_URL/merged-pdf" \
   -H "Accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -H "Api-Key: $API_KEY" \

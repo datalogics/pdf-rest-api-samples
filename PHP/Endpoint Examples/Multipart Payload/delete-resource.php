@@ -1,9 +1,17 @@
 <?php
 
+// By default, we use the US-based API service. This is the primary endpoint for global use.
+$apiUrl = "https://api.pdfrest.com";
+
+/* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+ * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ */
+//$apiUrl = "https://eu-api.pdfrest.com";
+
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
-  CURLOPT_URL => 'https://api.pdfrest.com/resource/xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+  CURLOPT_URL => $apiUrl.'/resource/xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_ENCODING => '',
   CURLOPT_MAXREDIRS => 10,

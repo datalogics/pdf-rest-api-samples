@@ -13,6 +13,14 @@ use GuzzleHttp\Psr7\Utils;
 * and then /restricted-pdf to lock the watermark in.
 */
 
+// By default, we use the US-based API service. This is the primary endpoint for global use.
+$apiUrl = "https://api.pdfrest.com";
+
+/* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+ * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ */
+//$apiUrl = "https://eu-api.pdfrest.com";
+
 $client = new Client();
 
 $headers = [
@@ -36,7 +44,7 @@ $watermarkOptions = [
   ]
 ];
 
-$watermarkRequest = new Request('POST', 'https://api.pdfrest.com/watermarked-pdf', $headers);
+$watermarkRequest = new Request('POST', $apiUrl.'/watermarked-pdf', $headers);
 
 $watermarkResponse = $client->sendAsync($watermarkRequest, $watermarkOptions)->wait();
 
@@ -72,7 +80,7 @@ $restrictOptions = [
   ]
 ];
 
-$restrictRequest = new Request('POST', 'https://api.pdfrest.com/restricted-pdf', $headers);
+$restrictRequest = new Request('POST', $apiUrl.'/restricted-pdf', $headers);
 
 $restrictResponse = $client->sendAsync($restrictRequest, $restrictOptions)->wait();
 

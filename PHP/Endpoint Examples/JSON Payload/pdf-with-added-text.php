@@ -5,6 +5,14 @@ use GuzzleHttp\Client; // Import the Guzzle HTTP client namespace.
 use GuzzleHttp\Psr7\Request; // Import the PSR-7 Request class.
 use GuzzleHttp\Psr7\Utils; // Import the PSR-7 Utils class for working with streams.
 
+// By default, we use the US-based API service. This is the primary endpoint for global use.
+$apiUrl = "https://api.pdfrest.com";
+
+/* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+ * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ */
+//$apiUrl = "https://eu-api.pdfrest.com";
+
 $upload_client = new Client(['http_errors' => false]);
 $upload_headers = [
   'api-key' => 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
@@ -12,7 +20,7 @@ $upload_headers = [
   'Content-Type' => 'application/octet-stream'
 ];
 $upload_body = file_get_contents('/path/to/file');
-$upload_request = new Request('POST', 'https://api.pdfrest.com/upload', $upload_headers, $upload_body);
+$upload_request = new Request('POST', $apiUrl.'/upload', $upload_headers, $upload_body);
 $upload_res = $upload_client->sendAsync($upload_request)->wait();
 echo $upload_res->getBody() . PHP_EOL;
 
@@ -29,6 +37,6 @@ $add_text_headers = [
   'Content-Type' => 'application/json'
 ];
 $add_text_body = '{"id":"'.$uploaded_id.'", "text_objects":"'.$text_options.'"}';
-$add_text_request = new Request('POST', 'https://api.pdfrest.com/pdf-with-added-text', $add_text_headers, $add_text_body);
+$add_text_request = new Request('POST', $apiUrl.'/pdf-with-added-text', $add_text_headers, $add_text_body);
 $add_text_res = $add_text_client->sendAsync($add_text_request)->wait();
 echo $add_text_res->getBody() . PHP_EOL;

@@ -18,6 +18,13 @@ use GuzzleHttp\Psr7\Utils;
 * that the /pdf route takes as inputs.
 */
 
+// By default, we use the US-based API service. This is the primary endpoint for global use.
+$apiUrl = "https://api.pdfrest.com";
+
+/* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+ * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ */
+//$apiUrl = "https://eu-api.pdfrest.com";
 
 $client = new Client();
 
@@ -38,7 +45,7 @@ $imageToPDFOptions = [
   ]
 ];
 
-$imageToPDFRequest = new Request('POST', 'https://api.pdfrest.com/pdf', $headers);
+$imageToPDFRequest = new Request('POST', $apiUrl.'/pdf', $headers);
 
 $imageToPDFResponse = $client->sendAsync($imageToPDFRequest, $imageToPDFOptions)->wait();
 
@@ -59,7 +66,7 @@ $powerpointToPDFOptions = [
   ]
 ];
 
-$powerpointToPDFRequest = new Request('POST', 'https://api.pdfrest.com/pdf', $headers);
+$powerpointToPDFRequest = new Request('POST', $apiUrl.'/pdf', $headers);
 
 $powerpointToPDFResponse = $client->sendAsync($powerpointToPDFRequest, $powerpointToPDFOptions)->wait();
 
@@ -96,7 +103,7 @@ $mergeOptions = [
   ]
 ];
 
-$mergeRequest = new Request('POST', 'https://api.pdfrest.com/merged-pdf', $headers);
+$mergeRequest = new Request('POST', $apiUrl.'/merged-pdf', $headers);
 
 $mergeResponse = $client->sendAsync($mergeRequest, $mergeOptions)->wait();
 

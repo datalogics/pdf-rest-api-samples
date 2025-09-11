@@ -2,7 +2,14 @@ from requests_toolbelt import MultipartEncoder
 import requests
 import json
 
-pdf_with_converted_colors_endpoint_url = 'https://api.pdfrest.com/pdf-with-converted-colors'
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+api_url = "https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+#api_url = "https://eu-api.pdfrest.com"
+
+pdf_with_converted_colors_endpoint_url = api_url+'/pdf-with-converted-colors'
 
 # The /pdf-with-converted-colors endpoint can take a single PDF file or id as input.
 # This sample demonstrates setting color_profile to 'srgb'.

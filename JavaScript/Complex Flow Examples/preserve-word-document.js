@@ -9,6 +9,14 @@ var fs = require("fs");
  * and convert it to the PDF/A format for long-term storage.
  */
 
+ // By default, we use the US-based API service. This is the primary endpoint for global use.
+ var apiUrl = "https://api.pdfrest.com";
+
+ /* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+  * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+  */
+ //var apiUrl = "https://eu-api.pdfrest.com";
+
 var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Replace with your API key
 
 var pdfData = new FormData();
@@ -17,7 +25,7 @@ pdfData.append("file", fs.createReadStream("/path/to/word.doc"));
 var pdfConfig = {
   method: "post",
   maxBodyLength: Infinity,
-  url: "https://api.pdfrest.com/pdf",
+  url: apiUrl + "/pdf",
   headers: {
     "Api-Key": apiKey,
     ...pdfData.getHeaders(),
@@ -37,7 +45,7 @@ axios(pdfConfig)
     var pdfaConfig = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "https://api.pdfrest.com/pdfa",
+      url: apiUrl + "/pdfa",
       headers: {
         "Api-Key": apiKey,
         ...pdfaData.getHeaders(),

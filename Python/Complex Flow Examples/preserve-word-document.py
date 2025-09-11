@@ -8,9 +8,16 @@ import json
 # a PDF with a call to the /pdf route. Then, we will take that converted PDF
 # and convert it to the PDF/A format for long-term storage.
 
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+api_url = "https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+#api_url = "https://eu-api.pdfrest.com"
+
 api_key = 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' # place your api key here
 
-pdf_endpoint_url = 'https://api.pdfrest.com/pdf'
+pdf_endpoint_url = api_url+'/pdf'
 
 mp_encoder_pdf = MultipartEncoder(
     fields={
@@ -34,7 +41,7 @@ if response.ok:
     pdf_id = response_json["outputId"]
 
 
-    pdfa_endpoint_url = 'https://api.pdfrest.com/pdfa'
+    pdfa_endpoint_url = api_url+'/pdfa'
 
     mp_encoder_pdfa = MultipartEncoder(
         fields={

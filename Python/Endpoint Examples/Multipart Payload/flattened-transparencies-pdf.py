@@ -2,7 +2,14 @@ from requests_toolbelt import MultipartEncoder
 import requests
 import json
 
-flatten_transparencies_pdf_endpoint_url = 'https://api.pdfrest.com/flattened-transparencies-pdf'
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+api_url = "https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+#api_url = "https://eu-api.pdfrest.com"
+
+flatten_transparencies_pdf_endpoint_url = api_url+'/flattened-transparencies-pdf'
 
 # The /flattened-transparencies-pdf endpoint can take a single PDF file or id as input.
 # This sample demonstrates setting quality to 'medium'.

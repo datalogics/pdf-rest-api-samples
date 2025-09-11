@@ -15,6 +15,13 @@ use GuzzleHttp\Psr7\Utils;
 * lock it up again.
 */
 
+// By default, we use the US-based API service. This is the primary endpoint for global use.
+$apiUrl = "https://api.pdfrest.com";
+
+/* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+ * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+ */
+//$apiUrl = "https://eu-api.pdfrest.com";
 
 $client = new Client();
 
@@ -39,7 +46,7 @@ $decryptOptions = [
   ]
 ];
 
-$decryptRequest = new Request('POST', 'https://api.pdfrest.com/decrypted-pdf', $headers);
+$decryptRequest = new Request('POST', $apiUrl.'/decrypted-pdf', $headers);
 
 $decryptResponse = $client->sendAsync($decryptRequest, $decryptOptions)->wait();
 
@@ -79,7 +86,7 @@ $addImageOptions = [
   ]
 ];
 
-$addImageRequest = new Request('POST', 'https://api.pdfrest.com/pdf-with-added-image', $headers);
+$addImageRequest = new Request('POST', $apiUrl.'/pdf-with-added-image', $headers);
 
 $addImageResponse = $client->sendAsync($addImageRequest, $addImageOptions)->wait();
 
@@ -105,7 +112,7 @@ $encryptOptions = [
   ]
 ];
 
-$encryptRequest = new Request('POST', 'https://api.pdfrest.com/encrypted-pdf', $headers);
+$encryptRequest = new Request('POST', $apiUrl.'/encrypted-pdf', $headers);
 
 $encryptResponse = $client->sendAsync($encryptRequest, $encryptOptions)->wait();
 

@@ -9,6 +9,14 @@ var fs = require("fs");
  * and then /restricted-pdf to lock the watermark in.
  */
 
+ // By default, we use the US-based API service. This is the primary endpoint for global use.
+ var apiUrl = "https://api.pdfrest.com";
+
+ /* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+  * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+  */
+ //var apiUrl = "https://eu-api.pdfrest.com";
+
 var apiKey = "xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"; // Replace with your API key
 
 var watermarkData = new FormData();
@@ -18,7 +26,7 @@ watermarkData.append("watermark_text", "Watermarked");
 var watermarkConfig = {
   method: "post",
   maxBodyLength: Infinity,
-  url: "https://api.pdfrest.com/watermarked-pdf",
+  url: apiUrl + "/watermarked-pdf",
   headers: {
     "Api-Key": apiKey,
     ...watermarkData.getHeaders(),
@@ -40,7 +48,7 @@ axios(watermarkConfig)
     var restrictConfig = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "https://api.pdfrest.com/restricted-pdf",
+      url: apiUrl + "/restricted-pdf",
       headers: {
         "Api-Key": apiKey,
         ...data.getHeaders(),

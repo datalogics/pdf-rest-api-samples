@@ -2,7 +2,14 @@ from requests_toolbelt import MultipartEncoder
 import requests
 import json
 
-merged_pdf_endpoint_url = 'https://api.pdfrest.com/merged-pdf'
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+api_url = "https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+#api_url = "https://eu-api.pdfrest.com"
+
+merged_pdf_endpoint_url = api_url+'/merged-pdf'
 
 # The /merged-pdf endpoint can take one or more PDF files or ids as input.
 # This sample takes 2 PDF files and merges all the pages in the document into a single document.

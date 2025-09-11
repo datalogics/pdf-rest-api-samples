@@ -2,7 +2,14 @@ from requests_toolbelt import MultipartEncoder
 import requests
 import json
 
-import_form_data_endpoint_url = 'https://api.pdfrest.com/pdf-with-imported-form-data'
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+api_url = "https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+#api_url = "https://eu-api.pdfrest.com"
+
+import_form_data_endpoint_url = api_url+'/pdf-with-imported-form-data'
 
 mp_encoder_importFormData = MultipartEncoder(
     fields={
