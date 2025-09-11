@@ -7,7 +7,7 @@ $apiUrl = "https://api.pdfrest.com";
 /* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
  * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
  */
-//$apiUrl "https://eu-api.pdfrest.com";
+//$apiUrl = "https://eu-api.pdfrest.com";
 
 // Resource UUIDs can be found in the JSON response of POST requests as "outputId". Resource UUIDs usually look like this: '0950b9bdf-0465-4d3f-8ea3-d2894f1ae839'.
 $id = 'xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'; // place resource uuid here

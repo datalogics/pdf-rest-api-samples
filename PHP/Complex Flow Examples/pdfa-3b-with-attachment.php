@@ -23,7 +23,7 @@ $apiUrl = "https://api.pdfrest.com";
 /* For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
  * For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
  */
-//$apiUrl "https://eu-api.pdfrest.com";
+//$apiUrl = "https://eu-api.pdfrest.com";
 
 $client = new Client();
 
