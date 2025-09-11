@@ -2,14 +2,14 @@ import requests
 import json
 
 # By default, we use the US-based API service. This is the primary endpoint for global use.
-up_url = f"https://api.pdfrest.com/up-toolkit"
+api_url = "https://api.pdfrest.com"
 
 # For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
 # For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
-#up_url = f"https://eu-api.pdfrest.com/up-toolkit"
+#api_url = "https://eu-api.pdfrest.com"
 
 # up-forms and up-office can be used to query the other tools
-up_url = f"https://api.pdfrest.com/up-toolkit"
+up_url = f"{api_url}/up-toolkit"
 
 print("Sending GET request to /up-toolkit endpoint...")
 response = requests.get(up_url)
