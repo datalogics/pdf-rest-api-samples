@@ -11,7 +11,7 @@ public class ExportedFormData {
   private static final String API_URL = "https://api.pdfrest.com";
 
   // For GDPR compliance and enhanced performance for European users, you can switch to the EU-based
-  // service by uncommenting the URL below.
+  // service by commenting out the URL above and uncommenting the URL below.
   // For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
   // private static final String API_URL = "https://eu-api.pdfrest.com";
 
