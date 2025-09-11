@@ -3,7 +3,7 @@ API_URL="https://api.pdfrest.com"
 
 # For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
 # For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
-# API_URL = "https://eu-api.pdfrest.com"
+# API_URL="https://eu-api.pdfrest.com"
 
 curl -X POST "$API_URL/bmp" \
   -H "Accept: application/json" \

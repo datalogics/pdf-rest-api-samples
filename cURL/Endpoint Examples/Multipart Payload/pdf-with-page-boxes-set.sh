@@ -3,7 +3,7 @@ API_URL="https://api.pdfrest.com"
 
 # For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
 # For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
-# API_URL = "https://eu-api.pdfrest.com"
+# API_URL="https://eu-api.pdfrest.com"
 
 BOXES='{"boxes":[{"box":"media","pages":[{"range":"1","left":100,"top":100,"bottom":100,"right":100}]}]}'
 
