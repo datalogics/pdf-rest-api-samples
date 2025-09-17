@@ -1,0 +1,1 @@
+This directory contains examples and instructions for integrating [pdfRest](https://pdfrest.com) with the low-code platform [Make.com](https://www.make.com/) to support PDF processing workflows within Make scenarios.
