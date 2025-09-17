@@ -1,0 +1,1 @@
+This directory contains examples and instructions for integrating [pdfRest](https://pdfrest.com) with the low-code platform [Bubble.io](https://bubble.io) to support PDF processing workflows within Bubble applications.
