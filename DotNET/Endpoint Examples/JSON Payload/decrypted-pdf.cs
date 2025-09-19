@@ -100,7 +100,7 @@ namespace Samples.EndpointExamples.JsonPayload
                         // is involved, an explicit delete call can be made to the API.
                         //
                         // Deletes all files in the workflow, including outputs. Save all desired files before enabling this step.
-                        
+
                         // Optional immediate deletion of sensitive files
                         // Default: false; override with PDFREST_DELETE_SENSITIVE_FILES=true
                         var deleteSensitiveFiles = string.Equals(

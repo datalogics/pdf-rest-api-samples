@@ -56,7 +56,7 @@ namespace Samples.EndpointExamples.JsonPayload
                     var redactedTextResult = await redactedTextResponse.Content.ReadAsStringAsync();
                     Console.WriteLine("Processing response received.");
                     Console.WriteLine(redactedTextResult);
-                    
+
                     JObject appliedResultJson = JObject.Parse(redactedTextResult);
                     var outputID = appliedResultJson["outputId"];
 
