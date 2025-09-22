@@ -21,6 +21,7 @@ static void PrintUsage()
     Console.Error.WriteLine("  Info / Extract:");
     Console.Error.WriteLine("    pdf-info <pdf>                     Document properties and stats");
     Console.Error.WriteLine("    extracted-text <pdf>               Extract text to JSON");
+    Console.Error.WriteLine("    summarized-pdf-text <pdf>          Summarize text");
     Console.Error.WriteLine("    extracted-images <pdf>             Extract embedded images");
     Console.Error.WriteLine("    exported-form-data <pdf>           Export form data (XML)");
     Console.Error.WriteLine("  PDF Transforms:");
@@ -69,6 +70,7 @@ static void PrintUsage()
     Console.Error.WriteLine("  Info / Extract:");
     Console.Error.WriteLine("    pdf-info-multipart <pdf>           Document properties and stats");
     Console.Error.WriteLine("    extracted-text-multipart <pdf>     Extract text to JSON");
+    Console.Error.WriteLine("    summarized-pdf-text-multipart <pdf>  Summarize text");
     Console.Error.WriteLine("    extracted-images-multipart <pdf>   Extract images");
     Console.Error.WriteLine("  PDF Transforms:");
     Console.Error.WriteLine("    compressed-pdf-multipart <pdf>     Compress PDF");
@@ -133,6 +135,9 @@ var rest = argv.Skip(1).ToArray();
 
 switch (cmd)
 {
+    case "summarized-pdf-text":
+        await Samples.EndpointExamples.JsonPayload.SummarizedPdfText.Execute(rest);
+        break;
     case "markdown-json":
         await Samples.EndpointExamples.JsonPayload.Markdown.Execute(rest);
         break;
@@ -168,6 +173,9 @@ switch (cmd)
         break;
     case "word-multipart":
         await Samples.EndpointExamples.MultipartPayload.Word.Execute(rest);
+        break;
+    case "summarized-pdf-text-multipart":
+        await Samples.EndpointExamples.MultipartPayload.SummarizedPdfText.Execute(rest);
         break;
     case "merge-different-file-types":
     case "merge":

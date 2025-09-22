@@ -10,4 +10,8 @@ if (cpr_FOUND)
   add_executable(rasterized_pdf_multipart rasterized_pdf.cpp)
   target_link_libraries(rasterized_pdf_multipart PRIVATE cpr::cpr)
   target_compile_features(rasterized_pdf_multipart PRIVATE cxx_std_20)
+
+  add_executable(summarized_pdf_text_multipart summarized_pdf_text.cpp)
+  target_link_libraries(summarized_pdf_text_multipart PRIVATE cpr::cpr)
+  target_compile_features(summarized_pdf_text_multipart PRIVATE cxx_std_20)
 endif()
