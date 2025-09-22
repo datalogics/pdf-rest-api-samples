@@ -66,4 +66,3 @@ public class SummarizedPDFText {
     return new JSONObject(json).toString(4);
   }
 }
-

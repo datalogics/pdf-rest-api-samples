@@ -42,8 +42,7 @@ public class SummarizedPDFText {
     JSONObject fileObject = fileArray.getJSONObject(0);
     String uploadedID = fileObject.get("id").toString();
 
-    String JSONString =
-        String.format("{\"id\":\"%s\", \"target_word_count\":100}", uploadedID);
+    String JSONString = String.format("{\"id\":\"%s\", \"target_word_count\":100}", uploadedID);
     final RequestBody requestBody =
         RequestBody.create(JSONString, MediaType.parse("application/json"));
 
@@ -96,4 +95,3 @@ public class SummarizedPDFText {
     return "";
   }
 }
-
