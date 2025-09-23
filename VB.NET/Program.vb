@@ -52,10 +52,14 @@ Module Program
                 Await VBNetSamples.Endpoint_Examples.JSON_Payload.Markdown.Execute(rest)
             Case "rasterized-pdf", "rasterize-json"
                 Await VBNetSamples.Endpoint_Examples.JSON_Payload.RasterizedPdf.Execute(rest)
+            Case "summarized-pdf-text"
+                Await VBNetSamples.Endpoint_Examples.JSON_Payload.SummarizedPdfText.Execute(rest)
             Case "markdown-multipart"
                 Await VBNetSamples.Endpoint_Examples.Multipart_Payload.Markdown.Execute(rest)
             Case "rasterized-pdf-multipart", "rasterize-multipart"
                 Await VBNetSamples.Endpoint_Examples.Multipart_Payload.RasterizedPdf.Execute(rest)
+            Case "summarized-pdf-text-multipart"
+                Await VBNetSamples.Endpoint_Examples.Multipart_Payload.SummarizedPdfText.Execute(rest)
             Case "merge-different-file-types", "merge"
                 Await VBNetSamples.Complex_Flow_Examples.MergeDifferentFileTypes.Execute(rest)
         Case Else
@@ -73,8 +77,10 @@ Module Program
         Console.Error.WriteLine("Commands:")
         Console.Error.WriteLine("  markdown | markdown-json         Upload then convert to Markdown (JSON two-step)")
         Console.Error.WriteLine("  rasterized-pdf | rasterize-json  Upload then rasterize PDF (JSON two-step)")
+        Console.Error.WriteLine("  summarized-pdf-text              Upload then summarize text (JSON two-step)")
         Console.Error.WriteLine("  markdown-multipart               Convert to Markdown (single multipart request)")
         Console.Error.WriteLine("  rasterized-pdf-multipart         Rasterize PDF (single multipart request)")
+        Console.Error.WriteLine("  summarized-pdf-text-multipart   Summarize text (single multipart request)")
         Console.Error.WriteLine("  merge-different-file-types|merge Merge PDFs and non-PDFs into one PDF")
         Console.Error.WriteLine("")
         Console.Error.WriteLine("Examples:")
