@@ -9,7 +9,7 @@ var apiUrl = "https://api.pdfrest.com";
  */
 //var apiUrl = "https://eu-api.pdfrest.com";
 
-var upload_data = fs.createReadStream("/path/to/file.pdf");
+var upload_data = fs.createReadStream("/path/to/file");
 
 var upload_config = {
   method: "post",
