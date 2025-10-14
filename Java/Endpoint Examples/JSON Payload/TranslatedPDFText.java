@@ -42,7 +42,8 @@ public class TranslatedPDFText {
     JSONObject fileObject = fileArray.getJSONObject(0);
     String uploadedID = fileObject.get("id").toString();
 
-    // Translates text to American English. Format the output_language as a 2-3 character ISO 639 code, optionally with a region/script (e.g., 'en', 'es', 'zh-Hant', 'eng-US').
+    // Translates text to American English. Format the output_language as a 2-3 character ISO 639
+    // code, optionally with a region/script (e.g., 'en', 'es', 'zh-Hant', 'eng-US').
     String JSONString = String.format("{\"id\":\"%s\", \"output_language\":\"en-US\"}", uploadedID);
     final RequestBody requestBody =
         RequestBody.create(JSONString, MediaType.parse("application/json"));
@@ -96,4 +97,3 @@ public class TranslatedPDFText {
     return "";
   }
 }
-

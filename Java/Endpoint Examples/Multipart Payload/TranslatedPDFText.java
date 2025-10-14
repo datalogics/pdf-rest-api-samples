@@ -42,7 +42,9 @@ public class TranslatedPDFText {
         new MultipartBody.Builder()
             .setType(MultipartBody.FORM)
             .addFormDataPart("file", inputFile.getName(), inputFileRequestBody)
-            // Translates text to American English. Format the output_language as a 2-3 character ISO 639 code, optionally with a region/script (e.g., 'en', 'es', 'zh-Hant', 'eng-US').
+            // Translates text to American English. Format the output_language as a 2-3 character
+            // ISO 639 code, optionally with a region/script (e.g., 'en', 'es', 'zh-Hant',
+            // 'eng-US').
             .addFormDataPart("output_language", "en-US")
             .build();
     Request request =
@@ -67,4 +69,3 @@ public class TranslatedPDFText {
     return new JSONObject(json).toString(4);
   }
 }
-
