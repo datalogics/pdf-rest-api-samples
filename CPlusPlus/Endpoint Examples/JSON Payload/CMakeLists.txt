@@ -15,4 +15,8 @@ if (cpr_FOUND AND nlohmann_json_FOUND)
   add_executable(summarized_pdf_text_json summarized_pdf_text.cpp)
   target_link_libraries(summarized_pdf_text_json PRIVATE cpr::cpr nlohmann_json::nlohmann_json)
   target_compile_features(summarized_pdf_text_json PRIVATE cxx_std_20)
+
+  add_executable(translated_pdf_text_json translated_pdf_text.cpp)
+  target_link_libraries(translated_pdf_text_json PRIVATE cpr::cpr nlohmann_json::nlohmann_json)
+  target_compile_features(translated_pdf_text_json PRIVATE cxx_std_20)
 endif()
