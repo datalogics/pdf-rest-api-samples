@@ -53,8 +53,16 @@ if response.ok:
     query_response = response.json()
     if query_response["allQueriesProcessed"]:
         pdf_id = query_response["inputId"]
-        pdf_contains_forms = query_response["contains_xfa"] or query_response["contains_acroforms"]
-        image_only_pdf = query_response["image_only"]
+        
+        # NOTE For demo purposes
+        is_starter_key = "message" in query_response
+        if is_starter_key:
+            pdf_contains_forms = query_response["contains_xfa"] == "tr**" or query_response["contains_acroforms"] == "tr**"
+            image_only_pdf = query_response["image_only"] == "tr**"
+        else:
+            pdf_contains_forms = query_response["contains_xfa"] or query_response["contains_acroforms"]
+            image_only_pdf = query_response["image_only"]
+            
         if pdf_contains_forms and DO_FORM_FLATTENING:
             mp_encoder_flatten = MultipartEncoder(
                 fields={
