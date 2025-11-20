@@ -1,0 +1,13 @@
+# By default, we use the US-based API service. This is the primary endpoint for global use.
+API_URL="https://api.pdfrest.com"
+
+# For GDPR compliance and enhanced performance for European users, you can switch to the EU-based service by uncommenting the URL below.
+# For more information visit https://pdfrest.com/pricing#how-do-eu-gdpr-api-calls-work
+# API_URL="https://eu-api.pdfrest.com"
+
+curl -X POST "$API_URL/blank-pdf" \
+  -H "Accept: application/json" \
+  -H "Api-Key: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" \
+  -F "page_size=letter" \
+  -F "page_count=3" \
+  -F "page_orientation=portrait"

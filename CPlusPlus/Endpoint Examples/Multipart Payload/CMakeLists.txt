@@ -18,4 +18,8 @@ if (cpr_FOUND)
   add_executable(translated_pdf_text_multipart translated_pdf_text.cpp)
   target_link_libraries(translated_pdf_text_multipart PRIVATE cpr::cpr)
   target_compile_features(translated_pdf_text_multipart PRIVATE cxx_std_20)
+
+  add_executable(blank_pdf_multipart blank_pdf.cpp)
+  target_link_libraries(blank_pdf_multipart PRIVATE cpr::cpr)
+  target_compile_features(blank_pdf_multipart PRIVATE cxx_std_20)
 endif()

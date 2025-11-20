@@ -46,6 +46,7 @@ static void PrintUsage()
     Console.Error.WriteLine("    pdf-with-redacted-text-preview <pdf>  Preview redactions");
     Console.Error.WriteLine("    pdf-with-redacted-text-applied <pdf>  Apply redactions");
     Console.Error.WriteLine("  Page / Files:");
+    Console.Error.WriteLine("    blank-pdf                             Generate an empty PDF");
     Console.Error.WriteLine("    split-pdf <pdf>                    Split by page ranges");
     Console.Error.WriteLine("    merged-pdf <pdf1> <pdf2>           Merge two PDFs by id");
     Console.Error.WriteLine("  Resources / Packaging / Signing:");
@@ -95,6 +96,7 @@ static void PrintUsage()
     Console.Error.WriteLine("    pdf-with-redacted-text-preview-multipart <pdf>  Preview redactions");
     Console.Error.WriteLine("    pdf-with-redacted-text-applied-multipart <pdf>  Apply redactions");
     Console.Error.WriteLine("  Page / Files:");
+    Console.Error.WriteLine("    blank-pdf-multipart                Generate an empty PDF");
     Console.Error.WriteLine("    split-pdf-multipart <pdf>         Split by page ranges");
     Console.Error.WriteLine("    merged-pdf-multipart <f1> <f2>    Merge two files");
     Console.Error.WriteLine("  Resources / Packaging / Signing:");
@@ -148,6 +150,9 @@ switch (cmd)
         break;
     case "rasterized-pdf":
         await Samples.EndpointExamples.JsonPayload.RasterizedPdf.Execute(rest);
+        break;
+    case "blank-pdf":
+        await Samples.EndpointExamples.JsonPayload.BlankPdf.Execute(rest);
         break;
     case "pdf-multipart":
         await Samples.EndpointExamples.MultipartPayload.Pdf.Execute(rest);
@@ -305,6 +310,9 @@ switch (cmd)
         break;
     case "rasterized-pdf-multipart":
         await Samples.EndpointExamples.MultipartPayload.RasterizedPdf.Execute(rest);
+        break;
+    case "blank-pdf-multipart":
+        await Samples.EndpointExamples.MultipartPayload.BlankPdf.Execute(rest);
         break;
     case "compressed-pdf":
         await Samples.EndpointExamples.JsonPayload.CompressedPdf.Execute(rest);
